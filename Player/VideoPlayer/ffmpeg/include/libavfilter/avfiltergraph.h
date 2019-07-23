@@ -1,4 +1,7 @@
 /*
+ * Filter graphs
+ * copyright (c) 2007 Bobby Bingham
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -16,31 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifndef AVFILTER_AVFILTERGRAPH_H
+#define AVFILTER_AVFILTERGRAPH_H
 
-#ifndef AVUTIL_HWCONTEXT_CUDA_H
-#define AVUTIL_HWCONTEXT_CUDA_H
+#include "avfilter.h"
+#include "libavutil/log.h"
 
-#include <cuda.h>
-
-#include "pixfmt.h"
-
-/**
- * @file
- * An API-specific header for AV_HWDEVICE_TYPE_CUDA.
- *
- * This API supports dynamic frame pools. AVHWFramesContext.pool must return
- * AVBufferRefs whose data pointer is a CUdeviceptr.
- */
-
-/**
- * This struct is allocated as AVHWDeviceContext.hwctx
- */
-typedef struct AVCUDADeviceContext {
-    CUcontext cuda_ctx;
-} AVCUDADeviceContext;
-
-/**
- * AVHWFramesContext.hwctx is currently not used
- */
-
-#endif /* AVUTIL_HWCONTEXT_CUDA_H */
+#endif /* AVFILTER_AVFILTERGRAPH_H */
