@@ -5,8 +5,8 @@
 *.a
 *.la
 *.lai
-*.so
-*.dll
+#*.so
+#*.dll 需要引入其他库
 *.dylib
 
 # Qt-es
