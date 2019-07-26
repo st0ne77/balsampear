@@ -24,11 +24,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    myvideoplayer.cpp \
+    mywidget.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    myvideoplayer.h \
+    mywidget.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
 
 INCLUDEPATH += ffmpeg/include
 
