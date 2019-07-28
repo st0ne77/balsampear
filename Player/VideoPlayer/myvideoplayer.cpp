@@ -25,7 +25,7 @@ MyVideoPlayer::~MyVideoPlayer()
 
 void MyVideoPlayer::run()
 {
-    char* filepath = "D:\\Project\\TestFile\\110.mp4";
+    char* filepath = "D:\\Project\\TestFile\\video.mp4";
 
     av_register_all(); //初始化FFMPEG  调用了这个才能正常适用编码器和解码器
 

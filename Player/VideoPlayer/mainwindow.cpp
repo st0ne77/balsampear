@@ -7,9 +7,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    setMinimumSize(800, 400);
-    setMaximumSize(800, 400);
-    mpPlayWidget = new MyWidget(this);
+    resize(800, 600);
+    mpPlayWidget = new PlayWidget(this);//播放用Widget
 
     setCentralWidget(mpPlayWidget);
 
@@ -20,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-
+    delete mpPlayWidget;
 }
 
 

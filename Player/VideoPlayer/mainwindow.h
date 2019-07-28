@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "mywidget.h"
+#include "playwidget.h"
 
 
 class MainWindow : public QMainWindow
@@ -14,7 +14,7 @@ public:
     ~MainWindow();
 
 private:
-    MyWidget *mpPlayWidget;
+    PlayWidget *mpPlayWidget;
 };
 
 #endif // MAINWINDOW_H

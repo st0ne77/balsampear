@@ -2,12 +2,15 @@
 #define MYWIDGET_H
 
 #include <QWidget>
+#include <QVBoxLayout>
 
-class MyWidget : public QWidget
+class PlayWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MyWidget(QWidget *parent = 0);
+    explicit PlayWidget(QWidget *parent = 0);
+
+    ~PlayWidget();
 
 signals:
 
@@ -17,6 +20,9 @@ public slots:
 protected:
     void paintEvent(QPaintEvent *event);
 public:
+    QVBoxLayout *mVLayout;
+    QWidget *mEmptyWidget;
+    QWidget *mProgressWidget;
     QImage mImage;
 };
 

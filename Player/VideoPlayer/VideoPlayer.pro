@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     myvideoplayer.cpp \
-    mywidget.cpp
+    playwidget.cpp \
+    progresswidget.cpp
 
 HEADERS  += mainwindow.h \
     myvideoplayer.h \
-    mywidget.h
+    playwidget.h \
+    progresswidget.h
 
 FORMS    +=
 
