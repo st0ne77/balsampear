@@ -8,13 +8,22 @@ class MyVideoPlayer : public QThread
 {
     Q_OBJECT
 public:
+    ~MyVideoPlayer();
+
+    static MyVideoPlayer *getInstance();
+private:
     explicit MyVideoPlayer();
 
-    ~MyVideoPlayer();
 signals:
     void sig_GetOneFrame(QImage);
+public slots:
+    void ControlPlay(bool);
+
 protected:
     void run();
+private:
+    static MyVideoPlayer *sing;
+    bool mPlaying;
 };
 
 #endif // MYVIDEOPLAYER_H

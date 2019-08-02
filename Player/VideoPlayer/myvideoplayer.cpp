@@ -10,15 +10,32 @@ extern "C"
 #include "libavutil/pixfmt.h"
 }
 
+
+MyVideoPlayer* MyVideoPlayer::sing = NULL;
+
 MyVideoPlayer::MyVideoPlayer()
 {
+    mPlaying = false;
+}
 
+void MyVideoPlayer::ControlPlay(bool _val)
+{
+    mPlaying = _val;
 }
 
 
 MyVideoPlayer::~MyVideoPlayer()
 {
 
+}
+
+MyVideoPlayer *MyVideoPlayer::getInstance()
+{
+    if (NULL == sing)
+    {
+        sing = new MyVideoPlayer();
+    }
+    return sing;
 }
 
 
@@ -104,7 +121,7 @@ void MyVideoPlayer::run()
 
     int index = 0;
 
-    while (1)
+    while (mPlaying)
     {
         if (av_read_frame(pFormatCtx, packet) < 0)
         {
@@ -146,4 +163,7 @@ void MyVideoPlayer::run()
 
 
     qDebug() << "end";
+
+    mPlaying = false;
 }
+
