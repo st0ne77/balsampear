@@ -18,6 +18,11 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
       <ParseFiles>true</ParseFiles>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\mainwindow.cpp">
@@ -50,6 +55,9 @@
     <ClCompile Include="Player\PlayerTimer.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Decoder\VideoDecoder.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Main\mainwindow.h">
@@ -81,5 +89,13 @@
     <ClInclude Include="Decoder\DecoderFactory.h">
       <Filter>Decoder</Filter>
     </ClInclude>
+    <ClInclude Include="Decoder\VideoDecoder.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="image.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>

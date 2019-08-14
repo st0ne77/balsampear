@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "DecoderInterface.h"
 
-DecoderInterface::DecoderInterface()
+using namespace std;
+DecoderInterface::DecoderInterface(const string& strStreamFile)
+	:mbExit(false) , mstrSteamFile(strStreamFile)
 {
-	mbExit = false;
 }
 
 DecoderInterface::~DecoderInterface()
@@ -22,8 +23,9 @@ bool DecoderInterface::FrontFrame(QImage& img)
 	mMutex.lock();
 	if (!mCache.empty())
 	{
-		mCache.front();
+		img = mCache.front();
 		mCache.pop();
+		result = true;
 	}
 	mMutex.unlock();
 	return result;

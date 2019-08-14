@@ -1,4 +1,5 @@
-#include "myvideoplayer.h"
+#include "stdafx.h"
+#include "VideoDecoder.h"
 #include <QImage>
 #include <QDebug>
 
@@ -10,47 +11,25 @@ extern "C"
 #include "libavutil/pixfmt.h"
 }
 
-
-MyVideoPlayer* MyVideoPlayer::sing = NULL;
-
-MyVideoPlayer::MyVideoPlayer()
+VideoDecoder::VideoDecoder(const std::string& strStreamFile)
+	:DecoderInterface(strStreamFile)
 {
-    mPlaying = false;
 }
 
-void MyVideoPlayer::ControlPlay(bool _val)
-{
-    mPlaying = _val;
-}
-
-
-MyVideoPlayer::~MyVideoPlayer()
+VideoDecoder::~VideoDecoder()
 {
 
 }
 
-MyVideoPlayer *MyVideoPlayer::getInstance()
+void VideoDecoder::loop()
 {
-    if (NULL == sing)
-    {
-        sing = new MyVideoPlayer();
-    }
-    return sing;
-}
-
-
-
-void MyVideoPlayer::run()
-{
-    char* filepath = "D:\\Project\\TestFile\\video.mp4";
-
     av_register_all(); //初始化FFMPEG  调用了这个才能正常适用编码器和解码器
 
     //FFMPEG所有的操作都要通过AVFormatContext来进行
     AVFormatContext *pFormatCtx = avformat_alloc_context();
 
     //打开视频文件
-    if (0 != avformat_open_input(&pFormatCtx, filepath, NULL, NULL))
+    if (0 != avformat_open_input(&pFormatCtx, mstrSteamFile.c_str(), NULL, NULL))
     {
         qDebug() << "open error.";
         return;
@@ -117,11 +96,11 @@ void MyVideoPlayer::run()
     AVPacket* packet = (AVPacket *) malloc(sizeof(AVPacket)); //分配一个packet
     av_new_packet(packet, y_size); //分配packet的数据
 
-    av_dump_format(pFormatCtx, 0, filepath, 0); //输出视频信息
+    av_dump_format(pFormatCtx, 0, mstrSteamFile.c_str(), 0); //输出视频信息
 
     int index = 0;
 
-    while (mPlaying)
+    for (;;)
     {
         if (av_read_frame(pFormatCtx, packet) < 0)
         {
@@ -147,11 +126,9 @@ void MyVideoPlayer::run()
                         pFrameRGB->linesize);
 
                 QImage tmpImg((uint8_t*)pFrameRGB->data[0],pCodecCtx->width,pCodecCtx->height,QImage::Format_RGB888);
-                QImage image = tmpImg.copy(); //把图像复制一份 传递给界面显示
-                emit sig_GetOneFrame(image);  //发送信号
-
-
-                msleep(30);
+				mMutex.lock();
+				mCache.push(tmpImg.copy());
+				mMutex.unlock();
             }
         }
         av_free_packet(packet);
@@ -160,10 +137,6 @@ void MyVideoPlayer::run()
     av_free(pFrameRGB);
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);
-
-
     qDebug() << "end";
-
-    mPlaying = false;
 }
 

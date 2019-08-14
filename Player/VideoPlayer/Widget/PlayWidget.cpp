@@ -2,6 +2,7 @@
 #include "PlayWidget.h"
 #include "ProgressWidget.h"
 #include "ControlWidget.h"
+#include "PlayerTimer.h"
 
 using namespace std;
 PlayWidget::PlayWidget(QWidget* parent, const string& strStreamFile) : QWidget(parent)
@@ -10,7 +11,9 @@ PlayWidget::PlayWidget(QWidget* parent, const string& strStreamFile) : QWidget(p
 	mVLayout->setContentsMargins(0, 0, 0, 0);//布局的四周外边距
 	mEmptyWidget = new QWidget(this);
 	mProgressWidget = new ProgressWidget(this);
-	mpControlWidget = new ControlWidget(this);
+
+	PlayerTimer* pPlayTimer = new PlayerTimer(this,"E:\\Project\\TestFile\\video.mp4");
+	mpControlWidget = new ControlWidget(this, pPlayTimer);
 
     mVLayout->addWidget(mEmptyWidget , 16);//透明占位区
 	mVLayout->addWidget(mProgressWidget, 2);//进度条区

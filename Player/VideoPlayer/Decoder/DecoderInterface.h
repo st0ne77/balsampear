@@ -8,7 +8,7 @@
 class DecoderInterface :public QThread
 {
 public:
-	explicit DecoderInterface();
+	explicit DecoderInterface(const std::string& strStreamFile);
 
 	virtual ~DecoderInterface();
 
@@ -25,5 +25,6 @@ protected:
 	std::queue<QImage> mCache;
 	bool mbExit;
 	QMutex mMutex;
+	std::string mstrSteamFile;
 };
 #endif //DECODERINTERFACE_H

@@ -55,6 +55,11 @@ void PlayerTimer::update()
 		{
 			mpDrawWidget->Draw(img);
 		}
+		else
+		{
+			this->stop();
+		}
 	}
 }
+
 

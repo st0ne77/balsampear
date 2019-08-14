@@ -2,24 +2,37 @@
 #include "ControlWidget.h"
 #include "ControlButton.h"
 #include <QHBoxLayout>
+#include "PlayWidget.h"
+#include "PlayerTimer.h"
 
-ControlWidget::ControlWidget(QWidget *parent) : QWidget(parent)
+ControlWidget::ControlWidget(QWidget* parent, PlayerTimer* playTimer) :
+	QWidget(parent),
+	mpPlayTimer(playTimer),
+	mbPlying(false),
+	mHBoxLayout(new QHBoxLayout(this)),
+	mpControlButton(new ControlButton(this))
+
 {
-    mHBoxLayout = new QHBoxLayout(this);
-    mpControlButton = new ControlButton(this);
-
-    mpControlButton->setText("play");
-
+	mHBoxLayout->addWidget(new QWidget(), 9);
     mHBoxLayout->addWidget(mpControlButton, 2);
-    mHBoxLayout->addWidget(new QWidget(), 18);
+    mHBoxLayout->addWidget(new QWidget(), 9);
 
-
-    QPalette objControlBtnPal(mpControlButton->palette());
-    objControlBtnPal.setColor(QPalette::Background, QColor(255, 0, 0, 255));//红色 显眼一点，先用着
-    mpControlButton->setAutoFillBackground(true);
-    mpControlButton->setPalette(objControlBtnPal);
-
+	connect(mpControlButton, SIGNAL(clicked()), this, SLOT(changePlayStatus()));
 }
 
+void ControlWidget::changePlayStatus()
+{
+	if (mbPlying)
+	{
+		mpPlayTimer->PausePlay();
+		mpControlButton->setPlaying(false);
+	}
+	else
+	{
+		mpPlayTimer->StartPlay(30);
+		mbPlying = true;
+		mpControlButton->setPlaying(true);
+	}
+}
 
 
