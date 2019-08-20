@@ -16,19 +16,14 @@ void DecoderInterface::stop()
 {
 	mbExit = true;
 }
-
-bool DecoderInterface::FrontFrame(QImage& img)
+QImage DecoderInterface::tack(bool& isValid)
 {
-	bool result = false;
-	mMutex.lock();
-	if (!mCache.empty())
-	{
-		img = mCache.front();
-		mCache.pop();
-		result = true;
-	}
-	mMutex.unlock();
-	return result;
+	return queue.tack(isValid, 10);
+}
+
+void DecoderInterface::push(const QImage& img)
+{
+	queue.put(img);
 }
 
 void DecoderInterface::run()

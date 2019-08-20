@@ -30,6 +30,7 @@
     <QtMoc Include="Main\mainwindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Decoder\BlockingQueue.h" />
     <ClInclude Include="Decoder\DecoderFactory.h" />
     <ClInclude Include="Decoder\DecoderInterface.h" />
     <ClInclude Include="Decoder\VideoDecoder.h">

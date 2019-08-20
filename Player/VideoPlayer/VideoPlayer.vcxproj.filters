@@ -92,6 +92,9 @@
     <ClInclude Include="Decoder\VideoDecoder.h">
       <Filter>Decoder</Filter>
     </ClInclude>
+    <ClInclude Include="Decoder\BlockingQueue.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="image.qrc">

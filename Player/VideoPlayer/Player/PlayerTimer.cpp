@@ -50,14 +50,15 @@ void PlayerTimer::update()
 {
 	if (mpDrawWidget && mpDecoder)
 	{
-		QImage img;
-		if (mpDecoder->FrontFrame(img))
+		bool isValid = false;
+		QImage img = mpDecoder->tack(isValid);
+		if (isValid)
 		{
 			mpDrawWidget->Draw(img);
 		}
 		else
 		{
-			this->stop();
+			//this->stop();
 		}
 	}
 }

@@ -126,9 +126,7 @@ void VideoDecoder::loop()
                         pFrameRGB->linesize);
 
                 QImage tmpImg((uint8_t*)pFrameRGB->data[0],pCodecCtx->width,pCodecCtx->height,QImage::Format_RGB888);
-				mMutex.lock();
-				mCache.push(tmpImg.copy());
-				mMutex.unlock();
+				push(tmpImg.copy());
             }
         }
         av_free_packet(packet);

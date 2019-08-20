@@ -1,9 +1,7 @@
 #ifndef DECODERINTERFACE_H 
 #define DECODERINTERFACE_H
-#include <QThread>
-#include <queue>
 #include <QImage>
-#include <QMutex>
+#include "BlockingQueue.h"
 
 class DecoderInterface :public QThread
 {
@@ -16,15 +14,16 @@ public:
 
 	void stop();
 
-	bool FrontFrame(QImage& img);
+	QImage tack(bool& isValid);
+protected:
+	void push(const QImage& img);
 
 private:
 	void run();
 
 protected:
-	std::queue<QImage> mCache;
+	BlockingQueue<QImage> queue;
 	bool mbExit;
-	QMutex mMutex;
 	std::string mstrSteamFile;
 };
 #endif //DECODERINTERFACE_H
