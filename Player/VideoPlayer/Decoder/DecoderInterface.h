@@ -1,7 +1,7 @@
 #ifndef DECODERINTERFACE_H 
 #define DECODERINTERFACE_H
 #include <QImage>
-#include "BlockingQueue.h"
+#include "SyncQueue.h"
 
 class DecoderInterface :public QThread
 {
@@ -22,7 +22,7 @@ private:
 	void run();
 
 protected:
-	BlockingQueue<QImage> queue;
+	SyncQueue<QImage> queue;
 	bool mbExit;
 	std::string mstrSteamFile;
 };

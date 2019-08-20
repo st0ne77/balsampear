@@ -6,12 +6,12 @@
 #include <QQueue>
 
 template <typename T>
-class BlockingQueue
+class SyncQueue
 {
 public:
-	BlockingQueue();
+	SyncQueue();
 
-	virtual ~BlockingQueue() {};
+	virtual ~SyncQueue() {};
 
 
 	inline bool isEmpty() const;
@@ -33,7 +33,7 @@ private:
 
 
 template <typename T>
-bool BlockingQueue<T>::isEmpty() const
+bool SyncQueue<T>::isEmpty() const
 {
 	QReadLocker locker(&lock);
 	Q_UNUSED(locker);
@@ -41,7 +41,7 @@ bool BlockingQueue<T>::isEmpty() const
 }
 
 template <typename T>
-bool BlockingQueue<T>::isFull() const
+bool SyncQueue<T>::isFull() const
 {
 	QReadLocker locker(&lock);
 	Q_UNUSED(locker);
@@ -49,7 +49,7 @@ bool BlockingQueue<T>::isFull() const
 }
 
 template <typename T>
-bool BlockingQueue<T>::isEnough() const
+bool SyncQueue<T>::isEnough() const
 {
 	QReadLocker locker(&lock);
 	Q_UNUSED(locker);
@@ -57,7 +57,7 @@ bool BlockingQueue<T>::isEnough() const
 }
 
 template <typename T>
-BlockingQueue<T>::BlockingQueue()
+SyncQueue<T>::SyncQueue()
 	:queue()
 	,enough(40)
 	,full(60)
@@ -66,7 +66,7 @@ BlockingQueue<T>::BlockingQueue()
 }
 
 template <typename T>
-bool BlockingQueue<T>::put(const T& t, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
+bool SyncQueue<T>::put(const T& t, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
 {
 	bool ret = true;
 	QWriteLocker locker(&lock);
@@ -85,7 +85,7 @@ bool BlockingQueue<T>::put(const T& t, unsigned long wait_timeout_ms /*= ULONG_M
 }
 
 template <typename T>
-T BlockingQueue<T>::tack(bool& isValid, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
+T SyncQueue<T>::tack(bool& isValid, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
 {
 	isValid = false;
 	QWriteLocker locker(&lock);

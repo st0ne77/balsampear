@@ -92,7 +92,7 @@
     <ClInclude Include="Decoder\VideoDecoder.h">
       <Filter>Decoder</Filter>
     </ClInclude>
-    <ClInclude Include="Decoder\BlockingQueue.h">
+    <ClInclude Include="Decoder\SyncQueue.h">
       <Filter>Decoder</Filter>
     </ClInclude>
   </ItemGroup>

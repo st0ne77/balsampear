@@ -12,7 +12,7 @@ PlayWidget::PlayWidget(QWidget* parent, const string& strStreamFile) : QWidget(p
 	mEmptyWidget = new QWidget(this);
 	mProgressWidget = new ProgressWidget(this);
 
-	PlayerTimer* pPlayTimer = new PlayerTimer(this,"E:\\Project\\TestFile\\110.mp4");
+	PlayerTimer* pPlayTimer = new PlayerTimer(this,"E:\\Project\\TestFile\\video.mp4");
 	mpControlWidget = new ControlWidget(this, pPlayTimer);
 
     mVLayout->addWidget(mEmptyWidget , 16);//透明占位区
