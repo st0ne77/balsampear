@@ -6,11 +6,12 @@ extern "C"
 #include "libswscale/swscale.h"
 }
 
-VideoDecoder::VideoDecoder(AVCodecContext* pAVCodecCtx)
+VideoDecoder::VideoDecoder(AVCodecContext* pAVCodecCtx, double timeBase)
 	:AVDecoder(pAVCodecCtx)
 	, mpSwsCtx(nullptr)
 	, mpBuffer(nullptr)
 	, mBytes(0)
+	, mTimeBase(timeBase)
 {
 	mpFrame = av_frame_alloc();
 	mpFrameRGB = av_frame_alloc();
@@ -74,7 +75,8 @@ void VideoDecoder::decode()
 // 			{
 // 				int i = 0;
 // 			}
-			int sec = mpFrame->pts * av_q2d(mpAVCodecCtx->time_base);
+			double sec = av_frame_get_best_effort_timestamp(mpFrame);
+			sec *= mTimeBase;
 			mFrameQueue.put(Frame((char*)mpFrameRGB->data[0], mBytes, sec));
 		}
 	}

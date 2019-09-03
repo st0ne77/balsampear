@@ -8,11 +8,16 @@ struct AVFrame;
 class VideoDecoder:public AVDecoder
 {
 public:
-	explicit VideoDecoder(AVCodecContext* pAVCodecCtx);
+	explicit VideoDecoder(AVCodecContext* pAVCodecCtx,double timeBase);
 
 	virtual ~VideoDecoder();
 
 	virtual bool init();
+
+	inline double TimeBase() const
+	{
+		return mTimeBase;
+	}
 
 protected:
 	virtual void decode();
@@ -23,5 +28,6 @@ private:
 	AVFrame *mpFrameRGB;
 	uint8_t *mpBuffer;
 	int mBytes;
+	double mTimeBase;
 };
 #endif

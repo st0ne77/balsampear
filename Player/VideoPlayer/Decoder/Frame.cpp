@@ -6,7 +6,7 @@ extern "C"
 }
 
 
-Frame::Frame(const char* pBuffer, int len, int sce)
+Frame::Frame(const char* pBuffer, int len, double sce)
 	:mpBuffer(nullptr)
 	, mLen(0)
 	, mSec(sce)

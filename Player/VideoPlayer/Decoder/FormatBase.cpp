@@ -102,8 +102,9 @@ VideoDecoder* FormatBase::findVideoDecoder()
 	}
 
 	AVCodecContext* pVCodecCtx = mpFormatCtx->streams[mvideoStream]->codec;
+	double timeBase = av_q2d(mpFormatCtx->streams[mvideoStream]->time_base);
 
-	mpVideoDecoder = new VideoDecoder(pVCodecCtx);
+	mpVideoDecoder = new VideoDecoder(pVCodecCtx, timeBase);
 	if (!mpVideoDecoder->init())
 	{
 		delete mpVideoDecoder;

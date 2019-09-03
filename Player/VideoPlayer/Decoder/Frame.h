@@ -5,7 +5,7 @@ class Frame
 {
 public:
 	Frame();
-	Frame(const char* pBuffer,int len,int pts);
+	Frame(const char* pBuffer,int len, double pts);
 	Frame(const Frame& other);
 	Frame& operator=(const Frame& other);
 	virtual ~Frame();
@@ -18,14 +18,14 @@ public:
 	{
 		return mLen;
 	}
-	inline int Sec()
+	inline double Sec()
 	{
 		return mSec;
 	}
 private:
 	char* mpBuffer;
 	int mLen;
-	int mSec;
+	double mSec;
 };
 
 #endif

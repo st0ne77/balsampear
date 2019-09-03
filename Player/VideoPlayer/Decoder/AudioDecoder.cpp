@@ -77,7 +77,10 @@ void AudioDecoder::decode()
 			if (convertSize > 0)
 			{
 				int size = pSrcFrame->nb_samples * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16) * pSrcFrame->channels;
-				int sec = pSrcFrame->pts * av_q2d(mpAVCodecCtx->time_base);
+
+				int audioLen = av_samples_get_buffer_size(NULL, 2, pSrcFrame->nb_samples, AV_SAMPLE_FMT_S16, 1);
+				double sec = (double)audioLen /
+					(double)(2 * mpAVCodecCtx->channels * mpAVCodecCtx->sample_rate);
 				mFrameQueue.put(Frame((char*)pcm, size, sec));
 			}
 			delete[] pcm;

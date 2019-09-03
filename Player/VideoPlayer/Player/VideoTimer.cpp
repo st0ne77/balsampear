@@ -10,10 +10,12 @@ extern "C"
 #include "AudioDecoder.h"
 }
 
+double audioClock = 0;
 void fun(void* userdata, Uint8* stream, int len)
 {
 	VideoTimer* pThis = (VideoTimer*)userdata;
 	Frame frame = pThis->mpADecoder->popFrame();
+	audioClock += frame.Sec();
 	memcpy(stream, frame.Buffer(), frame.Len());
 }
 
@@ -34,6 +36,11 @@ VideoTimer::VideoTimer(VideoDecoder* pVDecoder, AudioDecoder* pADecoder, PlayWid
 	wantSpec.samples = 1024;
 	wantSpec.callback = fun;
 	wantSpec.userdata = this;
+
+	if (SDL_Init(SDL_INIT_AUDIO))
+	{
+		printf("Could not initialize SDL - %s\n", SDL_GetError());
+	}
 
 	if (SDL_OpenAudio(&wantSpec, NULL) < 0)
 	{
@@ -71,6 +78,11 @@ void VideoTimer::PAUSE()
 void VideoTimer::update()
 {
 	Frame frame = mpVDecoder->popFrame();
+	if (frame.Sec() > audioClock)
+	{
+		int delay = (frame.Sec() - audioClock + 40) * 1000;
+		QThread::usleep(delay);
+	}
 	QImage tmpImg((uchar*)frame.Buffer(), 768, 432, QImage::Format_RGB888);
 	mpDrawWidget->Draw(tmpImg.copy());
 }
