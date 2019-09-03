@@ -19,7 +19,12 @@ public:
 	inline bool isFull() const;
 
 	bool put(const T& t, unsigned long wait_timeout_ms = ULONG_MAX);
-	T tack(bool& isValid, unsigned long wait_timeout_ms = ULONG_MAX);
+	bool tack(T& result, unsigned long wait_timeout_ms = ULONG_MAX);
+
+	void wakeALL()
+	{
+		cond_full.wakeAll();
+	}
 
 private:
 	mutable QReadWriteLock lock;//保证能在const方法中上锁
@@ -60,7 +65,7 @@ template <typename T>
 SyncQueue<T>::SyncQueue()
 	:queue()
 	,enough(40)
-	,full(60)
+	,full(800)
 {
 
 }
@@ -73,7 +78,11 @@ bool SyncQueue<T>::put(const T& t, unsigned long wait_timeout_ms /*= ULONG_MAX*/
 	Q_UNUSED(locker);
 	if (queue.size() >= full)
 	{
-		ret = cond_full.wait(&lock, wait_timeout_ms);//释放锁等待条件满足
+		cond_full.wait(&lock, wait_timeout_ms);//释放锁等待条件满足
+	}
+	if (queue.size() >= full)
+	{
+		return false;
 	}
 	queue.enqueue(t);
 	if (queue.size() >= enough)
@@ -85,9 +94,9 @@ bool SyncQueue<T>::put(const T& t, unsigned long wait_timeout_ms /*= ULONG_MAX*/
 }
 
 template <typename T>
-T SyncQueue<T>::tack(bool& isValid, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
+bool SyncQueue<T>::tack(T& result, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
 {
-	isValid = false;
+	bool ret = true;
 	QWriteLocker locker(&lock);
 	Q_UNUSED(locker);
 	if (queue.size() <= 0)
@@ -97,12 +106,12 @@ T SyncQueue<T>::tack(bool& isValid, unsigned long wait_timeout_ms /*= ULONG_MAX*
 
 	if (queue.size() <= 0)
 	{
-		return T();
+		cond_full.wakeOne();//唤醒等待put的线程
+		return false;
 	}
-	T t(queue.dequeue());
-	isValid = true;
+	result = queue.dequeue();
 	cond_full.wakeOne();//唤醒等待put的线程
-	return t;
+	return ret;
 }
 
 #endif

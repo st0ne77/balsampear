@@ -4,5 +4,5 @@
 
 DecoderInterface* DecoderFactory::CreateDecoder(const std::string& strStreamFile)
 {
-	return new VideoDecoder(strStreamFile);
+	return nullptr;// new VideoDecoder(strStreamFile);
 }

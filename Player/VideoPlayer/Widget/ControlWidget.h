@@ -5,12 +5,14 @@
 
 class QHBoxLayout;
 class ControlButton;
-class PlayerTimer;
+class AVReader;
+class AudioTimer;
+class VideoTimer;
 class ControlWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ControlWidget(QWidget *parent, PlayerTimer *playTimer);
+    explicit ControlWidget(QWidget *parent, AVReader *pAVReader);
 
 signals:
 
@@ -20,7 +22,9 @@ public slots:
 private:
     QHBoxLayout *mHBoxLayout;//横向布局
     ControlButton *mpControlButton;
-	PlayerTimer* mpPlayTimer;
+	AVReader* mpAVReader;
+	AudioTimer* mpAudioTimer;
+	VideoTimer* mpVideoTimer;
 	bool mbPlying;
 };
 

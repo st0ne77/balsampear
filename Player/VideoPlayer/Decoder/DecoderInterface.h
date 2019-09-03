@@ -14,7 +14,7 @@ public:
 
 	void stop();
 
-	QImage tack(bool& isValid);
+	//QImage tack(bool& isValid);
 protected:
 	void push(const QImage& img);
 

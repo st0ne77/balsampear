@@ -16,10 +16,11 @@ void DecoderInterface::stop()
 {
 	mbExit = true;
 }
-QImage DecoderInterface::tack(bool& isValid)
-{
-	return queue.tack(isValid, 10);
-}
+// QImage DecoderInterface::tack(bool& isValid)
+// {
+// 	QImage ret;
+// 	return queue.tack(isValid, 10);
+// }
 
 void DecoderInterface::push(const QImage& img)
 {

@@ -23,6 +23,11 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\mainwindow.cpp">
@@ -52,11 +57,32 @@
     <ClCompile Include="Decoder\DecoderFactory.cpp">
       <Filter>Decoder</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerTimer.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="Decoder\VideoDecoder.cpp">
       <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder\AVReader.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder\AudioDecoder.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder\FormatBase.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder\Packet.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder\AVDecoder.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder\Frame.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\AudioTimer.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\VideoTimer.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +101,10 @@
     <QtMoc Include="Widget\ControlWidget.h">
       <Filter>Widget</Filter>
     </QtMoc>
-    <QtMoc Include="Player\PlayerTimer.h">
+    <QtMoc Include="Player\AudioTimer.h">
+      <Filter>Player</Filter>
+    </QtMoc>
+    <QtMoc Include="Player\VideoTimer.h">
       <Filter>Player</Filter>
     </QtMoc>
   </ItemGroup>
@@ -93,6 +122,24 @@
       <Filter>Decoder</Filter>
     </ClInclude>
     <ClInclude Include="Decoder\SyncQueue.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder\AVReader.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder\AudioDecoder.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder\FormatBase.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder\Packet.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder\AVDecoder.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder\Frame.h">
       <Filter>Decoder</Filter>
     </ClInclude>
   </ItemGroup>

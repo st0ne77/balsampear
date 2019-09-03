@@ -3,11 +3,18 @@
 #include "ControlButton.h"
 #include <QHBoxLayout>
 #include "PlayWidget.h"
-#include "PlayerTimer.h"
+#include "VideoTimer.h"
+#include "AudioTimer.h"
+#include "AVReader.h"
+#include "AudioDecoder.h"
+#include "VideoDecoder.h"
 
-ControlWidget::ControlWidget(QWidget* parent, PlayerTimer* playTimer) :
+ControlWidget::ControlWidget(QWidget* parent, AVReader* pAVReader)
+	:
 	QWidget(parent),
-	mpPlayTimer(playTimer),
+	mpAVReader(pAVReader),
+	mpAudioTimer(nullptr),
+	mpVideoTimer(nullptr),
 	mbPlying(false),
 	mHBoxLayout(new QHBoxLayout(this)),
 	mpControlButton(new ControlButton(this))
@@ -17,6 +24,30 @@ ControlWidget::ControlWidget(QWidget* parent, PlayerTimer* playTimer) :
     mHBoxLayout->addWidget(mpControlButton, 2);
     mHBoxLayout->addWidget(new QWidget(), 9);
 
+	AudioDecoder *pADecoder = mpAVReader->getAudioDecoder();
+	VideoDecoder* pVDecoder = mpAVReader->getVideoDecoder();
+
+	
+
+	PlayWidget *pPlayWidget = dynamic_cast<PlayWidget*>(parent);
+
+	mpAVReader->start();
+	if (mpAVReader->isRunning())
+	{
+		pADecoder->start();
+		if (pPlayWidget)
+		{
+			pVDecoder->start();
+		}
+		
+	}
+
+	mpAudioTimer = new AudioTimer(pADecoder);
+	if (pPlayWidget)
+	{
+		mpVideoTimer = new VideoTimer(pVDecoder, pADecoder, pPlayWidget);
+	}
+
 	connect(mpControlButton, SIGNAL(clicked()), this, SLOT(changePlayStatus()));
 }
 
@@ -24,14 +55,27 @@ void ControlWidget::changePlayStatus()
 {
 	if (mbPlying)
 	{
-		mpPlayTimer->PausePlay();
-		mpControlButton->setPlaying(false);
+		if (mpAudioTimer)
+		{
+			//mpAudioTimer->stop();
+		}
+		if (mpVideoTimer)
+		{
+			mpVideoTimer->STOP();
+		}
+		mbPlying = false;
 	}
 	else
 	{
-		mpPlayTimer->StartPlay(30);
+		if (mpAudioTimer)
+		{
+			//mpAudioTimer->start(10);
+		}
+		if (mpVideoTimer)
+		{
+			mpVideoTimer->START(30);
+		}
 		mbPlying = true;
-		mpControlButton->setPlaying(true);
 	}
 }
 

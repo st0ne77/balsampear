@@ -1,18 +1,27 @@
-#ifndef MYVIDEOPLAYER_H
-#define MYVIDEOPLAYER_H
+#ifndef VIDEODECODER_H 
+#define VIDEODECODER_H
+#include "AVDecoder.h"
 
-#include <QThread>
-#include <QImage>
-#include "DecoderInterface.h"
-
-class VideoDecoder : public DecoderInterface
+struct AVCodecContext;
+struct SwsContext;
+struct AVFrame;
+class VideoDecoder:public AVDecoder
 {
 public:
-	explicit VideoDecoder(const std::string& strStreamFile);
-    ~VideoDecoder();
-    
-	virtual void loop();
+	explicit VideoDecoder(AVCodecContext* pAVCodecCtx);
 
+	virtual ~VideoDecoder();
+
+	virtual bool init();
+
+protected:
+	virtual void decode();
+
+private:
+	SwsContext *mpSwsCtx;
+	AVFrame *mpFrame;
+	AVFrame *mpFrameRGB;
+	uint8_t *mpBuffer;
+	int mBytes;
 };
-
-#endif // MYVIDEOPLAYER_H
+#endif
