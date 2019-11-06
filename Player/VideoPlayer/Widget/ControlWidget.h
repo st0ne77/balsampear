@@ -17,7 +17,6 @@ signals:
 
 public slots:
 	void changePlayStatus();
-	void ProgressChanged(int progress);
 protected:
 	void paintEvent(QPaintEvent* event);
 

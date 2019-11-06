@@ -13,7 +13,8 @@ AVUnpacker::AVUnpacker(const String& streamFile)
 	pADecoder(nullptr),
 	pVDecoder(nullptr),
 	AStreamIndex(-1),
-	VStreamIndex(-1)
+	VStreamIndex(-1),
+	duration_(0)
 {
 	init();
 }
@@ -66,6 +67,7 @@ void AVUnpacker::init()
 		return;
 	}
 	av_dump_format(mpFormatCtx, 0, file_.c_str(), 0); //输出视频信息
+
 	findDecoder();
 }
 
@@ -83,11 +85,19 @@ void AVUnpacker::findDecoder()
 		}
 	}
 
+	double timebase = av_q2d(mpFormatCtx->streams[VStreamIndex]->time_base);
+	duration_ = mpFormatCtx->duration/1000000;
+
 	AVCodecContext* pACodecCtx = AStreamIndex == -1? nullptr:mpFormatCtx->streams[AStreamIndex]->codec;
 	AVCodecContext* pVCodecCtx = VStreamIndex == -1? nullptr:mpFormatCtx->streams[VStreamIndex]->codec;
 
 	pADecoder = pACodecCtx == nullptr ? nullptr : new AudioDecoder(pACodecCtx);
 	pVDecoder = pVCodecCtx == nullptr ? nullptr : new VideoDecoder(pVCodecCtx);
+
+	if (pVDecoder)
+	{
+		pVDecoder->setTimebase(timebase);
+	}
 }
 
 

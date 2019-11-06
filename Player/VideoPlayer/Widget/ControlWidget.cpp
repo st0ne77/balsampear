@@ -9,7 +9,7 @@
 
 ControlWidget::ControlWidget(QWidget* parent)
 	:QWidget(parent),
-	player(dynamic_cast<PlayWidget*>(parent)),
+	player((OutDevice*)dynamic_cast<PlayWidget*>(parent)),
 	mbPlying(false),
 	mHBoxLayout(new QHBoxLayout(this)),
 	mpControlButton(new ControlButton(this)),
@@ -21,6 +21,7 @@ ControlWidget::ControlWidget(QWidget* parent)
     mHBoxLayout->addWidget(new QWidget(), 9);
 
 	connect(mpControlButton, SIGNAL(clicked()), this, SLOT(changePlayStatus()));
+	connect(&player, SIGNAL(ProgressChanged(double)), pProgressWidget_, SLOT(ProgressChanged(double)));
 
 	player.play("E:\\Project\\TestFile\\video.mp4");
 }
@@ -40,10 +41,6 @@ void ControlWidget::changePlayStatus()
 }
 
 
-void ControlWidget::ProgressChanged(int progress)
-{
-	pProgressWidget_->ProgressChanged((double)progress / totaltime_);
-}
 
 void ControlWidget::paintEvent(QPaintEvent* event)
 {

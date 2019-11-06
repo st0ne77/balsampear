@@ -45,6 +45,7 @@
     <ClInclude Include="AV\AVThread.h" />
     <ClInclude Include="AV\AVUnpacker.h" />
     <ClInclude Include="AV\Frame.h" />
+    <ClInclude Include="AV\OutDevice.h" />
     <ClInclude Include="AV\Packet.h" />
     <ClInclude Include="AV\Task.h" />
     <ClInclude Include="AV\VideoDecoder.h" />

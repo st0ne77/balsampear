@@ -14,6 +14,7 @@ public:
 	void Execute();
 	inline AudioDecoder* getADecoder() { return pADecoder; }
 	inline VideoDecoder* getVDecoder() { return pVDecoder; }
+	inline UINT64 getDuration() { return duration_; }
 private:
 	void init();
 	void findDecoder();
@@ -25,4 +26,5 @@ private:
 	int VStreamIndex;
 	AudioDecoder* pADecoder;
 	VideoDecoder* pVDecoder;
+	UINT64 duration_;
 };

@@ -144,6 +144,9 @@
     <ClInclude Include="AV\Packet.h">
       <Filter>AV</Filter>
     </ClInclude>
+    <ClInclude Include="AV\OutDevice.h">
+      <Filter>AV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="image.qrc">

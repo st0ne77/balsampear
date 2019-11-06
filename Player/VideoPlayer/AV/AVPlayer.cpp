@@ -9,14 +9,14 @@ extern "C"
 #include "libavutil/channel_layout.h"
 #include "PlayWidget.h"
 }
-AVPlayer::AVPlayer(const string& path, PlayWidget* widget)
+AVPlayer::AVPlayer(const string& path, OutDevice* widget)
 	:AVPlayer(widget)
 {
 	play(path);
 }
 
-AVPlayer::AVPlayer(PlayWidget* widget)
-	:pwidget(widget),
+AVPlayer::AVPlayer(OutDevice* widget)
+	:out_(widget),
 	Unpacker_(nullptr),
 	ADecoder(nullptr),
 	VDecoder_(nullptr),
@@ -111,7 +111,7 @@ void AVPlayer::update()
 		return;
 	}
 	QImage tmpImg((uchar*)pCache->Buffer(), 768, 432, QImage::Format_RGB888);
-	pwidget->Draw(tmpImg.copy());
+	out_->Draw(tmpImg.copy());
 	delete pCache;
 	pCache = NULL;
 }
@@ -136,7 +136,7 @@ void AVPlayer::initDevice()
 		pThis->audioClock_ += frame.Sec();
 		memcpy(stream, frame.Buffer(), frame.Len());
 
-		emit pThis->ProgressChanged(pThis->audioClock_);
+		emit pThis->ProgressChanged(pThis->audioClock_ / pThis->Unpacker_->getDuration());
 	};
 	wantSpec.userdata = this;
 

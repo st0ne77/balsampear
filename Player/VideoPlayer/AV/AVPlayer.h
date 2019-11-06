@@ -5,20 +5,20 @@
 class AVUnpacker;
 class AudioDecoder;
 class VideoDecoder;
-class PlayWidget;
+class OutDevice;
 class AVPlayer: public QObject
 {
 	Q_OBJECT
 public:
-	AVPlayer(PlayWidget*);
-	AVPlayer(const string& path, PlayWidget*);
+	AVPlayer(OutDevice*);
+	AVPlayer(const string& path, OutDevice*);
 	void play(const string& path);
 	void start();
 	void pause();
 	void stop();
 	virtual ~AVPlayer();
 signals:
-	void ProgressChanged(int);
+	void ProgressChanged(double);
 
 public slots:
 	void update();
@@ -33,7 +33,7 @@ private:
 	}
 private:
 	QTimer timer;
-	PlayWidget* pwidget;
+	OutDevice* out_;
 	AVThread unpackThread_;
 	AVThread AudioDecodeThread_;
 	AVThread VideoDecodeThread_;

@@ -12,6 +12,7 @@ VideoDecoder::VideoDecoder(AVCodecContext* pAVCodecCtx)
 	, mpSwsCtx(nullptr)
 	, mpBuffer(nullptr)
 	, mBytes(0)
+	, timebase_(0.0)
 {
 	mpFrame = av_frame_alloc();
 	mpFrameRGB = av_frame_alloc();
@@ -56,7 +57,7 @@ void VideoDecoder::Execute()
 		if (mpFrameRGB->linesize[0])
 		{
 			double sec = (double)av_frame_get_best_effort_timestamp(mpFrame);
-
+			sec *= timebase_;
 			while (!end_ && !mFrameQueue.put(Frame((char*)mpFrameRGB->data[0], mBytes, sec), 100))
 			{
 			}

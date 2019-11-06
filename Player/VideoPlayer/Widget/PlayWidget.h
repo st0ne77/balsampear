@@ -4,8 +4,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <string>
+#include "OutDevice.h"
 
-class PlayWidget : public QWidget
+class PlayWidget : public QWidget,virtual OutDevice
 {
     Q_OBJECT
 public:
@@ -15,7 +16,7 @@ public:
 
     ~PlayWidget();
 
-	void Draw(const QImage& img);
+	virtual void Draw(const QImage& img);
 protected:
     void paintEvent(QPaintEvent *event);
 private:
