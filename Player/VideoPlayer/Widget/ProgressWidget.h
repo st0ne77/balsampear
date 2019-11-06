@@ -13,13 +13,14 @@ public:
 signals:
 
 public slots:
+	void ProgressChanged(double progress);
 
 protected:
-    void paintEvent(QPaintEvent *event);
+	virtual void paintEvent(QPaintEvent *event);
+	virtual void mousePressEvent(QMouseEvent* event);
 
 protected:
-    QWidget *mpContainerWidgett;
-    QWidget *mpProgressBar;
+	double Progress_;
 };
 
 #endif // PROGRESSWIDGET_H

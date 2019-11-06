@@ -11,23 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Decoder\AudioDecoder.cpp" />
-    <ClCompile Include="Decoder\AVDecoder.cpp" />
-    <ClCompile Include="Decoder\AVReader.cpp" />
-    <ClCompile Include="Decoder\DecoderFactory.cpp" />
-    <ClCompile Include="Decoder\DecoderInterface.cpp" />
-    <ClCompile Include="Decoder\FormatBase.cpp" />
-    <ClCompile Include="Decoder\Frame.cpp" />
-    <ClCompile Include="Decoder\Packet.cpp" />
-    <ClCompile Include="Decoder\VideoDecoder.cpp" />
+    <ClCompile Include="AV\AudioDecoder.cpp" />
+    <ClCompile Include="AV\AVDecoder.cpp" />
+    <ClCompile Include="AV\AVPlayer.cpp" />
+    <ClCompile Include="AV\AVThread.cpp" />
+    <ClCompile Include="AV\AVUnpacker.cpp" />
+    <ClCompile Include="AV\Frame.cpp" />
+    <ClCompile Include="AV\Packet.cpp" />
+    <ClCompile Include="AV\VideoDecoder.cpp" />
+    <ClCompile Include="AV\VideoTimer.cpp" />
+    <ClCompile Include="base\StringPiece.cpp" />
     <ClCompile Include="Main\main.cpp" />
     <ClCompile Include="Main\mainwindow.cpp" />
     <ClCompile Include="Main\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Player\AudioTimer.cpp" />
-    <ClCompile Include="Player\VideoTimer.cpp" />
     <ClCompile Include="Widget\ControlButton.cpp" />
     <ClCompile Include="Widget\ControlWidget.cpp" />
     <ClCompile Include="Widget\PlayWidget.cpp" />
@@ -37,28 +36,25 @@
     <QtMoc Include="Main\mainwindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Decoder\AudioDecoder.h" />
-    <ClInclude Include="Decoder\AVDecoder.h" />
-    <ClInclude Include="Decoder\AVReader.h" />
-    <ClInclude Include="Decoder\FormatBase.h" />
-    <ClInclude Include="Decoder\Frame.h" />
-    <ClInclude Include="Decoder\Packet.h" />
-    <ClInclude Include="Decoder\SyncQueue.h" />
-    <ClInclude Include="Decoder\DecoderFactory.h" />
-    <ClInclude Include="Decoder\DecoderInterface.h" />
-    <ClInclude Include="Decoder\VideoDecoder.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder</IncludePath>
+    <ClInclude Include="AV\AudioDecoder.h" />
+    <ClInclude Include="AV\AVDecoder.h" />
+    <QtMoc Include="AV\AVPlayer.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\SDL\include;.\base;.\AV</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
-    </ClInclude>
+    </QtMoc>
+    <ClInclude Include="AV\AVThread.h" />
+    <ClInclude Include="AV\AVUnpacker.h" />
+    <ClInclude Include="AV\Frame.h" />
+    <ClInclude Include="AV\Packet.h" />
+    <ClInclude Include="AV\Task.h" />
+    <ClInclude Include="AV\VideoDecoder.h" />
+    <QtMoc Include="AV\VideoTimer.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\SDL\include;.\base;.\AV</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+    </QtMoc>
+    <ClInclude Include="base\StringPiece.h" />
+    <ClInclude Include="base\SyncQueue.h" />
     <ClInclude Include="Main\stdafx.h" />
-    <QtMoc Include="Player\VideoTimer.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\OpenAL\include;.\OpenAL\include\AL</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
-    </QtMoc>
-    <QtMoc Include="Player\AudioTimer.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include</IncludePath>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
-    </QtMoc>
     <QtMoc Include="Widget\ControlWidget.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
@@ -119,7 +115,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\SDL\include;.\base;.\AV;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -127,6 +123,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,7 +136,7 @@
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\SDL\include;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\Main;.\Widget;.\Player;.\Decoder;.\ffmpeg\include;.\SDL\include;.\base;.\AV;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</Define>
       <ForceInclude>stdafx.h;%(Filename)%(Extension)</ForceInclude>
     </QtMoc>

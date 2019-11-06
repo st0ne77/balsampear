@@ -2,30 +2,32 @@
 #define CONTROLWIDGET_H
 
 #include <QWidget>
-
+#include "AVPlayer.h"
 class QHBoxLayout;
 class ControlButton;
-class AVReader;
-class AudioTimer;
-class VideoTimer;
+class ProgressWidget;
 class ControlWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ControlWidget(QWidget *parent, AVReader *pAVReader);
+    explicit ControlWidget(QWidget *parent);
+
 
 signals:
 
 public slots:
 	void changePlayStatus();
+	void ProgressChanged(int progress);
+protected:
+	void paintEvent(QPaintEvent* event);
 
 private:
-    QHBoxLayout *mHBoxLayout;//横向布局
+	QHBoxLayout* mHBoxLayout;
+	ProgressWidget* pProgressWidget_;
     ControlButton *mpControlButton;
-	AVReader* mpAVReader;
-	AudioTimer* mpAudioTimer;
-	VideoTimer* mpVideoTimer;
+	AVPlayer player;
 	bool mbPlying;
+	int totaltime_;
 };
 
 #endif // CONTROLWIDGET_H

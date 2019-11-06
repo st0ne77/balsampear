@@ -21,7 +21,6 @@ protected:
 private:
 	QVBoxLayout *mVLayout;
 	QWidget *mEmptyWidget;
-	QWidget *mProgressWidget;
 	QWidget *mpControlWidget;
 	QImage mImage;
 };

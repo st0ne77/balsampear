@@ -1,20 +1,8 @@
 #include "stdafx.h"
 #include "ProgressWidget.h"
 
-ProgressWidget::ProgressWidget(QWidget *parent) : QWidget(parent)
+ProgressWidget::ProgressWidget(QWidget *parent) : QWidget(parent), Progress_(0.0)
 {
-    mpContainerWidgett = new QWidget(this);//进度条区
-    mpProgressBar = new QWidget(mpContainerWidgett);
-
-    QPalette objProgressWidgetPal(mpContainerWidgett->palette());
-    objProgressWidgetPal.setColor(QPalette::Background ,QColor(255, 255, 255, 30));//白色 30透明度
-    mpContainerWidgett->setAutoFillBackground(true);
-    mpContainerWidgett->setPalette(objProgressWidgetPal);
-
-    QPalette objPorgressBarPal(mpProgressBar->palette());
-    objPorgressBarPal.setColor(QPalette::Background ,QColor(255, 255, 0, 255));//黄色不透明
-    mpProgressBar->setAutoFillBackground(true);
-    mpProgressBar->setPalette(objPorgressBarPal);
 }
 
 ProgressWidget::~ProgressWidget()
@@ -22,11 +10,41 @@ ProgressWidget::~ProgressWidget()
 
 }
 
-void ProgressWidget::paintEvent(QPaintEvent *event)
+void ProgressWidget::ProgressChanged(double progress)
 {
-    mpContainerWidgett->resize(this->width(), this->height());
-    int iPorgressWidgetWidth = mpContainerWidgett->width();
-    int iProgressWidgetHeight = mpContainerWidgett->height();
-    mpProgressBar->resize(iPorgressWidgetWidth*96/100, iProgressWidgetHeight/5);
-    mpProgressBar->move(iPorgressWidgetWidth*2/100, iProgressWidgetHeight / 2 - mpProgressBar->height() / 2);
+	Progress_ = progress;
+	update();
+}
+
+void ProgressWidget::paintEvent(QPaintEvent* event)
+{
+	int width = this->width();
+	int height = this->height();
+
+	QPainterPath painterDone;
+	painterDone.addRect(2, (height / 2 - 2), ((double)width - 20) * Progress_, 4);
+
+	QPainterPath painterWill;
+	int x = (width - 20) * Progress_ + 2;
+	int WillWidth = ((double)width - 20) * (1.0 - Progress_);
+
+ 	QPainter painter(this);
+
+	painter.fillRect(2, (height / 2 - 2), ((double)width - 20) * Progress_, 4, QColor(10, 200, 0,255));
+	painter.fillRect(x, (height / 2 - 2), WillWidth, 4, QColor(255, 255, 255, 80));
+
+}
+
+void ProgressWidget::mousePressEvent(QMouseEvent* event)
+{
+	int width = this->width();
+	int height = this->height();
+	int x = event->x();
+	int y = event->y();
+
+	if ( x >= 2 && x <= (width - 20)
+		&& y >= (height / 2 - 2) && y < (height / 2 + 2))
+	{
+		//assert(0);
+	}
 }
