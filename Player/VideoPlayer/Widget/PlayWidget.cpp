@@ -4,26 +4,12 @@
 #include "ControlWidget.h"
 
 using namespace std;
-PlayWidget::PlayWidget(QWidget* parent, const string& strStreamFile) : QWidget(parent)
+PlayWidget::PlayWidget(QWidget* parent) : QWidget(parent)
 {
-	mVLayout = new QVBoxLayout(this);//纵向布局
-	mVLayout->setContentsMargins(0, 0, 0, 0);//布局的四周外边距
-	mEmptyWidget = new QWidget(this);
-	
-	//AVReader*  pReader = new AVReader("E:\\Project\\TestFile\\video.mp4");
-	mpControlWidget = new ControlWidget(this);
-
-    mVLayout->addWidget(mEmptyWidget , 16);//透明占位区
-	mVLayout->addWidget(mpControlWidget, 4);//控制区
-
-	update();
 }
 
 PlayWidget::~PlayWidget()
 {
-	delete mVLayout;
-	delete mEmptyWidget;
-	delete mpControlWidget;
 }
 
 void PlayWidget::Draw(const QImage& img)
@@ -55,6 +41,5 @@ void PlayWidget::paintEvent(QPaintEvent *event)
 
     painter.drawImage(QPoint(x,y),img); //画出图像
 
-	mpControlWidget->setMaximumWidth(this->width());
 }
 

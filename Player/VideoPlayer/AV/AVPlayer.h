@@ -19,6 +19,7 @@ public:
 	virtual ~AVPlayer();
 signals:
 	void ProgressChanged(double);
+	void end();
 
 public slots:
 	void update();

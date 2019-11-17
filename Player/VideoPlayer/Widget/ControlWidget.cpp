@@ -7,9 +7,10 @@
 #include "VideoDecoder.h"
 #include "ProgressWidget.h"
 
-ControlWidget::ControlWidget(QWidget* parent)
+ControlWidget::ControlWidget(QWidget* parent, OutDevice* output)
 	:QWidget(parent),
-	player((OutDevice*)dynamic_cast<PlayWidget*>(parent)),
+	player(output),
+	started_(false),
 	mbPlying(false),
 	mHBoxLayout(new QHBoxLayout(this)),
 	mpControlButton(new ControlButton(this)),
@@ -22,28 +23,54 @@ ControlWidget::ControlWidget(QWidget* parent)
 
 	connect(mpControlButton, SIGNAL(clicked()), this, SLOT(changePlayStatus()));
 	connect(&player, SIGNAL(ProgressChanged(double)), pProgressWidget_, SLOT(ProgressChanged(double)));
+	connect(&player, SIGNAL(end()), this, SLOT(end()));
+}
 
-	player.play("E:\\Project\\TestFile\\video.mp4");
+void ControlWidget::play(const QString& video)
+{
+	player.play(video.toStdString());
+	started_ = true;
+}
+
+void ControlWidget::stop()
+{
+	player.stop();
+	started_ = false;
+	mbPlying = false;
+	mpControlButton->setPlaying(mbPlying);
 }
 
 void ControlWidget::changePlayStatus()
 {
-	if (mbPlying)
+	if (started_)
 	{
-		player.pause();
-		mbPlying = false;
-	}
-	else
-	{
-		player.start();
-		mbPlying = true;
+		if (mbPlying)
+		{
+			player.pause();
+			mbPlying = false;
+		}
+		else
+		{
+			player.start();
+			mbPlying = true;
+		}
+		mpControlButton->setPlaying(mbPlying);
 	}
 }
 
 
 
+void ControlWidget::end()
+{
+	stop();
+}
+
 void ControlWidget::paintEvent(QPaintEvent* event)
 {
 	pProgressWidget_->resize(this->width(), 50);
+
+	QPainter painter(this);
+	painter.setBrush(Qt::black);
+	painter.drawRect(0, 0, this->width(), this->height()); //ÏÈ»­³ÉºÚÉ«
 }
 

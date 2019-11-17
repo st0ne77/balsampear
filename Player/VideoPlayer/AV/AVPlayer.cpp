@@ -62,8 +62,12 @@ void AVPlayer::start()
 	VideoDecodeThread_.Start();
 	unpackThread_.Start();
 
-	timer.start(30);
-	SDL_PauseAudio(0);
+	if (Unpacker_ && ADecoder)
+	{
+		timer.start(30);
+		SDL_PauseAudio(0);
+	}
+	
 }
 
 void AVPlayer::pause()
@@ -110,6 +114,10 @@ void AVPlayer::update()
 	{
 		return;
 	}
+	if (pCache->Sec() >= Unpacker_->getDuration())
+	{
+		emit end();
+	}
 	QImage tmpImg((uchar*)pCache->Buffer(), 768, 432, QImage::Format_RGB888);
 	out_->Draw(tmpImg.copy());
 	delete pCache;
@@ -137,6 +145,7 @@ void AVPlayer::initDevice()
 		memcpy(stream, frame.Buffer(), frame.Len());
 
 		emit pThis->ProgressChanged(pThis->audioClock_ / pThis->Unpacker_->getDuration());
+		
 	};
 	wantSpec.userdata = this;
 
