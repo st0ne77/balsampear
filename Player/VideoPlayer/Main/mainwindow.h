@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 #include "ControlWidget.h"
+#include "AVPlayer.h"
 
 class MainWindow : public QMainWindow
 {
@@ -16,9 +17,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 protected:
-	void paintEvent(QPaintEvent* event);
 	void dragEnterEvent(QDragEnterEvent* event);//拖动进入事件  
 
+public slots:
+	void checkChangePlayBtn();
+	void sourceEnd();
 private:
 	void releaseItem();
 
@@ -29,10 +32,8 @@ private:
 	QVBoxLayout vlayout_;
     PlayWidget playWidget_;
 	ControlWidget controlWidget_;
-	std::set<QString> listVideo_;
-	std::vector<QListWidgetItem*> items_;
-
-	
+	AVPlayer player_;
+	bool playing;
 };
 
 #endif // MAINWINDOW_H

@@ -13,7 +13,7 @@ public:
 signals:
 
 public slots:
-	void ProgressChanged(double progress);
+	void changeProgress(double progress);
 
 protected:
 	virtual void paintEvent(QPaintEvent *event);

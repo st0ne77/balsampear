@@ -10,7 +10,7 @@ ProgressWidget::~ProgressWidget()
 
 }
 
-void ProgressWidget::ProgressChanged(double progress)
+void ProgressWidget::changeProgress(double progress)
 {
 	Progress_ = progress;
 	update();

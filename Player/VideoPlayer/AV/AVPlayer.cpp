@@ -54,6 +54,7 @@ void AVPlayer::play(const string& path)
 	}
 
 	audioClock_ = 0;
+	start();
 }
 
 void AVPlayer::start()
@@ -88,6 +89,7 @@ void AVPlayer::stop()
 	AudioDecodeThread_.Stop();
 	VideoDecodeThread_.Stop();
 	unpackThread_.Stop();
+	releaseTask();
 }
 
 AVPlayer::~AVPlayer()
@@ -116,7 +118,7 @@ void AVPlayer::update()
 	}
 	if (pCache->Sec() >= Unpacker_->getDuration())
 	{
-		emit end();
+		emit sourceEnd();
 	}
 	QImage tmpImg((uchar*)pCache->Buffer(), 768, 432, QImage::Format_RGB888);
 	out_->Draw(tmpImg.copy());

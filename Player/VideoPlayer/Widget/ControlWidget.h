@@ -1,37 +1,27 @@
-#ifndef CONTROLWIDGET_H
-#define CONTROLWIDGET_H
-
+#pragma once
 #include <QWidget>
-#include "AVPlayer.h"
-class QHBoxLayout;
-class ControlButton;
-class ProgressWidget;
-class OutDevice;
+#include "ProgressWidget.h"
+#include "PlayButton.h"
+
+
 class ControlWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ControlWidget(QWidget *parent, OutDevice* output);
+    explicit ControlWidget(QWidget *parent);
 
-
-	void play(const QString& video);
-	void stop();
+	inline void setPlaying(bool _val) { playBtn.setPlaying(_val); }
 signals:
+	void checkChangePlayBtn();
 
 public slots:
-	void changePlayStatus();
-	void end();
+	inline void progressChanged(double _val) { progress_.changeProgress(_val); }
+
 protected:
-	void paintEvent(QPaintEvent* event);
+	virtual void paintEvent(QPaintEvent* event);
 
 private:
-	QHBoxLayout* mHBoxLayout;
-	ProgressWidget* pProgressWidget_;
-    ControlButton *mpControlButton;
-	AVPlayer player;
-	bool started_;
-	bool mbPlying;
-	int totaltime_;
+	ProgressWidget progress_;
+	PlayButton playBtn;
 };
 
-#endif // CONTROLWIDGET_H

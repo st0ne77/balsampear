@@ -17,9 +17,12 @@ public:
 	void pause();
 	void stop();
 	virtual ~AVPlayer();
+
+	//获取但钱是否已有文件在解码播放
+	bool running() { return Unpacker_ != nullptr; }
 signals:
 	void ProgressChanged(double);
-	void end();
+	void sourceEnd();
 
 public slots:
 	void update();

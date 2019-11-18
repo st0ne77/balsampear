@@ -10,8 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	fullWidget_(this),
 	hlayout_(&fullWidget_),
 	listWidget(&fullWidget_),
-	playWidget_(nullptr),
-	controlWidget_(nullptr, (OutDevice*)&playWidget_)
+	playWidget_(&fullWidget_),
+	controlWidget_(&fullWidget_),
+	player_((OutDevice*)&playWidget_),
+	playing(false)
 {
     resize(800, 600);
 	setCentralWidget(&fullWidget_);
@@ -23,15 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	vlayout_.addWidget(&playWidget_, 8);
 	vlayout_.addWidget(&controlWidget_, 2);
 
-	/*
-	//setCentralWidget(this);
-	
-	
-	*/
+	listWidget.setStyleSheet("background-color:black");
 
-	const char* sheet = "QListWidget{background:black;};";
-	listWidget.setStyleSheet(sheet);
-
+	connect(&controlWidget_, SIGNAL(checkChangePlayBtn()), this, SLOT(checkChangePlayBtn()));
+	connect(&player_, SIGNAL(ProgressChanged(double)), &controlWidget_, SLOT(progressChanged(double)));
+	connect(&player_, SIGNAL(sourceEnd()), this, SLOT(sourceEnd()));
 	setAcceptDrops(true);
 }
 
@@ -40,44 +38,33 @@ MainWindow::~MainWindow()
 	releaseItem();
 }
 
-void MainWindow::paintEvent(QPaintEvent* event)
-{
-	QWidget::paintEvent(event);
-	/*
-	QPainter painter(this);
-	painter.setBrush(Qt::black);
-	painter.drawRect(0, 0, this->width(), this->height()); //先画成黑色 */ 
-}
 
 void MainWindow::dragEnterEvent(QDragEnterEvent* event)
 {
 	QString str = event->mimeData()->urls()[0].toLocalFile();
-	controlWidget_.stop();
-	listVideo_.insert(str);
+	player_.play(str.toStdString());
+	controlWidget_.setPlaying(playing = true);
+}
 
-	
-	releaseItem();
-	std::set<QString>::iterator it = listVideo_.begin();
-	for (;it != listVideo_.end(); ++it)
+void MainWindow::checkChangePlayBtn()
+{
+	if (player_.running())
 	{
-		QListWidgetItem* item = new QListWidgetItem(*it);
-		item->setBackground(Qt::white);
-		item->setTextColor(Qt::red);
-		listWidget.addItem(item);
-		items_.push_back(item);
+		playing = !playing;
+		playing ? player_.start() : player_.pause();
+		controlWidget_.setPlaying(playing);
 	}
+	
+}
 
-	controlWidget_.play(str);
+void MainWindow::sourceEnd()
+{
+	player_.stop();
+	controlWidget_.setPlaying(playing = false);
 }
 
 void MainWindow::releaseItem()
 {
-	std::vector<QListWidgetItem*>::iterator it = items_.begin();
-	for (;it != items_.end(); ++it)
-	{
-		listWidget.removeItemWidget(*it);
-		delete* it;
-	}
-	items_.clear();
+
 }
 
