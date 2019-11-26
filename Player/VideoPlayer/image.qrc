@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>start_focus.png</file>
-        <file>pause_focus.png</file>
-        <file>pause_normal.png</file>
-        <file>start_normal.png</file>
-    </qresource>
-</RCC>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Base\StringPiece.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ThreadBase.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ThreadBase_linux.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ThreadBase_windows.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Base\BlockingQueue.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\StringPiece.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ThreadBase.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{649842b2-9f5e-4833-930c-ca111a605b27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
