@@ -32,7 +32,7 @@ namespace PlayerCore
 		return thread_->detach();
 	}
 
-	PlayerCore::StringPiece ThreadBase::getName()
+	StringPiece ThreadBase::getName()
 	{
 		return name_;
 	}

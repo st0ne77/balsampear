@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Base\StringPiece.cpp">
       <Filter>Base</Filter>
     </ClCompile>
@@ -14,9 +13,18 @@
     <ClCompile Include="Base\ThreadBase_windows.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="AudioFormat.cpp" />
+    <ClCompile Include="VideoFormat.cpp" />
+    <ClCompile Include="AVDecoder.cpp" />
+    <ClCompile Include="VideoDecoder.cpp" />
+    <ClCompile Include="VideoDecoderFFmpeg.cpp" />
+    <ClCompile Include="AVDemuxer.cpp" />
+    <ClCompile Include="AVParser.cpp" />
+    <ClCompile Include="AudioDecoder.cpp" />
+    <ClCompile Include="AudioDeocderFFmpeg.cpp" />
+    <ClCompile Include="AVPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Parser.h" />
     <ClInclude Include="Base\BlockingQueue.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -26,6 +34,16 @@
     <ClInclude Include="Base\ThreadBase.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="AudioFormat.h" />
+    <ClInclude Include="VideoFormat.h" />
+    <ClInclude Include="AVDecoder.h" />
+    <ClInclude Include="VideoDecoder.h" />
+    <ClInclude Include="VideoDecoderFFmpeg.h" />
+    <ClInclude Include="AVDemuxer.h" />
+    <ClInclude Include="AVParser.h" />
+    <ClInclude Include="AudioDecoder.h" />
+    <ClInclude Include="AudioDeocderFFmpeg.h" />
+    <ClInclude Include="AVPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

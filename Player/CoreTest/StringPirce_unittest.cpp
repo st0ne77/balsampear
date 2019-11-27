@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Base/StringPiece.h"
+#include "AVParser.h"
 
-using namespace PlayerCore;
+using PlayerCore::StringPiece;
 using namespace std;
 
 TEST(StirngPieceTest, HandleString)

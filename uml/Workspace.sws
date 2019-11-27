@@ -4,7 +4,7 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{88FD7DB4-BB13-4148-9D14-9254CE02DDAF}" Name="MediaPlayer" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="MediaPlayer.oom"/>
+		<Model Expanded="Yes" ID="{88FD7DB4-BB13-4148-9D14-9254CE02DDAF}" Name="MediaPlayer" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="MediaPlayer.oom"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

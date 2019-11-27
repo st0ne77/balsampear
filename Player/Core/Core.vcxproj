@@ -19,17 +19,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioDecoder.cpp" />
+    <ClCompile Include="AudioDeocderFFmpeg.cpp" />
+    <ClCompile Include="AudioFormat.cpp" />
+    <ClCompile Include="AVDecoder.cpp" />
+    <ClCompile Include="AVPlayer.cpp" />
     <ClCompile Include="Base\StringPiece.cpp" />
     <ClCompile Include="Base\ThreadBase.cpp" />
     <ClCompile Include="Base\ThreadBase_linux.cpp" />
     <ClCompile Include="Base\ThreadBase_windows.cpp" />
-    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="AVDemuxer.cpp" />
+    <ClCompile Include="AVParser.cpp" />
+    <ClCompile Include="VideoDecoder.cpp" />
+    <ClCompile Include="VideoDecoderFFmpeg.cpp" />
+    <ClCompile Include="VideoFormat.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioDecoder.h" />
+    <ClInclude Include="AudioDeocderFFmpeg.h" />
+    <ClInclude Include="AudioFormat.h" />
+    <ClInclude Include="AVDecoder.h" />
+    <ClInclude Include="AVPlayer.h" />
     <ClInclude Include="Base\BlockingQueue.h" />
     <ClInclude Include="Base\StringPiece.h" />
     <ClInclude Include="Base\ThreadBase.h" />
-    <ClInclude Include="Parser.h" />
+    <ClInclude Include="AVDemuxer.h" />
+    <ClInclude Include="AVParser.h" />
+    <ClInclude Include="VideoDecoder.h" />
+    <ClInclude Include="VideoDecoderFFmpeg.h" />
+    <ClInclude Include="VideoFormat.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -99,12 +117,12 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>../FFmpeg/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../FFmpeg/include_x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,12 +131,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../FFmpeg/include</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -8,7 +8,7 @@ namespace PlayerCore
 	{
 	public:
 		BlockingQueue();
-		BlockingQueue(int enough, int full);
+		BlockingQueue(unsigned int enough, unsigned int full);
 
 		virtual ~BlockingQueue() {};
 
@@ -30,8 +30,8 @@ namespace PlayerCore
 		std::condition_variable cond_empty_;
 		std::condition_variable cond_full_;
 		Container<T> queue_;
-		int enough_;
-		int full_;
+		unsigned int enough_;
+		unsigned int full_;
 	};
 
 	template <typename T, template <typename _Ty, typename _Container> class Container>
@@ -44,7 +44,7 @@ namespace PlayerCore
 	}
 
 	template <typename T, template <typename _Ty, typename _Container> class Container>
-	BlockingQueue<T, Container>::BlockingQueue(int enough, int full)
+	BlockingQueue<T, Container>::BlockingQueue(unsigned int enough, unsigned int full)
 		:queue_()
 		, enough_(enough)
 		, full_(full)
