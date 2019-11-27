@@ -142,6 +142,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>../FFmpeg/lib_x86/avcodec.lib;../FFmpeg/lib_x86/avdevice.lib;../FFmpeg/lib_x86/avfilter.lib;../FFmpeg/lib_x86/avformat.lib;../FFmpeg/lib_x86/avutil.lib;../FFmpeg/lib_x86/postproc.lib;../FFmpeg/lib_x86/swresample.lib;../FFmpeg/lib_x86/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

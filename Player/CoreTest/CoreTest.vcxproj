@@ -32,6 +32,9 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -74,6 +77,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>../FFmpeg/lib_x86/avcodec.lib;../FFmpeg/lib_x86/avdevice.lib;../FFmpeg/lib_x86/avfilter.lib;../FFmpeg/lib_x86/avformat.lib;../FFmpeg/lib_x86/avutil.lib;../FFmpeg/lib_x86/postproc.lib;../FFmpeg/lib_x86/swresample.lib;../FFmpeg/lib_x86/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
