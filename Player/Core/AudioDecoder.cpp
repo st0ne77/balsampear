@@ -13,12 +13,12 @@ namespace PlayerCore
 
 	}
 
-	shared_ptr<AudioDecoder> AudioDecoder::create(const StringPiece& name)
+	unique_ptr<AudioDecoder> AudioDecoder::create(const StringPiece& name)
 	{
-		shared_ptr<AudioDecoder> decoder;
+		unique_ptr<AudioDecoder> decoder;
 		if (name == "ffmpeg")
 		{
-			decoder = shared_ptr<AudioDecoder>(new AudioDeocderFFmpeg());
+			decoder = std::make_unique<AudioDeocderFFmpeg>();
 		}
 		return decoder;
 	}

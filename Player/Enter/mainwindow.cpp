@@ -1,9 +1,9 @@
 #include "mainwindow.h"
-#include "AVParser.h"
+#include "AVPlayer.h"
 
 
 using namespace std;
-using PlayerCore::AVParser;
+using PlayerCore::AVPlayer;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(800, 600);
     
     
-    AVParser parser;
-    parser.setFile("E:\\Project\\TestFile\\video.mp4");
-    parser.parse();
+    AVPlayer * player = new AVPlayer();
+    if (player->load("E:\\Project\\TestFile\\video.mp4"))
+        player->start();
 }
 
 MainWindow::~MainWindow()

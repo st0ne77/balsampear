@@ -13,12 +13,12 @@ namespace PlayerCore
 
 	}
 
-	std::shared_ptr<VideoDecoder> VideoDecoder::create(const StringPiece& name /*= "ffmpeg"*/)
+	unique_ptr<VideoDecoder> VideoDecoder::create(const StringPiece& name /*= "ffmpeg"*/)
 	{
-		std::shared_ptr<VideoDecoder> decoder;
+		unique_ptr<VideoDecoder> decoder;
 		if (name == "ffmpeg")
 		{
-			decoder = std::shared_ptr<VideoDecoder>( new VideoDecoderFFmpeg());
+			decoder = std::make_unique<VideoDecoderFFmpeg>();
 		}
 		return decoder;
 	}

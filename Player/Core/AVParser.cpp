@@ -13,7 +13,7 @@ namespace PlayerCore
 {
 	AVParser::AVParser()
 		:formatCtx_(nullptr),
-		type_(MediaType::Type_Invalid),
+		type_ (0),
 		duration_(0),
 		aCodecCtx_(nullptr),
 		aIndexOfStream_(-1),
@@ -39,7 +39,12 @@ namespace PlayerCore
 		file_ = file;
 	}
 
-	bool AVParser::parse() 
+	PlayerCore::StringPiece AVParser::currentFile()
+	{
+		return file_;
+	}
+
+	bool AVParser::parse()
 	{
 		// stream file
 		//todo net
@@ -73,30 +78,64 @@ namespace PlayerCore
 			}
 		}
 
-		if (aCodecCtx_ && vdecoder_)
-			type_ = MediaType::Type_AudioVideo;
-		else if (aCodecCtx_)
-			type_ = MediaType::Type_Audio;
-		else if(vdecoder_)
-			type_ = MediaType::Type_Video;
-
-		duration_ = formatCtx_->duration;
-		demuxer_ = shared_ptr<AVDemuxer>(new AVDemuxer());
-		demuxer_->setFormatContext(formatCtx_);
 		if (aCodecCtx_)
 		{
-			//todo
 			//aformat_ = AudioFormat(aCodecCtx_->pix_fmt);
-			adecoder = AudioDecoder::create();
-			adecoder->setCodecContext(aCodecCtx_);
+			type_ |= static_cast<int>(MediaType::Type_Audio);
 		}
 		if (vCodecCtx_)
 		{
 			vformat_ = VideoFormat(vCodecCtx_->pix_fmt);
-			vdecoder_ = VideoDecoder::create();
-			vdecoder_->setCodecContext(vCodecCtx_);
+			type_ |= static_cast<int>(MediaType::Type_Video);
 		}
+		duration_ = formatCtx_->duration;
+			
 		return true;
+	}
+
+	AVFormatContext* AVParser::getFormatCtx()
+	{
+		return formatCtx_;
+	}
+
+	AVCodecContext* AVParser::getAudioCodecCtx()
+	{
+		return aCodecCtx_;
+	}
+
+	AVCodecContext* AVParser::getVideoCodexCtx()
+	{
+		return vCodecCtx_;
+	}
+
+	unsigned long long AVParser::getDuration()
+	{
+		return duration_;
+	}
+
+	AudioFormat AVParser::getAudioFormat()
+	{
+		return aformat_;
+	}
+
+	VideoFormat AVParser::getVideoFormat()
+	{
+		return vformat_;
+	}
+
+	int AVParser::getMediaType()
+	{
+		return type_;
+	}
+
+	int AVParser::audioStream()
+	{
+		return aIndexOfStream_;
+	}
+
+	int AVParser::videoStream()
+	{
+		return vIndexOfStream_;
 	}
 
 }

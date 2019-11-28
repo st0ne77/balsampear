@@ -3,7 +3,7 @@
 #include <memory>
 #include "Base/StringPiece.h"
 
-using std::shared_ptr;
+using std::unique_ptr;
 namespace PlayerCore
 {
 	class AudioDecoder :public AVDecoder
@@ -13,7 +13,7 @@ namespace PlayerCore
 		virtual ~AudioDecoder();
 		virtual bool decode(void) = 0;
 
-		static shared_ptr<AudioDecoder> create(const StringPiece& name = "ffmpeg");
+		static unique_ptr<AudioDecoder> create(const StringPiece& name = "ffmpeg");
 	protected:
 	};
 }

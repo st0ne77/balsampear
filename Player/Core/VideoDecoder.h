@@ -2,6 +2,7 @@
 #include "AVDecoder.h"
 #include "Base/StringPiece.h"
 #include <memory>
+using std::unique_ptr;
 namespace PlayerCore
 {
 	class VideoDecoder : public AVDecoder
@@ -13,7 +14,7 @@ namespace PlayerCore
 		//todo virtual VideoFrame frame(void) = 0;
 
 
-		static std::shared_ptr<VideoDecoder> create(const StringPiece& name = "ffmpeg");
+		static unique_ptr<VideoDecoder> create(const StringPiece& name = "ffmpeg");
 	protected:
 
 	private:

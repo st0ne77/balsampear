@@ -39,6 +39,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AVThread_unittest.cpp" />
     <ClCompile Include="BlockingQueue_unittest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">

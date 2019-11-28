@@ -2,34 +2,47 @@
 #include "Base/StringPiece.h"
 #include <memory>
 #include <functional>
+#include "AVThread.h"
+#include "Base/BlockingQueue.h"
+#include "Packet.h"
+#include "AVParser.h"
+#include "AVDemuxer.h"
+#include "AudioDecoder.h"
+#include "VideoDecoder.h"
 
 using std::shared_ptr;
 using std::unique_ptr;
 
 namespace PlayerCore
 {
-	class AVParser;
-	class AVDemuxer;
-	class AudioDecoder;
-	class VideoDecoder;
 	class AVPlayer
 	{
 	public:
 		AVPlayer();
 		AVPlayer(const StringPiece& file);
+		bool load(const StringPiece& file);
 		bool load();
 		void unload();
+		void setFile(const StringPiece& file);
 		inline bool isLoaded() { return loaded; }
+
+		void start();
+
+		void demux();
+		void decodeAudio();
+		void decodeVideo();
 
 	private:
 		StringPiece file_;
-		//AVThread demuxerThread_;
-		//AVThread aDeocderThread_;
-		//AVThread vDecoderThread_;
+		AVThread demuxerThread_;
+		AVThread aDeocderThread_;
+		AVThread vDecoderThread_;
+		BlockingQueue<Packet> audioPackets;
+		BlockingQueue<Packet> videoPackets;
 		unique_ptr<AVParser> parser_;
-		shared_ptr<AVDemuxer> demuxer_;
-		shared_ptr<AudioDecoder> adecoder_;
-		shared_ptr<VideoDecoder> vdecoder_;
+		unique_ptr<AVDemuxer> demuxer_;
+		unique_ptr<AudioDecoder> adecoder_;
+		unique_ptr<VideoDecoder> vdecoder_;
 		std::function<void()> sourceEndCallBack;
 		bool loaded;
 	};

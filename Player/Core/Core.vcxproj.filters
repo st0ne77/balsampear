@@ -23,6 +23,8 @@
     <ClCompile Include="AudioDecoder.cpp" />
     <ClCompile Include="AudioDeocderFFmpeg.cpp" />
     <ClCompile Include="AVPlayer.cpp" />
+    <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="AVThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\BlockingQueue.h">
@@ -44,6 +46,8 @@
     <ClInclude Include="AudioDecoder.h" />
     <ClInclude Include="AudioDeocderFFmpeg.h" />
     <ClInclude Include="AVPlayer.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="AVThread.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

@@ -13,12 +13,11 @@ namespace PlayerCore
 	class AVDemuxer;
 	class AudioDecoder;
 	class VideoDecoder;
-	enum class MediaType 
+	enum class MediaType:int
 	{
-		Type_Invalid,
-		Type_Audio,
-		Type_Video,
-		Type_AudioVideo,
+		Type_Invalid = 0,
+		Type_Audio = 1,
+		Type_Video = 2,
 	};
 	class AVParser
 	{
@@ -29,20 +28,24 @@ namespace PlayerCore
 		AVParser& operator= (const AVParser&) = delete;
 		~AVParser();
 		void setFile(const StringPiece& file);
-		StringPiece currentFile() { return file_; }
+		StringPiece currentFile();
 		bool parse();
-		inline unsigned long long getDuration() { return duration_; }
-		inline AudioFormat getAudioFormat() { return aformat_; }
-		inline VideoFormat getVideoFormat() { return vformat_; }
+		AVFormatContext* getFormatCtx();
+		AVCodecContext* getAudioCodecCtx();
+		AVCodecContext* getVideoCodexCtx();
+		unsigned long long getDuration();
+		AudioFormat getAudioFormat();
+		VideoFormat getVideoFormat();
+		int getMediaType();
 
-		inline int audioStream() { return aIndexOfStream_; }
-		inline int videoStream() { return vIndexOfStream_; }
+		int audioStream();
+		int videoStream();
 		
 
 	private:
 		StringPiece file_;
 		AVFormatContext *formatCtx_;
-		MediaType type_;
+		int type_;
 		unsigned long long duration_;
 		AVCodecContext *aCodecCtx_;
 		int aIndexOfStream_;
@@ -50,9 +53,6 @@ namespace PlayerCore
 		AVCodecContext *vCodecCtx_;
 		int vIndexOfStream_;
 		VideoFormat vformat_;
-		shared_ptr<AVDemuxer> demuxer_;
-		shared_ptr<AudioDecoder> adecoder;
-		shared_ptr<VideoDecoder> vdecoder_;
 	};
 }
 
