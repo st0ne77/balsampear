@@ -1,3 +1,4 @@
+# pragma warning (disable:4819)
 #include "AVPlayer.h"
 #include "AVParser.h"
 namespace PlayerCore
@@ -7,7 +8,8 @@ namespace PlayerCore
 		:loaded(false),
 		demuxerThread_("demux thread"),
 		aDeocderThread_("audio decode thread"),
-		vDecoderThread_("video decode thread")
+		vDecoderThread_("video decode thread"),
+		state_(PlayStatus::Status_end)
 	{
 
 	}
@@ -17,7 +19,8 @@ namespace PlayerCore
 		file_(file),
 		demuxerThread_("demux thread"),
 		aDeocderThread_("audio decode thread"),
-		vDecoderThread_("video decode thread")
+		vDecoderThread_("video decode thread"),
+		state_(PlayStatus::Status_end)
 	{
 		load();
 	}
@@ -37,12 +40,14 @@ namespace PlayerCore
 		if (mediaType & 0x1)
 		{
 			adecoder_ = AudioDecoder::create();
-			adecoder_->setCodecContext(parser_->getAudioCodecCtx());
+			if (adecoder_)
+				adecoder_->setCodecContext(parser_->getAudioCodecCtx());
 		}
 		if (mediaType & 0x2)
 		{
 			vdecoder_ = VideoDecoder::create();
-			vdecoder_->setCodecContext(parser_->getVideoCodexCtx());
+			if (vdecoder_)
+				vdecoder_->setCodecContext(parser_->getVideoCodexCtx());
 		}
 		loaded = true;
 		return loaded;
@@ -70,11 +75,15 @@ namespace PlayerCore
 
 	void AVPlayer::start()
 	{
+		state_ = PlayStatus::Status_playing;
 		demuxerThread_.startTask(std::bind(&AVPlayer::demux, this));
+		vDecoderThread_.startTask(std::bind(&AVPlayer::decodeVideo, this));
 	}
 
 	void AVPlayer::demux()
 	{
+		if (!demuxer_)
+			return;
 		if (!demuxer_->readFrame())
 		{
 			demuxerThread_.stopTask();
@@ -82,14 +91,46 @@ namespace PlayerCore
 		}
 			
 		Packet pkt = demuxer_->packet();
-		const AVPacket* avpkt = pkt.asAVPacket();
+		const AVPacket* avpkt = pkt.asAVPacket(); 
 		if (avpkt->stream_index == parser_->audioStream())
 		{
 			//audioPackets.put(pkt);
 		}
 		else if (avpkt->stream_index == parser_->videoStream())
 		{
-			//videoPackets.put(pkt);
+			while (!videoPackets.put(pkt, 10))
+			{
+				if (state_ == PlayStatus::Status_end)
+				{
+					return;
+				}
+			}
+		}
+	}
+
+	void AVPlayer::decodeAudio()
+	{
+
+	}
+
+	void AVPlayer::decodeVideo()
+	{
+		if (!vdecoder_)
+			return;
+
+		Packet pkt;
+		while (!videoPackets.tack(pkt, 10))
+		{
+			if (state_ == PlayStatus::Status_end)
+			{
+				return;
+			}
+		}
+
+		if (vdecoder_->decode(pkt))
+		{
+			VideoFrame frame = vdecoder_->frame();
+			videoFrames.put(frame);
 		}
 	}
 

@@ -15,7 +15,7 @@ namespace PlayerCore
 		Packet& operator=(const Packet& other);
 		~Packet();
 		static Packet createFromAVPacket(const AVPacket* avpkt);
-		const AVPacket* asAVPacket();
+		const AVPacket* asAVPacket() const;
 
 	private:
 		AVPacket avpkt;

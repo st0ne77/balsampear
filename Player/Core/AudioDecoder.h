@@ -11,7 +11,6 @@ namespace PlayerCore
 	public:
 		AudioDecoder();
 		virtual ~AudioDecoder();
-		virtual bool decode(void) = 0;
 
 		static unique_ptr<AudioDecoder> create(const StringPiece& name = "ffmpeg");
 	protected:

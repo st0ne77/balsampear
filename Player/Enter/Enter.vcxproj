@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GLTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
@@ -29,6 +30,9 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{67295661-d94a-4bb8-b1ac-dc98ce27120f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GLTest.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
@@ -117,13 +121,13 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>../Core;../FFmpeg/include_x64;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../FFmpeg/include_x64;../GLFW/include;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../FFmpeg/lib_x64/avcodec.lib;../FFmpeg/lib_x64/avdevice.lib;../FFmpeg/lib_x64/avfilter.lib;../FFmpeg/lib_x64/avformat.lib;../FFmpeg/lib_x64/avutil.lib;../FFmpeg/lib_x64/postproc.lib;../FFmpeg/lib_x64/swresample.lib;../FFmpeg/lib_x64/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../FFmpeg/lib_x64/avcodec.lib;../FFmpeg/lib_x64/avdevice.lib;../FFmpeg/lib_x64/avfilter.lib;../FFmpeg/lib_x64/avformat.lib;../FFmpeg/lib_x64/avutil.lib;../FFmpeg/lib_x64/postproc.lib;../FFmpeg/lib_x64/swresample.lib;../FFmpeg/lib_x64/swscale.lib;../GLFW/lib/glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>

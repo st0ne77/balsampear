@@ -18,6 +18,8 @@ namespace PlayerCore
 	class AVPlayer
 	{
 	public:
+		enum class PlayStatus {Status_end, Status_playing, Status_pause, Status_wait};
+
 		AVPlayer();
 		AVPlayer(const StringPiece& file);
 		bool load(const StringPiece& file);
@@ -32,6 +34,8 @@ namespace PlayerCore
 		void decodeAudio();
 		void decodeVideo();
 
+
+		BlockingQueue<VideoFrame> videoFrames;
 	private:
 		StringPiece file_;
 		AVThread demuxerThread_;
@@ -45,6 +49,7 @@ namespace PlayerCore
 		unique_ptr<VideoDecoder> vdecoder_;
 		std::function<void()> sourceEndCallBack;
 		bool loaded;
+		PlayStatus state_;
 	};
 }
 

@@ -17,6 +17,7 @@ public:
 
 	PixelFormat pixelFormatFromFFmpeg(int fmt_ff);
 	int FFmpegFormatFromPixel(PixelFormat fmt);
+	PixelFormat pixelFormat() const;
 private:
 	PixelFormat fmt_;
 	int fixfmt_ff_;//pixel format for ffmpeg

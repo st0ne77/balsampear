@@ -37,6 +37,8 @@ namespace PlayerCore
 		AudioFormat getAudioFormat();
 		VideoFormat getVideoFormat();
 		int getMediaType();
+		double timebase();
+		int framerate();
 
 		int audioStream();
 		int videoStream();
@@ -47,6 +49,8 @@ namespace PlayerCore
 		AVFormatContext *formatCtx_;
 		int type_;
 		unsigned long long duration_;
+		double time_base_;
+		int framerate_;
 		AVCodecContext *aCodecCtx_;
 		int aIndexOfStream_;
 		AudioFormat aformat_;

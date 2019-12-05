@@ -1,3 +1,4 @@
+# pragma warning (disable:4819)
 #include "Packet.h"
 
 namespace PlayerCore
@@ -32,8 +33,8 @@ namespace PlayerCore
 		return pkt;
 	}
 
-	const AVPacket* Packet::asAVPacket()
+	const AVPacket* Packet::asAVPacket() const
 	{
-		return &avpkt;
+		return (const AVPacket*)&avpkt;
 	}
 }

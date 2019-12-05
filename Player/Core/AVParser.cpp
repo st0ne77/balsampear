@@ -18,7 +18,9 @@ namespace PlayerCore
 		aCodecCtx_(nullptr),
 		aIndexOfStream_(-1),
 		vCodecCtx_(nullptr),
-		vIndexOfStream_(-1)
+		vIndexOfStream_(-1),
+		time_base_(0),
+		framerate_(0)
 	{
 	}
 
@@ -89,7 +91,8 @@ namespace PlayerCore
 			type_ |= static_cast<int>(MediaType::Type_Video);
 		}
 		duration_ = formatCtx_->duration;
-			
+		time_base_ = av_q2d(formatCtx_->streams[vIndexOfStream_]->time_base);
+		framerate_ = (int)av_q2d(formatCtx_->streams[vIndexOfStream_]->avg_frame_rate);
 		return true;
 	}
 
@@ -126,6 +129,16 @@ namespace PlayerCore
 	int AVParser::getMediaType()
 	{
 		return type_;
+	}
+
+	double AVParser::timebase()
+	{
+		return time_base_;
+	}
+
+	int AVParser::framerate()
+	{
+		return framerate_;
 	}
 
 	int AVParser::audioStream()

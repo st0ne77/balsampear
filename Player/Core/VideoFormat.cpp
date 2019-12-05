@@ -53,3 +53,8 @@ int VideoFormat::FFmpegFormatFromPixel(PixelFormat fmt)
 	}
 	return AV_PIX_FMT_NONE;
 }
+
+VideoFormat::PixelFormat VideoFormat::pixelFormat() const
+{
+	return fmt_;
+}

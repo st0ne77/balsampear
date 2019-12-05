@@ -2,6 +2,7 @@
 #include "AVDecoder.h"
 #include "Base/StringPiece.h"
 #include <memory>
+#include "VideoFrame.h"
 using std::unique_ptr;
 namespace PlayerCore
 {
@@ -10,14 +11,13 @@ namespace PlayerCore
 	public:
 		VideoDecoder();
 		virtual ~VideoDecoder();
-		virtual bool decode(void) = 0;
-		//todo virtual VideoFrame frame(void) = 0;
+		virtual VideoFrame frame(void) = 0;
 
 
 		static unique_ptr<VideoDecoder> create(const StringPiece& name = "ffmpeg");
 	protected:
 
 	private:
-
+		
 	};
 }

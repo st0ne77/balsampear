@@ -1,6 +1,6 @@
 #pragma once
 #include "VideoDecoder.h"
-//#include "VideoFrame.h"
+struct AVFrame;
 namespace PlayerCore
 {
 	class VideoDecoderFFmpeg : public VideoDecoder
@@ -8,12 +8,11 @@ namespace PlayerCore
 	public:
 		VideoDecoderFFmpeg();
 		virtual ~VideoDecoderFFmpeg();
-		bool decode(void);
-		//virtual VideoFrame frame(void);
+		virtual bool decode(const Packet& pkt);
+		virtual VideoFrame frame();
 
 	protected:
-	private:
-
+		AVFrame *avframe_;
 	};
 }
 

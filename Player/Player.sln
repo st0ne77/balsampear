@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreTest", "CoreTest\CoreTe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Enter", "Enter\Enter.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLTest", "OpenGLTest\OpenGLTest.vcxproj", "{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -55,12 +57,24 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.ActiveCfg = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.Build.0 = Release|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Debug|Win32.Build.0 = Debug|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Debug|x64.ActiveCfg = Debug|x64
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Debug|x64.Build.0 = Debug|x64
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Debug|x86.ActiveCfg = Debug|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Debug|x86.Build.0 = Debug|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Release|Win32.ActiveCfg = Release|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Release|Win32.Build.0 = Release|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Release|x64.ActiveCfg = Release|x64
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Release|x64.Build.0 = Release|x64
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Release|x86.ActiveCfg = Release|Win32
+		{99D413F4-DFF6-434F-9833-A68E8F9BF6C6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {09396327-42F9-4284-B5F8-604C50AB48A2}
 		Qt5Version = 5.12.4_x64
+		SolutionGuid = {09396327-42F9-4284-B5F8-604C50AB48A2}
 	EndGlobalSection
 EndGlobal

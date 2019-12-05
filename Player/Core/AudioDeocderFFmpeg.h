@@ -9,7 +9,8 @@ namespace PlayerCore
 		AudioDeocderFFmpeg();
 		virtual ~AudioDeocderFFmpeg();
 
-		virtual bool decode();
+		virtual bool decode(const Packet&);
+		
 	protected:
 	};
 }

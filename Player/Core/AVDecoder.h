@@ -1,15 +1,22 @@
 #pragma once
 
 struct AVCodecContext;
-class AVDecoder
+struct AVCodec;
+namespace PlayerCore
 {
-public:
-	AVDecoder();
-	virtual ~AVDecoder();
-	virtual bool decode(void) = 0;
-	void setCodecContext(AVCodecContext* codecCtx);
+	class Packet;
+	class AVDecoder
+	{
+	public:
+		AVDecoder();
+		virtual ~AVDecoder();
+		virtual bool decode(const Packet& pkt) = 0;
+		void setCodecContext(AVCodecContext* codecCtx);
 
-protected:
-	AVCodecContext* codecCtx_;	
-};
+	protected:
+		AVCodecContext* codecCtx_;
+		AVCodec *codec_;
+	};
+}
+
 

@@ -13,7 +13,7 @@ namespace PlayerCore
 
 	}
 
-	bool AudioDeocderFFmpeg::decode()
+	bool AudioDeocderFFmpeg::decode(const Packet&)
 	{
 		return false;
 	}
