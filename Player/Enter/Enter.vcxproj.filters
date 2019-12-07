@@ -14,6 +14,9 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="PlayerUI">
+      <UniqueIdentifier>{1010d6b9-764f-40cc-ab7e-2444827e6663}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainwindow.cpp">
@@ -22,8 +25,23 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GLTest.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PlayerUI\PlayScreen.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\OpenGLRender.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\OpenGLRenderFactory.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\OpenGLShader.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\OpenGLYUV420PRender.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\VideoRenderFactory.cpp">
+      <Filter>PlayerUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -32,8 +50,23 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLTest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="PlayerUI\PlayScreen.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\OpenGLRender.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\OpenGLRenderFactory.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\OpenGLShader.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\OpenGLYUV420PRender.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\VideoRenderFactory.h">
+      <Filter>PlayerUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

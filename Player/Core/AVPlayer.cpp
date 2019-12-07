@@ -1,6 +1,7 @@
 # pragma warning (disable:4819)
 #include "AVPlayer.h"
 #include "AVParser.h"
+#include "VideoRender.h"
 namespace PlayerCore
 {
 
@@ -9,20 +10,10 @@ namespace PlayerCore
 		demuxerThread_("demux thread"),
 		aDeocderThread_("audio decode thread"),
 		vDecoderThread_("video decode thread"),
+		renderThread_("render thread"),
 		state_(PlayStatus::Status_end)
 	{
 
-	}
-
-	AVPlayer::AVPlayer(const StringPiece& file)
-		: loaded(false),
-		file_(file),
-		demuxerThread_("demux thread"),
-		aDeocderThread_("audio decode thread"),
-		vDecoderThread_("video decode thread"),
-		state_(PlayStatus::Status_end)
-	{
-		load();
 	}
 
 	bool AVPlayer::load()
@@ -73,11 +64,25 @@ namespace PlayerCore
 		file_ = file;
 	}
 
+
+	void AVPlayer::setVideoRender(weak_ptr<VideoRender> renderType)
+	{
+		videoRender_ = renderType.lock();
+	}
+
 	void AVPlayer::start()
 	{
-		state_ = PlayStatus::Status_playing;
-		demuxerThread_.startTask(std::bind(&AVPlayer::demux, this));
-		vDecoderThread_.startTask(std::bind(&AVPlayer::decodeVideo, this));
+		if (loaded)
+		{
+			state_ = PlayStatus::Status_playing;
+			
+			startAllTask();
+		}
+	}
+
+	void AVPlayer::exit()
+	{
+		stopAllTask();
 	}
 
 	void AVPlayer::demux()
@@ -110,7 +115,7 @@ namespace PlayerCore
 
 	void AVPlayer::decodeAudio()
 	{
-
+		stopAllTask();
 	}
 
 	void AVPlayer::decodeVideo()
@@ -132,6 +137,47 @@ namespace PlayerCore
 			VideoFrame frame = vdecoder_->frame();
 			videoFrames.put(frame);
 		}
+	}
+
+	void AVPlayer::render()
+	{
+		static VideoFrame* cache = nullptr;
+		VideoFrame curFrame;
+		if (videoFrames.tack(curFrame))
+		{
+			if (videoRender_)
+			{
+				delete cache;
+				cache = nullptr;
+				cache = new VideoFrame(curFrame);
+
+				//交换了指针值之后不能马上delete，
+				//因为这个时候render中的数据可能还是上一帧的数据，
+				//马上delete可能会造成花屏，甚至崩溃
+				videoRender_->updateFrame(cache);
+			}
+			
+		}
+		int rate = 0;
+		if (rate = parser_->framerate())
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000/ rate));
+		else
+			std::this_thread::sleep_for(std::chrono::milliseconds(30));
+	}
+
+	void AVPlayer::startAllTask()
+	{
+		demuxerThread_.startTask(std::bind(&AVPlayer::demux, this));
+		vDecoderThread_.startTask(std::bind(&AVPlayer::decodeVideo, this));
+		renderThread_.startTask(std::bind(&AVPlayer::render, this));
+	}
+
+	void AVPlayer::stopAllTask()
+	{
+		demuxerThread_.stopTask();
+		aDeocderThread_.stopTask();
+		vDecoderThread_.stopTask();
+		renderThread_.stopTask();
 	}
 
 }

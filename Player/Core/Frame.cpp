@@ -17,10 +17,10 @@ namespace PlayerCore
 
 	}
 
-	vector<Byte> Frame::data() const
+	const Byte* Frame::data() const
 	{
 		if (content_)
-			return content_->data_;
-		return vector<Byte>();
+			return &content_->data_[0];
+		return nullptr;
 	}
 }

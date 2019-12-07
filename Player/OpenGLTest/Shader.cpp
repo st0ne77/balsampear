@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <glad.h>
+#include <glad/glad.h>
 using namespace std;
 Shader::Shader(const StringPiece& vertexShaderPath, const StringPiece& fragmentShaderPath)
 	:ID_(-1)

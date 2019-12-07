@@ -87,12 +87,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../GLFW/include;../GLAD/include;../Core;../FFmpeg/include_x64</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core;../Core/Render;../include/FFmpeg;../include/GLAD;../include/GLFW;../include/GLEW</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../FFmpeg/lib_x64/avcodec.lib;../FFmpeg/lib_x64/avdevice.lib;../FFmpeg/lib_x64/avfilter.lib;../FFmpeg/lib_x64/avformat.lib;../FFmpeg/lib_x64/avutil.lib;../FFmpeg/lib_x64/postproc.lib;../FFmpeg/lib_x64/swresample.lib;../FFmpeg/lib_x64/swscale.lib;../GLFW/lib/glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;../lib_x64/GLFW/glfw3.lib;../lib_x64/GLEW/glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -140,7 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\GLAD\src\glad.c" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />

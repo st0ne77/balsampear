@@ -95,7 +95,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>../FFmpeg/lib_x64/avcodec.lib;../FFmpeg/lib_x64/avdevice.lib;../FFmpeg/lib_x64/avfilter.lib;../FFmpeg/lib_x64/avformat.lib;../FFmpeg/lib_x64/avutil.lib;../FFmpeg/lib_x64/swresample.lib;../FFmpeg/lib_x64/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

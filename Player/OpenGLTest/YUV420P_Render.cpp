@@ -1,9 +1,10 @@
-#include <glad.h>
+#include "glad/glad.h"
 #include <glfw3.h>
 #include "YUV420P_Render.h"
 #include <iostream>
 #include "Shader.h"
 #include "AVPlayer.h"
+
 
 using namespace PlayerCore;
 int main()
@@ -89,17 +90,17 @@ int main()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	
+
 	AVPlayer player;
-	if (!player.load("E:\\Project\\TestFile\\110.mp4"))
+	if (!player.load("E:\\Project\\TestFile\\video.mp4"))
 	{
 		return 0;
 	}
 	player.start();
-	
-	
 
-	Shader shader("yuv420p.vs", "yuv420p.fs");
+
+
+	Shader shader("..\\shader\\yuv420p.vert", "..\\shader\\yuv420p.frag");
 	while (!glfwWindowShouldClose(window))
 	{
 		// render
@@ -109,7 +110,8 @@ int main()
 		VideoFrame frame;
 		player.videoFrames.tack(frame);
 		shader.use();
-
+		const Byte* data = frame.data();
+		size_t ySize = (size_t)frame.width() * frame.height();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureRGB);
 		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame.width(), frame.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, frame.getBuffer());
@@ -117,24 +119,24 @@ int main()
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, textureYUV[0]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame.width(), frame.height(), 0, GL_RED, GL_UNSIGNED_BYTE, &frame.y[0]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame.width(), frame.height(), 0, GL_RED, GL_UNSIGNED_BYTE, &data[0]);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, textureYUV[1]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame.width() / 2, frame.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, &frame.u[0]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame.width() / 2, frame.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, &data[ySize]);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, textureYUV[2]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame.width() / 2, frame.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, &frame.v[0]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame.width() / 2, frame.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, &data[ySize * 5 / 4]);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		shader.setInt("textureRGB", 0);
 		shader.setInt("textureY", 1);
 		shader.setInt("textureU", 2);
 		shader.setInt("textureV", 3);
-		
+
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

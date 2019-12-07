@@ -20,7 +20,7 @@ namespace PlayerCore
 
 		Frame();
 		virtual ~Frame();
-		vector<Byte> data() const;
+		const Byte* data() const;
 
 	protected:
 		Frame(weak_ptr<Content> content);

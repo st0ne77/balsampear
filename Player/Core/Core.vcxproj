@@ -33,6 +33,7 @@
     <ClCompile Include="AVParser.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="Render\VideoRender.cpp" />
     <ClCompile Include="VideoDecoder.cpp" />
     <ClCompile Include="VideoDecoderFFmpeg.cpp" />
     <ClCompile Include="VideoFormat.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="AVParser.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="Render\VideoRender.h" />
     <ClInclude Include="VideoDecoder.h" />
     <ClInclude Include="VideoDecoderFFmpeg.h" />
     <ClInclude Include="VideoFormat.h" />
@@ -130,7 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>../FFmpeg/include_x64;../GLFW/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../include/FFmpeg;Render;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

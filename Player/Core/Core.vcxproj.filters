@@ -27,6 +27,9 @@
     <ClCompile Include="AVThread.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="VideoFrame.cpp" />
+    <ClCompile Include="Render\VideoRender.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\BlockingQueue.h">
@@ -52,10 +55,16 @@
     <ClInclude Include="AVThread.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="VideoFrame.h" />
+    <ClInclude Include="Render\VideoRender.h">
+      <Filter>Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
       <UniqueIdentifier>{649842b2-9f5e-4833-930c-ca111a605b27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{1a090635-f949-406c-b2da-9f64e91f289f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

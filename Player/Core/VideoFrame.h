@@ -16,10 +16,6 @@ namespace PlayerCore
 		VideoFormat Format() const;
 		VideoFormat::PixelFormat pixelFoemat();
 		const Byte* getBuffer() { return &content_->data_[0]; }
-
-		vector<Byte> y;
-		vector<Byte> u;
-		vector<Byte> v;
 	private:
 		int width_;
 		int height_;
