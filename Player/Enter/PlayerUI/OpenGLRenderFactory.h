@@ -1,14 +1,14 @@
 #pragma once
 #include "VideoFormat.h"
 #include <memory>
-#include "VideoRender.h"
+#include "OpenGLRenderer.h"
 
-using std::unique_ptr;
-namespace PlayerCore
+namespace balsampear
 {
 	class OpenGLRenderFactory
 	{
 	public:
-		static unique_ptr<VideoRender> create(VideoFormat::PixelFormat format);
+		static std::shared_ptr<OpenGLRenderer> create(VideoFormat::PixelFormat fmt);
+		
 	};
 }

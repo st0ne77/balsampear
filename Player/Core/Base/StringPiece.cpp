@@ -1,6 +1,6 @@
 #include "StringPiece.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	StringPiece::StringPiece()
 		:string()

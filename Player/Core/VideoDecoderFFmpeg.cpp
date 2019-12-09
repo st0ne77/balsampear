@@ -6,7 +6,7 @@ extern "C"
 #include "libswscale/swscale.h"
 }
 #include "Packet.h"
-namespace PlayerCore
+namespace balsampear
 {
 	VideoDecoderFFmpeg::VideoDecoderFFmpeg()
 		:avframe_(nullptr)

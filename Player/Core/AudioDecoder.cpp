@@ -1,7 +1,7 @@
 #include "AudioDecoder.h"
 #include "Base/StringPiece.h"
 #include "AudioDeocderFFmpeg.h"
-namespace PlayerCore
+namespace balsampear
 {
 	AudioDecoder::AudioDecoder()
 	{

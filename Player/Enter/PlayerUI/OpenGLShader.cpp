@@ -7,7 +7,7 @@
 
 using std::ifstream;
 using std::stringstream;
-namespace PlayerCore
+namespace balsampear
 {
 	OpenGLShader::OpenGLShader(const StringPiece& vert, const StringPiece& frag)
 		:id_(0)

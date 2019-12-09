@@ -1,8 +1,6 @@
 # pragma warning (disable:4819)
 #include "AVPlayer.h"
-#include "AVParser.h"
-#include "VideoRender.h"
-namespace PlayerCore
+namespace balsampear
 {
 
 	AVPlayer::AVPlayer()
@@ -11,6 +9,7 @@ namespace PlayerCore
 		aDeocderThread_("audio decode thread"),
 		vDecoderThread_("video decode thread"),
 		renderThread_("render thread"),
+		porter_(new FramePorter()),
 		state_(PlayStatus::Status_end)
 	{
 
@@ -64,12 +63,6 @@ namespace PlayerCore
 		file_ = file;
 	}
 
-
-	void AVPlayer::setVideoRender(weak_ptr<VideoRender> renderType)
-	{
-		videoRender_ = renderType.lock();
-	}
-
 	void AVPlayer::start()
 	{
 		if (loaded)
@@ -83,6 +76,11 @@ namespace PlayerCore
 	void AVPlayer::exit()
 	{
 		stopAllTask();
+	}
+
+	shared_ptr<balsampear::FramePorter> AVPlayer::getFramePorter()
+	{
+		return porter_;
 	}
 
 	void AVPlayer::demux()
@@ -135,29 +133,28 @@ namespace PlayerCore
 		if (vdecoder_->decode(pkt))
 		{
 			VideoFrame frame = vdecoder_->frame();
-			videoFrames.put(frame);
+			while (!videoFrames.put(frame, 10))
+			{
+				if (state_ == PlayStatus::Status_end)
+				{
+					return;
+				}
+			}
 		}
 	}
 
 	void AVPlayer::render()
 	{
-		static VideoFrame* cache = nullptr;
-		VideoFrame curFrame;
-		if (videoFrames.tack(curFrame))
+		shared_ptr<VideoFrame> cache = std::make_shared<VideoFrame>();
+		while (!videoFrames.tack(*cache, 10))
 		{
-			if (videoRender_)
+			if (state_ == PlayStatus::Status_end)
 			{
-				delete cache;
-				cache = nullptr;
-				cache = new VideoFrame(curFrame);
-
-				//交换了指针值之后不能马上delete，
-				//因为这个时候render中的数据可能还是上一帧的数据，
-				//马上delete可能会造成花屏，甚至崩溃
-				videoRender_->updateFrame(cache);
+				return;
 			}
-			
-		}
+		} 
+		porter_->updateVideoFrame(cache);
+
 		int rate = 0;
 		if (rate = parser_->framerate())
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000/ rate));

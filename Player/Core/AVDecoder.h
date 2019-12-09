@@ -2,7 +2,7 @@
 
 struct AVCodecContext;
 struct AVCodec;
-namespace PlayerCore
+namespace balsampear
 {
 	class Packet;
 	class AVDecoder

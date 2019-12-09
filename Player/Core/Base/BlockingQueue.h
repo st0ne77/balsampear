@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
 #include <deque>
-namespace PlayerCore
+namespace balsampear
 {
 	template <typename T, template <typename _Ty, class _Alloc = std::allocator<_Ty> > class Container = std::deque >
 	class BlockingQueue

@@ -5,7 +5,7 @@ extern "C"
 }
 
 #pragma warning(disable: 4819)
-namespace PlayerCore
+namespace balsampear
 {
 	class Packet
 	{

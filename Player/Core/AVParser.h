@@ -8,7 +8,7 @@ using std::shared_ptr;
 struct AVFormatContext;
 struct AVCodecContext;
 
-namespace PlayerCore
+namespace balsampear
 {
 	class AVDemuxer;
 	class AudioDecoder;

@@ -1,21 +1,29 @@
 #include "OpenGLRenderFactory.h"
-#include "OpenGLYUV420PRender.h"
+#include "OpenGLYUV420PRenderer.h"
 
-namespace PlayerCore
+namespace balsampear
 {
-
-	unique_ptr<PlayerCore::VideoRender> OpenGLRenderFactory::create(VideoFormat::PixelFormat format)
+	std::shared_ptr<OpenGLRenderer> OpenGLRenderFactory::create(VideoFormat::PixelFormat fmt)
 	{
-		unique_ptr<VideoRender> result;
-		switch (format)
+		std::shared_ptr<OpenGLRenderer> result;
+
+		switch (fmt)
 		{
+		case VideoFormat::PixelFormat::Format_Invalid:
+			break;
 		case VideoFormat::PixelFormat::Format_RGB24:
 			break;
 		case VideoFormat::PixelFormat::Format_YUV420P:
-			result = std::make_unique<OpenGLYUV420PRender>();
+			result = std::make_shared<OpenGLYUV420PRender>();
 			break;
 		default:
 			break;
+		}
+		if (result)
+		{
+			result->createVertex();
+			result->createTexture();
+			result->createSahder();
 		}
 		return result;
 	}

@@ -1,6 +1,6 @@
 #include "Frame.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	Frame::Frame()
 	{

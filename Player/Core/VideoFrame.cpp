@@ -1,7 +1,7 @@
 #include "VideoFrame.h"
 
 
-namespace PlayerCore
+namespace balsampear
 {
 
 	VideoFrame::VideoFrame()

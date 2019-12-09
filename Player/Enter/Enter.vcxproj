@@ -21,12 +21,13 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
-    <ClCompile Include="PlayerUI\OpenGLRender.cpp" />
+    <ClCompile Include="PlayerUI\OpenGLRenderer.cpp" />
     <ClCompile Include="PlayerUI\OpenGLRenderFactory.cpp" />
     <ClCompile Include="PlayerUI\OpenGLShader.cpp" />
-    <ClCompile Include="PlayerUI\OpenGLYUV420PRender.cpp" />
+    <ClCompile Include="PlayerUI\OpenGLYUV420PRenderer.cpp" />
     <ClCompile Include="PlayerUI\PlayScreen.cpp" />
-    <ClCompile Include="PlayerUI\VideoRenderFactory.cpp" />
+    <ClCompile Include="PlayerUI\VideoRenderer.cpp" />
+    <ClCompile Include="PlayerUI\VideoRendererManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h" />
@@ -37,12 +38,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlayerUI\OpenGLRender.h" />
+    <ClInclude Include="PlayerUI\OpenGLRenderer.h" />
     <ClInclude Include="PlayerUI\OpenGLRenderFactory.h" />
     <ClInclude Include="PlayerUI\OpenGLShader.h" />
-    <ClInclude Include="PlayerUI\OpenGLYUV420PRender.h" />
+    <ClInclude Include="PlayerUI\OpenGLYUV420PRenderer.h" />
     <ClInclude Include="PlayerUI\PlayScreen.h" />
-    <ClInclude Include="PlayerUI\VideoRenderFactory.h" />
+    <ClInclude Include="PlayerUI\VideoRenderer.h" />
+    <ClInclude Include="PlayerUI\VideoRendererManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
@@ -131,13 +133,13 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>.;../Core;../include/FFmpeg;../include;PlayerUI;../Core/Render;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../Core;../include/FFmpeg;../include;../include/GLEW;PlayerUI;../Core/Render;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;../lib_x64/GLEW/glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>

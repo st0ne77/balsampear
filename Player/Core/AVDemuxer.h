@@ -2,7 +2,7 @@
 #include "Packet.h"
 
 struct AVFormatContext;
-namespace PlayerCore
+namespace balsampear
 {
 	class AVDemuxer
 	{

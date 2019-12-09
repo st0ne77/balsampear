@@ -4,7 +4,7 @@
 #include <memory>
 #include "VideoFrame.h"
 using std::unique_ptr;
-namespace PlayerCore
+namespace balsampear
 {
 	class VideoDecoder : public AVDecoder
 	{

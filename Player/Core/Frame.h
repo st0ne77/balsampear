@@ -7,7 +7,7 @@ using Byte = unsigned char;
 using std::vector;
 using std::shared_ptr;
 using std::weak_ptr;
-namespace PlayerCore
+namespace balsampear
 {
 	class Frame
 	{

@@ -1,8 +1,7 @@
 #pragma once
 #include "Base/StringPiece.h"
-namespace PlayerCore
+namespace balsampear
 {
-	//use after init OpenGL
 	class OpenGLShader
 	{
 	public:

@@ -1,6 +1,6 @@
 #include "AudioDeocderFFmpeg.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 
 	AudioDeocderFFmpeg::AudioDeocderFFmpeg()

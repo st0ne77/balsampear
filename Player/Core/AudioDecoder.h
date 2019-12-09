@@ -4,7 +4,7 @@
 #include "Base/StringPiece.h"
 
 using std::unique_ptr;
-namespace PlayerCore
+namespace balsampear
 {
 	class AudioDecoder :public AVDecoder
 	{

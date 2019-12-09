@@ -1,6 +1,6 @@
 #include "AVThread.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 
 	AVThread::AVThread(const StringPiece& name)

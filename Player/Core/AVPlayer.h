@@ -9,12 +9,12 @@
 #include "AVDemuxer.h"
 #include "AudioDecoder.h"
 #include "VideoDecoder.h"
-#include "VideoRender.h"
+#include "FramePorter.h"
 
 using std::shared_ptr;
 using std::unique_ptr;
 
-namespace PlayerCore
+namespace balsampear
 {
 	class AVPlayer
 	{
@@ -27,11 +27,10 @@ namespace PlayerCore
 		void unload();
 		void setFile(const StringPiece& file);
 		inline bool isLoaded() { return loaded; }
-		void setVideoRender(weak_ptr<VideoRender> renderType);
 		void start();
 		void exit();
 		
-		
+		shared_ptr<FramePorter> getFramePorter();
 	private:
 		void demux();
 		void decodeAudio();
@@ -54,7 +53,7 @@ namespace PlayerCore
 		unique_ptr<AVDemuxer> demuxer_;
 		unique_ptr<AudioDecoder> adecoder_;
 		unique_ptr<VideoDecoder> vdecoder_;
-		shared_ptr<VideoRender> videoRender_;
+		shared_ptr<FramePorter> porter_;
 		std::function<void()> sourceEndCallBack;
 		bool loaded;
 		PlayStatus state_;

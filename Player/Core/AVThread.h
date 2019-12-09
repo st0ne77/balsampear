@@ -2,7 +2,7 @@
 #include "Base/ThreadBase.h"
 #include <functional>
 
-namespace PlayerCore
+namespace balsampear
 {
 	class AVThread:public ThreadBase
 	{

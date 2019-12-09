@@ -1,7 +1,7 @@
 # pragma warning (disable:4819)
 #include "Packet.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	Packet::Packet()
 	{
@@ -21,7 +21,7 @@ namespace PlayerCore
 		return *this;
 	}
 
-	PlayerCore::Packet::~Packet()
+	balsampear::Packet::~Packet()
 	{
 		av_packet_unref(&avpkt);
 	}

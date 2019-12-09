@@ -9,7 +9,7 @@ extern "C"
 #include "AudioDecoder.h"
 #include "VideoDecoder.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	AVParser::AVParser()
 		:formatCtx_(nullptr),
@@ -41,7 +41,7 @@ namespace PlayerCore
 		file_ = file;
 	}
 
-	PlayerCore::StringPiece AVParser::currentFile()
+	balsampear::StringPiece AVParser::currentFile()
 	{
 		return file_;
 	}

@@ -25,22 +25,25 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\PlayScreen.cpp">
-      <Filter>PlayerUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerUI\OpenGLRender.cpp">
-      <Filter>PlayerUI</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerUI\OpenGLRenderFactory.cpp">
       <Filter>PlayerUI</Filter>
     </ClCompile>
     <ClCompile Include="PlayerUI\OpenGLShader.cpp">
       <Filter>PlayerUI</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\OpenGLYUV420PRender.cpp">
+    <ClCompile Include="PlayerUI\VideoRendererManager.cpp">
       <Filter>PlayerUI</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\VideoRenderFactory.cpp">
+    <ClCompile Include="PlayerUI\VideoRenderer.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\OpenGLRenderer.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\OpenGLYUV420PRenderer.cpp">
+      <Filter>PlayerUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI\PlayScreen.cpp">
       <Filter>PlayerUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,22 +53,25 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlayerUI\PlayScreen.h">
-      <Filter>PlayerUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerUI\OpenGLRender.h">
-      <Filter>PlayerUI</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerUI\OpenGLRenderFactory.h">
       <Filter>PlayerUI</Filter>
     </ClInclude>
     <ClInclude Include="PlayerUI\OpenGLShader.h">
       <Filter>PlayerUI</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\OpenGLYUV420PRender.h">
+    <ClInclude Include="PlayerUI\VideoRendererManager.h">
       <Filter>PlayerUI</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\VideoRenderFactory.h">
+    <ClInclude Include="PlayerUI\VideoRenderer.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\OpenGLRenderer.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\OpenGLYUV420PRenderer.h">
+      <Filter>PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI\PlayScreen.h">
       <Filter>PlayerUI</Filter>
     </ClInclude>
   </ItemGroup>

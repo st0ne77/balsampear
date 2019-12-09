@@ -1,7 +1,7 @@
 #include "ThreadBase.h"
 #include <functional>
 
-namespace PlayerCore
+namespace balsampear
 {
 	ThreadBase::ThreadBase(const StringPiece& name)
 		:thread_(nullptr),

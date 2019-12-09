@@ -1,7 +1,7 @@
 #include "VideoDecoder.h"
 #include "VideoDecoderFFmpeg.h"
 using std::vector;
-namespace PlayerCore
+namespace balsampear
 {
 	VideoDecoder::VideoDecoder()
 	{

@@ -1,6 +1,6 @@
 #include "ThreadBase.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 #ifdef WIN32
 #include "windows.h"

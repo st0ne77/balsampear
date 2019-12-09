@@ -6,7 +6,7 @@ extern "C"
 }
 
 
-namespace PlayerCore
+namespace balsampear
 {
 	AVDemuxer::AVDemuxer()
 		:formatCtx_(nullptr)

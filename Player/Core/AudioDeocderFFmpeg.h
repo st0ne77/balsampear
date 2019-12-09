@@ -1,7 +1,7 @@
 #pragma once
 #include "AudioDecoder.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	class AudioDeocderFFmpeg :public AudioDecoder
 	{

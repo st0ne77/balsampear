@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 using string = std::string;
-namespace PlayerCore
+namespace balsampear
 {
 	class StringPiece :public string
 	{

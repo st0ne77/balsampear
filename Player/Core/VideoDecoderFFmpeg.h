@@ -1,7 +1,7 @@
 #pragma once
 #include "VideoDecoder.h"
 struct AVFrame;
-namespace PlayerCore
+namespace balsampear
 {
 	class VideoDecoderFFmpeg : public VideoDecoder
 	{

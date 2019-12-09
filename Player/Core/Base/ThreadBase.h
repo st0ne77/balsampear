@@ -2,7 +2,7 @@
 #include <thread>
 #include "StringPiece.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	class ThreadBase
 	{

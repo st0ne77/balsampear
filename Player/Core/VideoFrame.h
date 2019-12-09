@@ -2,7 +2,7 @@
 #include "Frame.h"
 #include "VideoFormat.h"
 
-namespace PlayerCore
+namespace balsampear
 {
 	class VideoFrame : public Frame
 	{

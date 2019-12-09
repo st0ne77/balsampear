@@ -3,7 +3,7 @@ extern "C"
 {
 #include "libavcodec/avcodec.h"
 }
-namespace PlayerCore
+namespace balsampear
 {
 	AVDecoder::AVDecoder()
 		:codecCtx_(nullptr),
