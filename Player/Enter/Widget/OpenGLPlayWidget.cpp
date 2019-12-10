@@ -16,12 +16,6 @@ using std::string;
 using namespace balsampear;
 namespace balsampear
 {
-	OpenGLPlayWidget::OpenGLPlayWidget()
-		:OpenGLPlayWidget(nullptr)
-	{
-
-	}
-
 	OpenGLPlayWidget::OpenGLPlayWidget(QWidget* parent)
 		: QOpenGLWidget(parent),
 		curFormat_(VideoFormat::PixelFormat::Format_Invalid)

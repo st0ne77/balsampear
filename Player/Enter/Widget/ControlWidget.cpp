@@ -23,7 +23,7 @@ namespace balsampear
 		playButton_.move(width * 0.5 - height * 0.5, 0);
 		playButton_.resize(height, height);
 
-		stopButton_.resize(height * 0.8, height * 0.8);
+		stopButton_.resize(height * 0.7, height * 0.7);
 		stopButton_.move(width - height, 0);
 	}
 

@@ -9,8 +9,7 @@ namespace balsampear
 	class OpenGLPlayWidget :public QOpenGLWidget
 	{
 	public:
-		OpenGLPlayWidget();
-		explicit OpenGLPlayWidget(QWidget* parent);
+		explicit OpenGLPlayWidget(QWidget* parent = nullptr);
 		virtual ~OpenGLPlayWidget();
 
 		void setFramePorter(std::weak_ptr<FramePorter> p);
