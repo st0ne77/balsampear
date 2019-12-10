@@ -45,4 +45,9 @@ namespace balsampear
 		task_ = nullptr;
 	}
 
+	bool AVThread::taskRunning()
+	{
+		return !!task_;
+	}
+
 }

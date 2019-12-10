@@ -19,10 +19,11 @@ namespace balsampear
 
 		bool put(const T& t, unsigned long wait_timeout_ms = ULONG_MAX);
 		bool tack(T& result, unsigned long wait_timeout_ms = ULONG_MAX);
-
+		void clear();
 		void wakeALL()
 		{
-			cond_full_.wakeAll();
+			cond_empty_.notify_all();
+			cond_full_.notify_all();
 		}
 
 	private:
@@ -33,6 +34,8 @@ namespace balsampear
 		unsigned int enough_;
 		unsigned int full_;
 	};
+
+
 
 	template <typename T, template <typename _Ty, typename _Container> class Container>
 	BlockingQueue<T, Container>::BlockingQueue()
@@ -115,5 +118,10 @@ namespace balsampear
 		return ret;
 	}
 
-
+	template <typename T, template <typename _Ty, typename _Container> class Container>
+	void balsampear::BlockingQueue<T, Container>::clear()
+	{
+		std::unique_lock<std::mutex> locker(lock_);
+		queue_.clear();
+	}
 }

@@ -28,6 +28,7 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="VideoFrame.cpp" />
     <ClCompile Include="FramePorter.cpp" />
+    <ClCompile Include="AudioRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\BlockingQueue.h">
@@ -54,6 +55,7 @@
     <ClInclude Include="Frame.h" />
     <ClInclude Include="VideoFrame.h" />
     <ClInclude Include="FramePorter.h" />
+    <ClInclude Include="AudioRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

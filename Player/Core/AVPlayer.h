@@ -22,23 +22,29 @@ namespace balsampear
 		enum class PlayStatus {Status_end, Status_playing, Status_pause, Status_wait};
 
 		AVPlayer();
+		~AVPlayer();
 		bool load(const StringPiece& file);
 		bool load();
 		void unload();
 		void setFile(const StringPiece& file);
 		inline bool isLoaded() { return loaded; }
 		void start();
-		void exit();
-		
+		void pause();
+		void stop();
+		PlayStatus status();
 		shared_ptr<FramePorter> getFramePorter();
+		void setSourceEndCallBack(std::function<void()> f);
 	private:
 		void demux();
 		void decodeAudio();
 		void decodeVideo();
-		void render();
+		void renderVideo();
+		void renderAudio();
 
 		void startAllTask();
 		void stopAllTask();
+		void clearAll();
+		void wakeAllThread();
 
 	private:
 		StringPiece file_;
@@ -46,8 +52,10 @@ namespace balsampear
 		AVThread aDeocderThread_;
 		AVThread vDecoderThread_;
 		AVThread renderThread_;
+		AVThread audioRenderThread_;
 		BlockingQueue<Packet> audioPackets;
 		BlockingQueue<Packet> videoPackets;
+		BlockingQueue<VideoFrame> audioFrames;
 		BlockingQueue<VideoFrame> videoFrames;
 		unique_ptr<AVParser> parser_;
 		unique_ptr<AVDemuxer> demuxer_;

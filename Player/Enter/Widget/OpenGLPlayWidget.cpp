@@ -1,5 +1,5 @@
 #include <GLEW/GL/glew.h>
-#include "PlayScreen.h"
+#include "OpenGLPlayWidget.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -16,39 +16,39 @@ using std::string;
 using namespace balsampear;
 namespace balsampear
 {
-	PlayScreen::PlayScreen()
-		:PlayScreen(nullptr)
+	OpenGLPlayWidget::OpenGLPlayWidget()
+		:OpenGLPlayWidget(nullptr)
 	{
 
 	}
 
-	PlayScreen::PlayScreen(QWidget* parent)
+	OpenGLPlayWidget::OpenGLPlayWidget(QWidget* parent)
 		: QOpenGLWidget(parent),
 		curFormat_(VideoFormat::PixelFormat::Format_Invalid)
 	{
 
 	}
 
-	PlayScreen::~PlayScreen()
+	OpenGLPlayWidget::~OpenGLPlayWidget()
 	{
 	}
 
-	void PlayScreen::setFramePorter(std::weak_ptr<FramePorter> p)
+	void OpenGLPlayWidget::setFramePorter(std::weak_ptr<FramePorter> p)
 	{
 		porter_ = p.lock();
 	}
 
-	void PlayScreen::initializeGL()
+	void OpenGLPlayWidget::initializeGL()
 	{
 		GLenum err = glewInit();
 	}
 
-	void PlayScreen::resizeGL(int w, int h)
+	void OpenGLPlayWidget::resizeGL(int w, int h)
 	{
 		glViewport(0, 0, w, h);
 	}
 
-	void PlayScreen::paintGL()
+	void OpenGLPlayWidget::paintGL()
 	{
 		std::shared_ptr<VideoFrame> frame;
 		if (porter_ && (frame = porter_->frame()))
@@ -68,6 +68,11 @@ namespace balsampear
 				renderer_->useVertex();
 				renderer_->Draw();
 			}
+		}
+		else
+		{
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
 		}
 	}
 

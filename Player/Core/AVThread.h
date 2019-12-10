@@ -13,6 +13,7 @@ namespace balsampear
 		virtual void run();
 		void startTask(std::function<void()> func);
 		void stopTask();
+		bool taskRunning();
 
 	private:
 		std::function<void()> task_;

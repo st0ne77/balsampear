@@ -21,13 +21,17 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
-    <ClCompile Include="PlayerUI\OpenGLRenderer.cpp" />
-    <ClCompile Include="PlayerUI\OpenGLRenderFactory.cpp" />
-    <ClCompile Include="PlayerUI\OpenGLShader.cpp" />
-    <ClCompile Include="PlayerUI\OpenGLYUV420PRenderer.cpp" />
-    <ClCompile Include="PlayerUI\PlayScreen.cpp" />
-    <ClCompile Include="PlayerUI\VideoRenderer.cpp" />
-    <ClCompile Include="PlayerUI\VideoRendererManager.cpp" />
+    <ClCompile Include="Renderer\OpenGLRenderer.cpp" />
+    <ClCompile Include="Renderer\OpenGLRenderFactory.cpp" />
+    <ClCompile Include="Renderer\OpenGLRGB24Renderer.cpp" />
+    <ClCompile Include="Renderer\OpenGLShader.cpp" />
+    <ClCompile Include="Renderer\OpenGLYUV420PRenderer.cpp" />
+    <ClCompile Include="Renderer\VideoRenderer.cpp" />
+    <ClCompile Include="Renderer\VideoRendererManager.cpp" />
+    <ClCompile Include="Widget\ControlWidget.cpp" />
+    <ClCompile Include="Widget\OpenGLPlayWidget.cpp" />
+    <ClCompile Include="Widget\PlayPauseButton.cpp" />
+    <ClCompile Include="Widget\StopButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h" />
@@ -38,13 +42,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlayerUI\OpenGLRenderer.h" />
-    <ClInclude Include="PlayerUI\OpenGLRenderFactory.h" />
-    <ClInclude Include="PlayerUI\OpenGLShader.h" />
-    <ClInclude Include="PlayerUI\OpenGLYUV420PRenderer.h" />
-    <ClInclude Include="PlayerUI\PlayScreen.h" />
-    <ClInclude Include="PlayerUI\VideoRenderer.h" />
-    <ClInclude Include="PlayerUI\VideoRendererManager.h" />
+    <ClInclude Include="Renderer\OpenGLRenderer.h" />
+    <ClInclude Include="Renderer\OpenGLRenderFactory.h" />
+    <ClInclude Include="Renderer\OpenGLRGB24Renderer.h" />
+    <ClInclude Include="Renderer\OpenGLShader.h" />
+    <ClInclude Include="Renderer\OpenGLYUV420PRenderer.h" />
+    <ClInclude Include="Renderer\VideoRenderer.h" />
+    <ClInclude Include="Renderer\VideoRendererManager.h" />
+    <QtMoc Include="Widget\StopButton.h" />
+    <QtMoc Include="Widget\ControlWidget.h" />
+    <ClInclude Include="Widget\OpenGLPlayWidget.h" />
+    <QtMoc Include="Widget\PlayPauseButton.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
@@ -133,13 +141,15 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>.;../Core;../include/FFmpeg;../include;../include/GLEW;PlayerUI;../Core/Render;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../Core;../include/FFmpeg;../include;../include/GLEW;Renderer;Widget;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;../lib_x64/GLEW/glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;../lib_x64/GLEW/glew32.lib;opengl32.lib;../lib_x64/AL/OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>

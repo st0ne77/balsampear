@@ -1,18 +1,25 @@
-# pragma warning (disable:4819)
 #include "AVPlayer.h"
+#include "AudioRenderer.h"
+
 namespace balsampear
 {
-
+	AudioRenderer arender;
 	AVPlayer::AVPlayer()
 		:loaded(false),
 		demuxerThread_("demux thread"),
 		aDeocderThread_("audio decode thread"),
 		vDecoderThread_("video decode thread"),
 		renderThread_("render thread"),
+		audioRenderThread_("audio render thread"),
 		porter_(new FramePorter()),
 		state_(PlayStatus::Status_end)
 	{
+		arender.init();
+	}
 
+	AVPlayer::~AVPlayer()
+	{
+		stop();
 	}
 
 	bool AVPlayer::load()
@@ -68,19 +75,45 @@ namespace balsampear
 		if (loaded)
 		{
 			state_ = PlayStatus::Status_playing;
-			
 			startAllTask();
 		}
 	}
 
-	void AVPlayer::exit()
+	void AVPlayer::pause()
+	{
+		if (state_ == PlayStatus::Status_playing)
+		{
+			stopAllTask();
+			state_ = PlayStatus::Status_pause;
+		}
+	}
+
+
+	void AVPlayer::stop()
 	{
 		stopAllTask();
+		state_ = PlayStatus::Status_end;
+		clearAll();
+		wakeAllThread();
+		shared_ptr<VideoFrame> empty;
+		porter_->updateVideoFrame(empty);
+
+		unload();
+	}
+
+	balsampear::AVPlayer::PlayStatus AVPlayer::status()
+	{
+		return state_;
 	}
 
 	shared_ptr<balsampear::FramePorter> AVPlayer::getFramePorter()
 	{
 		return porter_;
+	}
+
+	void AVPlayer::setSourceEndCallBack(std::function<void()> f)
+	{
+		sourceEndCallBack = f;
 	}
 
 	void AVPlayer::demux()
@@ -97,7 +130,13 @@ namespace balsampear
 		const AVPacket* avpkt = pkt.asAVPacket(); 
 		if (avpkt->stream_index == parser_->audioStream())
 		{
-			//audioPackets.put(pkt);
+			while (!audioPackets.put(pkt, 10))
+			{
+				if (state_ == PlayStatus::Status_end)
+				{
+					return;
+				}
+			}
 		}
 		else if (avpkt->stream_index == parser_->videoStream())
 		{
@@ -113,7 +152,34 @@ namespace balsampear
 
 	void AVPlayer::decodeAudio()
 	{
-		stopAllTask();
+		if (!vdecoder_)
+			return;
+
+		Packet pkt;
+		while (!audioPackets.tack(pkt, 10))
+		{
+			if (state_ == PlayStatus::Status_end)
+			{
+				return;
+			}
+			if (!demuxerThread_.taskRunning())
+			{
+				aDeocderThread_.stopTask();
+				return;
+			}
+		}
+
+		if (adecoder_->decode(pkt))
+		{
+			VideoFrame frame = adecoder_->frame();
+			while (!audioFrames.put(frame, 10))
+			{
+				if (state_ == PlayStatus::Status_end)
+				{
+					return;
+				}
+			}
+		}
 	}
 
 	void AVPlayer::decodeVideo()
@@ -126,6 +192,11 @@ namespace balsampear
 		{
 			if (state_ == PlayStatus::Status_end)
 			{
+				return;
+			}
+			if (!demuxerThread_.taskRunning())
+			{
+				vDecoderThread_.stopTask();
 				return;
 			}
 		}
@@ -143,7 +214,7 @@ namespace balsampear
 		}
 	}
 
-	void AVPlayer::render()
+	void AVPlayer::renderVideo()
 	{
 		shared_ptr<VideoFrame> cache = std::make_shared<VideoFrame>();
 		while (!videoFrames.tack(*cache, 10))
@@ -151,6 +222,20 @@ namespace balsampear
 			if (state_ == PlayStatus::Status_end)
 			{
 				return;
+			}
+
+			if (!vDecoderThread_.taskRunning())
+			{
+				renderThread_.stopTask();
+				audioRenderThread_.stopTask();
+				state_ = PlayStatus::Status_end;
+				if (sourceEndCallBack)
+				{
+					sourceEndCallBack();
+				}
+
+				shared_ptr<VideoFrame> empty;
+				porter_->updateVideoFrame(empty);
 			}
 		} 
 		porter_->updateVideoFrame(cache);
@@ -162,11 +247,28 @@ namespace balsampear
 			std::this_thread::sleep_for(std::chrono::milliseconds(30));
 	}
 
+	void AVPlayer::renderAudio()
+	{
+		shared_ptr<VideoFrame> cache = std::make_shared<VideoFrame>();
+		while (!audioFrames.tack(*cache, 10))
+		{
+			if (state_ == PlayStatus::Status_end)
+			{
+				return;
+			}
+		}
+		arender.update((void*)cache->data());
+		arender.play();
+		std::this_thread::sleep_for(std::chrono::microseconds(23400));
+	}
+
 	void AVPlayer::startAllTask()
 	{
 		demuxerThread_.startTask(std::bind(&AVPlayer::demux, this));
+		aDeocderThread_.startTask(std::bind(&AVPlayer::decodeAudio, this));
 		vDecoderThread_.startTask(std::bind(&AVPlayer::decodeVideo, this));
-		renderThread_.startTask(std::bind(&AVPlayer::render, this));
+		renderThread_.startTask(std::bind(&AVPlayer::renderVideo, this));
+		audioRenderThread_.startTask(std::bind(&AVPlayer::renderAudio, this));
 	}
 
 	void AVPlayer::stopAllTask()
@@ -175,6 +277,23 @@ namespace balsampear
 		aDeocderThread_.stopTask();
 		vDecoderThread_.stopTask();
 		renderThread_.stopTask();
+		audioRenderThread_.stopTask();
+	}
+
+	void AVPlayer::clearAll()
+	{
+		audioPackets.clear();
+		videoPackets.clear();
+		audioFrames.clear();
+		videoFrames.clear();
+	}
+
+	void AVPlayer::wakeAllThread()
+	{
+		audioPackets.wakeALL();
+		videoPackets.wakeALL();
+		audioFrames.wakeALL();
+		videoFrames.wakeALL();
 	}
 
 }

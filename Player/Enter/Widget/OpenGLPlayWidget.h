@@ -6,12 +6,12 @@
 
 namespace balsampear
 {
-	class PlayScreen :public QOpenGLWidget
+	class OpenGLPlayWidget :public QOpenGLWidget
 	{
 	public:
-		PlayScreen();
-		explicit PlayScreen(QWidget* parent);
-		virtual ~PlayScreen();
+		OpenGLPlayWidget();
+		explicit OpenGLPlayWidget(QWidget* parent);
+		virtual ~OpenGLPlayWidget();
 
 		void setFramePorter(std::weak_ptr<FramePorter> p);
 	protected:

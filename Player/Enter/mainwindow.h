@@ -1,12 +1,12 @@
 #pragma once
 #include <QMainWindow>
 #include <QTimer>
-#include <QPushButton>
 #include <QVBoxLayout>
 #include "AVPlayer.h"
 
 namespace balsampear
 {
+	class ControlWidget;
 	class MainWindow : public QMainWindow
 	{
 		Q_OBJECT
@@ -19,13 +19,17 @@ namespace balsampear
 
 	public slots:
 		void updateVideo();
-		void play();
+		void changePlayStatus();
+		void stopPlay();
+
+	private:
+		void sourceEndCallBack();
 
 	private:
 		QWidget fullWidget_;
 		QVBoxLayout layout_;
 		QWidget* playArea_;
-		QPushButton button_;
+		ControlWidget* control_;
 
 		QTimer timer;
 	};

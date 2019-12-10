@@ -14,8 +14,11 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="PlayerUI">
+    <Filter Include="Renderer">
       <UniqueIdentifier>{1010d6b9-764f-40cc-ab7e-2444827e6663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widget">
+      <UniqueIdentifier>{52e8ec98-5b62-4896-94aa-8de4723dd0bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,54 +28,78 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\OpenGLRenderFactory.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\OpenGLRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\OpenGLShader.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\OpenGLRenderFactory.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\VideoRendererManager.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\OpenGLShader.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\VideoRenderer.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\OpenGLYUV420PRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\OpenGLRenderer.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\VideoRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\OpenGLYUV420PRenderer.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\VideoRendererManager.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUI\PlayScreen.cpp">
-      <Filter>PlayerUI</Filter>
+    <ClCompile Include="Renderer\OpenGLRGB24Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\OpenGLPlayWidget.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\PlayPauseButton.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\ControlWidget.cpp">
+      <Filter>Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\StopButton.cpp">
+      <Filter>Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Widget\PlayPauseButton.h">
+      <Filter>Widget</Filter>
+    </QtMoc>
+    <QtMoc Include="Widget\ControlWidget.h">
+      <Filter>Widget</Filter>
+    </QtMoc>
+    <QtMoc Include="Widget\StopButton.h">
+      <Filter>Widget</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlayerUI\OpenGLRenderFactory.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\OpenGLRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\OpenGLShader.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\OpenGLRenderFactory.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\VideoRendererManager.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\OpenGLShader.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\VideoRenderer.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\OpenGLYUV420PRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\OpenGLRenderer.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\VideoRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\OpenGLYUV420PRenderer.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\VideoRendererManager.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUI\PlayScreen.h">
-      <Filter>PlayerUI</Filter>
+    <ClInclude Include="Renderer\OpenGLRGB24Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\OpenGLPlayWidget.h">
+      <Filter>Widget</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
