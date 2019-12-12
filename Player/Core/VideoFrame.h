@@ -1,25 +1,28 @@
 #pragma once
 #include "Frame.h"
 #include "VideoFormat.h"
-
+struct AVFrame;
 namespace balsampear
 {
 	class VideoFrame : public Frame
 	{
 	public:
 		VideoFrame();
-		VideoFrame(int width, int height, VideoFormat fmt, std::weak_ptr<Frame::Content> content);
+		VideoFrame(AVFrame* avframe);
 		virtual ~VideoFrame();
 
 		int width() const;
 		int height() const;
 		VideoFormat Format() const;
 		VideoFormat::PixelFormat pixelFoemat();
-		const Byte* getBuffer() { return &content_->data_[0]; }
+
+	protected:
+		size_t calcFrameSize();
+		void fill(AVFrame* avframe);
 	private:
 		int width_;
 		int height_;
-		VideoFormat format_;
+		VideoFormat fmt_;
 	};
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "AudioDecoder.h"
-#include "VideoFrame.h"
 struct AVFrame;
 namespace balsampear
 {
@@ -11,7 +10,7 @@ namespace balsampear
 		virtual ~AudioDeocderFFmpeg();
 
 		virtual bool decode(const Packet&);
-		virtual VideoFrame frame();
+		virtual AudioFrame frame();
 	protected:
 		AVFrame* avframe_;
 	};

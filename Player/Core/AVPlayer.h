@@ -10,6 +10,7 @@
 #include "AudioDecoder.h"
 #include "VideoDecoder.h"
 #include "FramePorter.h"
+#include "Base/Timer.h"
 
 using std::shared_ptr;
 using std::unique_ptr;
@@ -33,7 +34,8 @@ namespace balsampear
 		void stop();
 		PlayStatus status();
 		shared_ptr<FramePorter> getFramePorter();
-		void setSourceEndCallBack(std::function<void()> f);
+		void setSourceEndCallBack(std::function<void()> f);//播放完成回调
+		void setProgressChangeCallBack(std::function<void(double)> f);//播放进度变化回调
 	private:
 		void demux();
 		void decodeAudio();
@@ -44,18 +46,22 @@ namespace balsampear
 		void startAllTask();
 		void stopAllTask();
 		void clearAll();
-		void wakeAllThread();
+		void wakeAllThread();//唤醒所有操作队列的线程
+
+		void calcTime();
 
 	private:
 		StringPiece file_;
 		AVThread demuxerThread_;
 		AVThread aDeocderThread_;
 		AVThread vDecoderThread_;
-		AVThread renderThread_;
 		AVThread audioRenderThread_;
+		AVThread videoRenderThread_;
+		Timer standardTimer;
+		uint64 standardTimeStamp_;
 		BlockingQueue<Packet> audioPackets;
 		BlockingQueue<Packet> videoPackets;
-		BlockingQueue<VideoFrame> audioFrames;
+		BlockingQueue<AudioFrame> audioFrames;
 		BlockingQueue<VideoFrame> videoFrames;
 		unique_ptr<AVParser> parser_;
 		unique_ptr<AVDemuxer> demuxer_;
@@ -63,6 +69,7 @@ namespace balsampear
 		unique_ptr<VideoDecoder> vdecoder_;
 		shared_ptr<FramePorter> porter_;
 		std::function<void()> sourceEndCallBack;
+		std::function<void(double)> progressChangeCallBack;
 		bool loaded;
 		PlayStatus state_;
 	};

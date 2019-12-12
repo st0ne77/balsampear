@@ -2,6 +2,10 @@
 #include "AVPlayer.h"
 #include "OpenGLPlayWidget.h"
 #include "ControlWidget.h"
+#include "QPainter"
+#include "qevent.h"
+#include "QMimeData"
+using namespace std::placeholders;
 using namespace std;
 namespace balsampear
 {
@@ -29,14 +33,24 @@ namespace balsampear
 		connect(&timer, SIGNAL(timeout()), this, SLOT(updateVideo()));
 		
 
-		player_.load("E:\\Project\\TestFile\\110.mp4");
+		player_.load("E:\\Project\\TestFile\\video.mp4");
 		player_.setSourceEndCallBack(std::bind(&MainWindow::sourceEndCallBack, this));
+		player_.setProgressChangeCallBack(std::bind(&ControlWidget::setPlayProgress, control_, _1));
+
+		setAcceptDrops(true);//drop file int this window
 	}
 
 	MainWindow::~MainWindow()
 	{
 		delete playArea_;
 		playArea_ = nullptr;
+	}
+
+	void MainWindow::paintEvent(QPaintEvent* event)
+	{
+		QPainter painter(this);
+		painter.setBrush(Qt::black);
+		painter.drawRect(0, 0, this->width(), this->height()); //先画成黑色
 	}
 
 	void MainWindow::closeEvent(QCloseEvent* event)
@@ -54,8 +68,7 @@ namespace balsampear
 		AVPlayer::PlayStatus curStatus = player_.status();
 		if (curStatus != AVPlayer::PlayStatus::Status_playing)
 		{
-			player_.start();
-			timer.start(20);//开启定时器刷新视频显示区
+			startPlay();
 		}
 		else
 		{
@@ -90,6 +103,20 @@ namespace balsampear
 		control_->setPlayingStatus(false);
 		playArea_->update();
 		timer.stop();
+	}
+
+	void MainWindow::startPlay()
+	{
+		player_.start();
+		timer.start(20);//开启定时器刷新视频显示区
+	}
+
+	void MainWindow::dragEnterEvent(QDragEnterEvent* event)
+	{
+		const QMimeData* mime = event->mimeData();
+		QString file = mime->urls()[0].toLocalFile();
+		player_.load(file.toStdString());
+		startPlay();
 	}
 
 }

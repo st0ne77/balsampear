@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "AVThread.h"
 
-using namespace PlayerCore;
+using namespace balsampear;
 TEST(AVThreadTest, handlerun)
 {
 	AVThread thread("test thread");

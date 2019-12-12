@@ -41,7 +41,7 @@ namespace balsampear
 	BlockingQueue<T, Container>::BlockingQueue()
 		:queue_()
 		, enough_(40)
-		, full_(100)
+		, full_(60)
 	{
 
 	}

@@ -2,7 +2,7 @@
 #include "Base/StringPiece.h"
 #include "AVParser.h"
 
-using PlayerCore::StringPiece;
+using balsampear::StringPiece;
 using namespace std;
 
 TEST(StirngPieceTest, HandleString)

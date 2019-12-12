@@ -6,7 +6,7 @@
 #include "AVPlayer.h"
 
 
-using namespace PlayerCore;
+using namespace balsampear;
 int main()
 {
 	glfwInit();
@@ -92,11 +92,18 @@ int main()
 	glBindVertexArray(0);
 
 	AVPlayer player;
-	if (!player.load("E:\\Project\\TestFile\\video.mp4"))
+	if (!player.load("E:\\Project\\TestFile\\110.mp4"))
 	{
 		return 0;
 	}
 	player.start();
+	player.setProgressChangeCallBack([](double d) {
+		//std::cout <<"timestamp:"<< d<<std::endl;
+		if (0.68 - d<= 0.01)
+		{
+			int i = 0;
+		}
+		});
 
 
 
@@ -106,7 +113,7 @@ int main()
 		// render
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		/*
 		VideoFrame frame;
 		player.videoFrames.tack(frame);
 		shader.use();
@@ -138,7 +145,7 @@ int main()
 		shader.setInt("textureV", 3);
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -29,6 +29,11 @@
     <ClCompile Include="VideoFrame.cpp" />
     <ClCompile Include="FramePorter.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
+    <ClCompile Include="AudioFrame.cpp" />
+    <ClCompile Include="Base\Timer.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\BlockingQueue.h">
@@ -56,6 +61,14 @@
     <ClInclude Include="VideoFrame.h" />
     <ClInclude Include="FramePorter.h" />
     <ClInclude Include="AudioRenderer.h" />
+    <ClInclude Include="AudioFrame.h" />
+    <ClInclude Include="Base\Timer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager.h" />
+    <ClInclude Include="Base\MemoryPool.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

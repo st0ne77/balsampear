@@ -76,7 +76,12 @@ namespace balsampear
 
 	void AudioRenderer::play()
 	{
-		alSourcePlay(Source);
+		int state;
+		alGetSourcei(Source, AL_SOURCE_STATE, &state);
+		if (state == AL_STOPPED || state == AL_INITIAL)
+		{
+			alSourcePlay(Source);
+		}
 	}
 
 	void AudioRenderer::update(void* data)
@@ -89,8 +94,26 @@ namespace balsampear
 		ALenum e = alGetError();
 		if (e != AL_NO_ERROR)
 			return;
-		alGenSources(1, &Source);
-		alSourcei(Source, AL_BUFFER, Buffer);
+		alSourceQueueBuffers(Source, 1, &Buffer);
+	}
+
+	size_t AudioRenderer::queuedFrameNum()
+	{
+		ALint processed = 0;
+		alGetSourcei(Source, AL_BUFFERS_QUEUED, &processed);
+		return processed;
+	}
+
+	void AudioRenderer::unqueue()
+	{
+		ALint processed = 0;
+		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
+		while (processed > 0)
+		{
+			ALuint bufferID = 0;
+			alSourceUnqueueBuffers(Source, 1, &bufferID);
+			processed--;
+		}
 	}
 
 }

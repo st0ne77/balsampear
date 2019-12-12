@@ -3,7 +3,6 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include "AVPlayer.h"
-
 namespace balsampear
 {
 	class ControlWidget;
@@ -15,8 +14,9 @@ namespace balsampear
 		~MainWindow();
 		AVPlayer player_;
 	protected:
+		virtual void paintEvent(QPaintEvent* event);
 		virtual void closeEvent(QCloseEvent* event);
-
+		virtual void dragEnterEvent(QDragEnterEvent* event);
 	public slots:
 		void updateVideo();
 		void changePlayStatus();
@@ -24,6 +24,7 @@ namespace balsampear
 
 	private:
 		void sourceEndCallBack();
+		void startPlay();
 
 	private:
 		QWidget fullWidget_;

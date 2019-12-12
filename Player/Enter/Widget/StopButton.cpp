@@ -15,8 +15,8 @@ namespace balsampear
 	void StopButton::paintEvent(QPaintEvent* event)
 	{
 		QPainter painter(this);
-		int width = this->width();
-		int height = this->height();
+		int width = this->width() * 0.8;
+		int height = this->height() * 0.8;
 
 		QBrush brush = mouseEnter_ ? QColor(0xff, 0x66, 0x00) : QColor(0x99, 0x99, 0x99);
 		painter.fillRect(0, 0, width, height, brush);

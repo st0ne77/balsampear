@@ -1,24 +1,22 @@
 #pragma once
-
 #include "QWidget"
 
-class ProgressWidget : public QWidget
+namespace balsampear
 {
-	Q_OBJECT
-public:
-	explicit ProgressWidget(QWidget* parent = 0);
+	class ProgressWidget : public QWidget
+	{
+		Q_OBJECT
+	public:
+		explicit ProgressWidget(QWidget* parent = nullptr);
+		~ProgressWidget();
 
-	~ProgressWidget();
+		void setPlayProgress(double progress);
 
-signals:
+	protected:
+		virtual void paintEvent(QPaintEvent* event);
+		virtual void mousePressEvent(QMouseEvent* event);
 
-public slots:
-	void changeProgress(double progress);
-
-protected:
-	virtual void paintEvent(QPaintEvent* event);
-	virtual void mousePressEvent(QMouseEvent* event);
-
-protected:
-	double Progress_;
-};
+	protected:
+		double progress_;
+	};
+}

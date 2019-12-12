@@ -8,6 +8,7 @@ using std::shared_ptr;
 struct AVFormatContext;
 struct AVCodecContext;
 
+using uint64 = unsigned long long;
 namespace balsampear
 {
 	class AVDemuxer;
@@ -33,7 +34,7 @@ namespace balsampear
 		AVFormatContext* getFormatCtx();
 		AVCodecContext* getAudioCodecCtx();
 		AVCodecContext* getVideoCodexCtx();
-		unsigned long long getDuration();
+		double duration();
 		AudioFormat getAudioFormat();
 		VideoFormat getVideoFormat();
 		int getMediaType();
@@ -46,9 +47,9 @@ namespace balsampear
 
 	private:
 		StringPiece file_;
-		AVFormatContext *formatCtx_;
+		AVFormatContext *formatCtx_; 
 		int type_;
-		unsigned long long duration_;
+		double duration_;
 		double time_base_;
 		int framerate_;
 		AVCodecContext *aCodecCtx_;

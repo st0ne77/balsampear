@@ -1,6 +1,6 @@
 #pragma once
 #include "Base/StringPiece.h"
-using PlayerCore::StringPiece;
+using balsampear::StringPiece;
 class Shader
 {
 public:

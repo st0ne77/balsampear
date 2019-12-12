@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Base/ThreadBase.h"
 
-using namespace PlayerCore;
+using namespace balsampear;
 class Thread :public ThreadBase
 {
 public:

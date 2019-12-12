@@ -2,7 +2,7 @@
 #include "Base/BlockingQueue.h"
 #include "Base/ThreadBase.h"
 
-using namespace PlayerCore;
+using namespace balsampear;
 typedef BlockingQueue<int> IntQueue;
 
 
@@ -27,7 +27,7 @@ TEST(BlockingQueueTest, HandleQueue)
 	ASSERT_TRUE(que2.tack(val));
 	ASSERT_EQ(1, val);
 
-	class TestThread1 :public PlayerCore::ThreadBase
+	class TestThread1 :public balsampear::ThreadBase
 	{
 	public:
 		TestThread1(const StringPiece& name, IntQueue& queue) :ThreadBase(name), queue_(queue){}
@@ -44,7 +44,7 @@ TEST(BlockingQueueTest, HandleQueue)
 		IntQueue &queue_;
 	};
 
-	class TestThread2 :public PlayerCore::ThreadBase
+	class TestThread2 :public balsampear::ThreadBase
 	{
 	public:
 		TestThread2(const StringPiece& name, IntQueue& queue) :ThreadBase(name), queue_(queue) {}

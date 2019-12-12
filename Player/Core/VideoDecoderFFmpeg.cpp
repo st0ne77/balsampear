@@ -6,6 +6,7 @@ extern "C"
 #include "libswscale/swscale.h"
 }
 #include "Packet.h"
+#include "Base/MemoryPool.h"
 namespace balsampear
 {
 	VideoDecoderFFmpeg::VideoDecoderFFmpeg()
@@ -45,15 +46,7 @@ namespace balsampear
 		if (avframe_->width <= 0 || avframe_->height <=0 || !codecCtx_)
 			return VideoFrame();
 
-		shared_ptr<Frame::Content> content = std::make_shared<Frame::Content>();
-		content->data_.resize((size_t)avframe_->width * avframe_->height * 3 / 2);
-		VideoFrame f(avframe_->width, avframe_->height, codecCtx_->pix_fmt, content);
-		
-		size_t ySize = (size_t)avframe_->width * avframe_->height;
-		memcpy(&content->data_[0], avframe_->data[0], ySize);
-		memcpy(&content->data_[ySize], avframe_->data[1], ySize / 4);
-		memcpy(&content->data_[ySize * 5 / 4], avframe_->data[2], ySize / 4);
-
+		VideoFrame f(avframe_);
 
 		//rgb24²âÊÔ´úÂë
 		
@@ -68,7 +61,7 @@ namespace balsampear
 			(uint8_t const* const*)avframe_->data,
 			avframe_->linesize, 0, avframe_->height, &p,
 			array);*/
-
+		f.setTimeStampMsec(avframe_->pts);
 		return f;
 	}
 

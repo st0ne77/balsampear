@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ResourceCompile Include="temp.rc" />
+  </ItemGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -31,6 +34,7 @@
     <ClCompile Include="Widget\ControlWidget.cpp" />
     <ClCompile Include="Widget\OpenGLPlayWidget.cpp" />
     <ClCompile Include="Widget\PlayPauseButton.cpp" />
+    <ClCompile Include="Widget\ProgressWidget.cpp" />
     <ClCompile Include="Widget\StopButton.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +53,7 @@
     <ClInclude Include="Renderer\OpenGLYUV420PRenderer.h" />
     <ClInclude Include="Renderer\VideoRenderer.h" />
     <ClInclude Include="Renderer\VideoRendererManager.h" />
+    <QtMoc Include="Widget\ProgressWidget.h" />
     <QtMoc Include="Widget\StopButton.h" />
     <QtMoc Include="Widget\ControlWidget.h" />
     <ClInclude Include="Widget\OpenGLPlayWidget.h" />

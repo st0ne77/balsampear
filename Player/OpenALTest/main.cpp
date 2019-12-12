@@ -3,7 +3,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <ALUT/alut.h>
-
+#include <stdio.h>
 /*
   你会发现再OPENAL头和OPENGL头的定义上有许多的相似之处。除了“al.h","al
 u.h","alut.h"与”gl.h","glu.h","glut.h"相似，还增加了一个"alc.h".ALC（
@@ -113,6 +113,13 @@ void KillALData()
 //这是一个关闭函数，用于释放内存和音频设备。
 int main(int argc, char* argv[])
 {
+//     int (*func)(int) = [](int i)->int
+//     {
+//         return i;
+//     };
+//     printf("%d\n", func(8));
+//     return 0;
+
     // 初始OPENAL并清错误字节
 
     alutInit(&argc, argv);

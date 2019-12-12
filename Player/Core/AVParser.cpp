@@ -14,7 +14,7 @@ namespace balsampear
 	AVParser::AVParser()
 		:formatCtx_(nullptr),
 		type_ (0),
-		duration_(0),
+		duration_(0.0),
 		aCodecCtx_(nullptr),
 		aIndexOfStream_(-1),
 		vCodecCtx_(nullptr),
@@ -90,7 +90,7 @@ namespace balsampear
 			vformat_ = VideoFormat(vCodecCtx_->pix_fmt);
 			type_ |= static_cast<int>(MediaType::Type_Video);
 		}
-		duration_ = formatCtx_->duration;
+		duration_ = (double)formatCtx_->duration/ 1000000;
 		time_base_ = av_q2d(formatCtx_->streams[vIndexOfStream_]->time_base);
 		framerate_ = (int)av_q2d(formatCtx_->streams[vIndexOfStream_]->avg_frame_rate);
 		return true;
@@ -111,7 +111,7 @@ namespace balsampear
 		return vCodecCtx_;
 	}
 
-	unsigned long long AVParser::getDuration()
+	double AVParser::duration()
 	{
 		return duration_;
 	}

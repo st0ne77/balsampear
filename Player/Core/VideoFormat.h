@@ -1,25 +1,31 @@
 #pragma once
 
-
-#pragma warning(disable: 26812)
-class VideoFormat
+using uint = unsigned int;
+namespace balsampear
 {
-public:
-	enum class PixelFormat:int 
-	{ 
-		Format_Invalid = -1, 
-		Format_RGB24,
-		Format_YUV420P,
-	};
-	VideoFormat();
-	VideoFormat(PixelFormat fmt);
-	VideoFormat(int fmt_ff);
+	class VideoFormat
+	{
+	public:
+		enum class PixelFormat :int
+		{
+			Format_Invalid = -1,
+			Format_RGB24,
+			Format_RGBA32,
+			Format_YUV420P,
+			Format_YUV420,
+		};
+		VideoFormat();
+		explicit VideoFormat(PixelFormat fmt);
+		explicit VideoFormat(int fmt_ff);
 
-	PixelFormat pixelFormatFromFFmpeg(int fmt_ff);
-	int FFmpegFormatFromPixel(PixelFormat fmt);
-	PixelFormat pixelFormat() const;
-private:
-	PixelFormat fmt_;
-	int fixfmt_ff_;//pixel format for ffmpeg
-};
+		static PixelFormat pixelFormatFromFFmpeg(int fmt_ff);
+		static int FFmpegFormatFromPixel(PixelFormat fmt);
+		PixelFormat pixelFormat() const;
+		uint calcFrameByteSize(int width, int height);
+	private:
+		PixelFormat fmt_;
+		int fixfmt_ff_;//pixel format for ffmpeg
+	};
+}
+
 
