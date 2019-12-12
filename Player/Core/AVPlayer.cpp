@@ -13,7 +13,6 @@ namespace balsampear
 		videoRenderThread_("render thread"),
 		audioRenderThread_("audio render thread"),
 		standardTimeStamp_(0),
-		porter_(new FramePorter()),
 		state_(PlayStatus::Status_end)
 	{
 		arender.init();
@@ -104,7 +103,6 @@ namespace balsampear
 		clearAll();
 		wakeAllThread();
 		shared_ptr<VideoFrame> empty;
-		porter_->updateVideoFrame(empty);
 
 		unload();
 		standardTimeStamp_ = 0;//重置标准时间
@@ -115,19 +113,20 @@ namespace balsampear
 		return state_;
 	}
 
-	shared_ptr<balsampear::FramePorter> AVPlayer::getFramePorter()
+
+	void AVPlayer::setVideoRefreshCallback(std::function<void(std::weak_ptr<VideoFrame>)> f)
 	{
-		return porter_;
+		videoRefreshCallback_ = f;
 	}
 
 	void AVPlayer::setSourceEndCallBack(std::function<void()> f)
 	{
-		sourceEndCallBack = f;
+		sourceEndCallBack_ = f;
 	}
 
 	void AVPlayer::setProgressChangeCallBack(std::function<void(double)> f)
 	{
-		progressChangeCallBack = f;
+		progressChangeCallBack_ = f;
 	}
 
 	void AVPlayer::demux()
@@ -243,7 +242,8 @@ namespace balsampear
 				videoRenderThread_.stopTask();
 			}
 		} 
-		porter_->updateVideoFrame(cache);
+		if (videoRefreshCallback_)
+			videoRefreshCallback_(cache);
 
 		double curTimeStampMSec = parser_->timebase() * cache->getTimeStampMsec() * 1000;
 		double stdtimestampMSec = standardTimeStamp_;
@@ -287,8 +287,8 @@ namespace balsampear
 			arender.unqueue();
 			std::this_thread::sleep_for(std::chrono::milliseconds(22));
 		}
-		//arender.update((void*)cache->data());
-		//arender.play();
+		arender.update((void*)cache->data());
+		arender.play();
 	}
 
 	void AVPlayer::startAllTask()
@@ -334,15 +334,15 @@ namespace balsampear
 
 		int duration = parser_->duration();
 		standardTimeStamp_ += 5;
-		if (progressChangeCallBack)
-			progressChangeCallBack((double)standardTimeStamp_ / 1000 / duration);
+		if (progressChangeCallBack_)
+			progressChangeCallBack_((double)standardTimeStamp_ / 1000 / duration);
 		if ( (standardTimeStamp_ / 1000 - duration)<=0.05)
 		{
 			state_ = PlayStatus::Status_end;
 			standardTimeStamp_ = 0;
-			if (sourceEndCallBack)
+			if (sourceEndCallBack_)
 			{
-				sourceEndCallBack();//todo 这里直接结束，会导致最后一帧刷新不出来
+				sourceEndCallBack_();//todo 这里直接结束，会导致最后一帧刷新不出来
 			}
 		}
 

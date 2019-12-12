@@ -27,7 +27,6 @@
     <ClCompile Include="AVThread.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="VideoFrame.cpp" />
-    <ClCompile Include="FramePorter.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="AudioFrame.cpp" />
     <ClCompile Include="Base\Timer.cpp">
@@ -59,7 +58,6 @@
     <ClInclude Include="AVThread.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="VideoFrame.h" />
-    <ClInclude Include="FramePorter.h" />
     <ClInclude Include="AudioRenderer.h" />
     <ClInclude Include="AudioFrame.h" />
     <ClInclude Include="Base\Timer.h">

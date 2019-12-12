@@ -9,7 +9,6 @@
 #include "AVDemuxer.h"
 #include "AudioDecoder.h"
 #include "VideoDecoder.h"
-#include "FramePorter.h"
 #include "Base/Timer.h"
 
 using std::shared_ptr;
@@ -33,7 +32,7 @@ namespace balsampear
 		void pause();
 		void stop();
 		PlayStatus status();
-		shared_ptr<FramePorter> getFramePorter();
+		void setVideoRefreshCallback(std::function<void(std::weak_ptr<VideoFrame>)> f);
 		void setSourceEndCallBack(std::function<void()> f);//播放完成回调
 		void setProgressChangeCallBack(std::function<void(double)> f);//播放进度变化回调
 	private:
@@ -67,9 +66,9 @@ namespace balsampear
 		unique_ptr<AVDemuxer> demuxer_;
 		unique_ptr<AudioDecoder> adecoder_;
 		unique_ptr<VideoDecoder> vdecoder_;
-		shared_ptr<FramePorter> porter_;
-		std::function<void()> sourceEndCallBack;
-		std::function<void(double)> progressChangeCallBack;
+		std::function<void(std::weak_ptr<VideoFrame>)> videoRefreshCallback_;
+		std::function<void()> sourceEndCallBack_;
+		std::function<void(double)> progressChangeCallBack_;
 		bool loaded;
 		PlayStatus state_;
 	};

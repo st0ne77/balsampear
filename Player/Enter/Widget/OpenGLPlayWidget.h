@@ -1,8 +1,8 @@
 #pragma once
 #include <QOpenGLWidget>
-#include "FramePorter.h"
 #include <memory>
 #include "OpenGLRenderer.h"
+#include "VideoFrame.h"
 
 namespace balsampear
 {
@@ -12,16 +12,16 @@ namespace balsampear
 		explicit OpenGLPlayWidget(QWidget* parent = nullptr);
 		virtual ~OpenGLPlayWidget();
 
-		void setFramePorter(std::weak_ptr<FramePorter> p);
+		void refresh(std::weak_ptr<VideoFrame> frame);
 	protected:
 		virtual void initializeGL();
 		virtual void resizeGL(int w, int h);
 		virtual void paintGL();
 
 	private:
-		std::shared_ptr<FramePorter> porter_;
 		VideoFormat::PixelFormat curFormat_;
 		std::shared_ptr<OpenGLRenderer> renderer_;
+		std::shared_ptr<VideoFrame> curFrame_;
 	};
 }
 

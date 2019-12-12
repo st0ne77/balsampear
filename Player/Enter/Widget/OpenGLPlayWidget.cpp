@@ -27,9 +27,10 @@ namespace balsampear
 	{
 	}
 
-	void OpenGLPlayWidget::setFramePorter(std::weak_ptr<FramePorter> p)
+
+	void OpenGLPlayWidget::refresh(std::weak_ptr<VideoFrame> frame)
 	{
-		porter_ = p.lock();
+		curFrame_ = frame.lock();
 	}
 
 	void OpenGLPlayWidget::initializeGL()
@@ -44,12 +45,11 @@ namespace balsampear
 
 	void OpenGLPlayWidget::paintGL()
 	{
-		std::shared_ptr<VideoFrame> frame;
-		if (porter_ && (frame = porter_->frame()))
+		if (curFrame_)
 		{
-			if (curFormat_ != frame->pixelFoemat())
+			if (curFormat_ != curFrame_->pixelFoemat())
 			{
-				curFormat_ = frame->pixelFoemat();
+				curFormat_ = curFrame_->pixelFoemat();
 				renderer_ = VideoRendererManager::getOpenGLRenderer(curFormat_);
 			}
 
@@ -58,7 +58,7 @@ namespace balsampear
 				glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 				glClear(GL_COLOR_BUFFER_BIT);
 				renderer_->useShader();
-				renderer_->fillData(frame->data(), frame->width(), frame->height());
+				renderer_->fillData(curFrame_->data(), curFrame_->width(), curFrame_->height());
 				renderer_->useVertex();
 				renderer_->Draw();
 			}

@@ -35,7 +35,6 @@
     <ClCompile Include="AVParser.cpp" />
     <ClCompile Include="Base\Timer.cpp" />
     <ClCompile Include="Frame.cpp" />
-    <ClCompile Include="FramePorter.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="VideoDecoder.cpp" />
@@ -60,7 +59,6 @@
     <ClInclude Include="AVParser.h" />
     <ClInclude Include="Base\Timer.h" />
     <ClInclude Include="Frame.h" />
-    <ClInclude Include="FramePorter.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="VideoDecoder.h" />

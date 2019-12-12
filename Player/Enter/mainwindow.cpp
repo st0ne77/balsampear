@@ -23,7 +23,6 @@ namespace balsampear
 		layout_.setContentsMargins(0, 0, 0, 0);
 		control_ = new ControlWidget(&fullWidget_);
 		balsampear::OpenGLPlayWidget* p = new balsampear::OpenGLPlayWidget(&fullWidget_);
-		p->setFramePorter(player_.getFramePorter());
 		playArea_ = p;
 		layout_.addWidget(playArea_, 9);
 		layout_.addWidget(control_, 1);
@@ -36,7 +35,7 @@ namespace balsampear
 		player_.load("E:\\Project\\TestFile\\video.mp4");
 		player_.setSourceEndCallBack(std::bind(&MainWindow::sourceEndCallBack, this));
 		player_.setProgressChangeCallBack(std::bind(&ControlWidget::setPlayProgress, control_, _1));
-
+		player_.setVideoRefreshCallback(std::bind(&OpenGLPlayWidget::refresh, p, _1));
 		setAcceptDrops(true);//drop file int this window
 	}
 
