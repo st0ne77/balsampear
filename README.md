@@ -6,7 +6,7 @@
 	VS2019+QT5.12.4  
 	已实现64位播放
 	
-	![screenshot](https://github.com/st0ne77/Surveillance/tree/master/Player/screenshot.png)
+![screenshot](https://github.com/st0ne77/Surveillance/tree/master/Player/screenshot.png)
 ### Collector
 	采集器
 	
