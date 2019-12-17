@@ -22,6 +22,7 @@ namespace balsampear
 		time_base_(0),
 		framerate_(0)
 	{
+		avformat_network_init();
 	}
 
 	AVParser::AVParser(const StringPiece& file)

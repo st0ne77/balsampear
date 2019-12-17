@@ -15,7 +15,7 @@ namespace balsampear
 		void start(int msec, std::function<void()> callback);
 		void exit();
 	private:
-		std::thread th_;
+		std::unique_ptr<std::thread> th_;
 		std::function<void()> task_;
 		std::atomic<bool> exit_;
 	};

@@ -17,14 +17,15 @@ namespace balsampear
 		inline bool isEnough() const;
 		inline bool isFull() const;
 
-		bool put(const T& t, unsigned long wait_timeout_ms = ULONG_MAX);
-		bool tack(T& result, unsigned long wait_timeout_ms = ULONG_MAX);
+		bool put(const T& t, std::function<bool()> exit);
+		bool tack(T& result, std::function<bool()> exit);
 		void clear();
 		void wakeALL()
 		{
 			cond_empty_.notify_all();
 			cond_full_.notify_all();
 		}
+
 
 	private:
 		mutable std::mutex lock_;//保证能在const方法中上锁
@@ -40,8 +41,8 @@ namespace balsampear
 	template <typename T, template <typename _Ty, typename _Container> class Container>
 	BlockingQueue<T, Container>::BlockingQueue()
 		:queue_()
-		, enough_(40)
-		, full_(60)
+		, enough_(20)
+		, full_(200)
 	{
 
 	}
@@ -77,13 +78,16 @@ namespace balsampear
 	}
 
 	template <typename T, template <typename _Ty, typename _Container> class Container>
-	bool BlockingQueue<T, Container>::put(const T& t, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
+	bool BlockingQueue<T, Container>::put(const T& t, std::function<bool()> exit)
 	{
 		bool ret = true;
 		std::unique_lock<std::mutex> locker(lock_);
 		if (queue_.size() >= full_)
 		{
-			cond_full_.wait_for(locker, std::chrono::milliseconds(wait_timeout_ms));//释放锁等待条件满足
+			cond_full_.wait(locker, [=]()
+				{
+					return (this->queue_.size() < this->full_) || exit();
+				});//释放锁等待条件满足
 		}
 		if (queue_.size() >= full_)
 		{
@@ -98,13 +102,16 @@ namespace balsampear
 	}
 
 	template <typename T, template <typename _Ty, typename _Container> class Container>
-	bool BlockingQueue<T, Container>::tack(T& result, unsigned long wait_timeout_ms /*= ULONG_MAX*/)
+	bool BlockingQueue<T, Container>::tack(T& result, std::function<bool()> exit)
 	{
 		bool ret = true;
 		std::unique_lock<std::mutex> locker(lock_);
 		if (queue_.size() <= 0)
 		{
-			cond_empty_.wait_for(locker, std::chrono::milliseconds(wait_timeout_ms));
+			cond_empty_.wait(locker, [&,this]()
+				{
+					return (this->queue_.size()) || exit();
+				});
 		}
 
 		if (queue_.size() <= 0)

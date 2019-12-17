@@ -19,7 +19,7 @@ namespace balsampear
 		static MemoryManager* sing;
 		static std::mutex mutex_;
 		MemoryManager();
-		MemoryPool<Byte, 1024 * 1024 * 200> memPool_;
+		MemoryPool<Byte> memPool_;
 		std::map<Byte*, size_t> sizeCache;
 	};
 }

@@ -20,6 +20,7 @@ namespace balsampear
 	{
 	public:
 		enum class PlayStatus {Status_end, Status_playing, Status_pause, Status_wait};
+		enum class ClockMasterType {AudioMaster, VideoMaster, EXTERNAL_CLOCK};
 
 		AVPlayer();
 		~AVPlayer();
@@ -32,6 +33,9 @@ namespace balsampear
 		void pause();
 		void stop();
 		PlayStatus status();
+
+
+		//callback只负责将数据传回界面，不允许在callback中刷新UI
 		void setVideoRefreshCallback(std::function<void(std::weak_ptr<VideoFrame>)> f);
 		void setSourceEndCallBack(std::function<void()> f);//播放完成回调
 		void setProgressChangeCallBack(std::function<void(double)> f);//播放进度变化回调
@@ -48,6 +52,7 @@ namespace balsampear
 		void wakeAllThread();//唤醒所有操作队列的线程
 
 		void calcTime();
+		bool ended();
 
 	private:
 		StringPiece file_;
@@ -57,7 +62,6 @@ namespace balsampear
 		AVThread audioRenderThread_;
 		AVThread videoRenderThread_;
 		Timer standardTimer;
-		uint64 standardTimeStamp_;
 		BlockingQueue<Packet> audioPackets;
 		BlockingQueue<Packet> videoPackets;
 		BlockingQueue<AudioFrame> audioFrames;
@@ -71,6 +75,8 @@ namespace balsampear
 		std::function<void(double)> progressChangeCallBack_;
 		bool loaded;
 		PlayStatus state_;
+		ClockMasterType clockmastertype_;
+		uint64 clockmaster_msec_;
 	};
 }
 

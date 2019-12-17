@@ -1,5 +1,7 @@
 #pragma once
+#include <map>
 
+using uint64 = unsigned long long;
 namespace balsampear
 {
 	class AudioRenderer
@@ -11,13 +13,18 @@ namespace balsampear
 		void init();
 
 		void play();
+		void pause();
 
-		void update(void* data);
+		void queue(void* data, uint64 timestamp_msec);
+		uint64 unqueue();
+		bool playing();
 
-		size_t queuedFrameNum();
-		void unqueue();
+		int QueueSize();
+		
 	protected:
 		AudioRenderer(const AudioRenderer&) = delete;
 		AudioRenderer& operator=(const AudioRenderer&) = delete;
+
+		std::map<int, uint64> buffermap_;
 	};
 }

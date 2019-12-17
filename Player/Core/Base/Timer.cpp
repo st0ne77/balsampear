@@ -5,7 +5,8 @@ namespace balsampear
 {
 
 	Timer::Timer()
-		:exit_(false)
+		:exit_(false),
+		th_(nullptr)
 	{
 
 	}
@@ -23,8 +24,14 @@ namespace balsampear
 
 	void Timer::start(int msec)
 	{
-
-		th_ = std::thread([=]()
+		if (th_)
+		{
+			exit_ = true;
+			th_->join();
+			th_ = nullptr;
+		}
+		exit_ = false;
+		th_ = std::make_unique<std::thread>([=]()
 			{
 				for (;;)
 				{
@@ -35,7 +42,6 @@ namespace balsampear
 						task_();
 				}
 			});
-		th_.detach();
 	}
 
 	void Timer::start(int msec, std::function<void()> callback)
@@ -47,7 +53,7 @@ namespace balsampear
 	void Timer::exit()
 	{
 		exit_ = true;
-		th_.join();
+		th_->join();
 	}
 
 }

@@ -4,7 +4,7 @@
 #include <iostream>
 namespace balsampear
 {
-	template<class T, size_t size = 4096>
+	template<class T>
 	class MemoryPool
 	{
 	public:
@@ -20,132 +20,118 @@ namespace balsampear
 
 	private:
 		typedef char* data_pointer_;
-
-		void allocBlock();
-
-		mutable std::mutex lock_;
-		data_pointer_ data_;
-		std::map<data_pointer_, size_t> busyBlock;
-		std::map<data_pointer_, size_t> freeBlock;
-		size_t unuse;//debug
+		class block
+		{
+		public:
+			block()
+			{
+				data_ = nullptr;
+				size_ = 0;
+				pre_ = nullptr;
+				next_ = nullptr;
+				free_ = false;
+			}
+			~block()
+			{
+				delete next_;
+				next_ = nullptr;
+				if (data_)
+				{
+					delete[] data_;
+					data_ = nullptr;
+				}
+				
+			}
+			data_pointer_ data_;
+			size_t size_;
+			block* pre_;
+			block* next_;
+			bool free_;
+		};
+		block* allocBlock(size_t size)
+		{
+			block* b = new block();
+			b->data_ = reinterpret_cast<data_pointer_>(operator new(size));
+			assert(b->data_ != nullptr);
+			b->size_ = size;
+			return b;
+		}
+		block* head_;
 	};
 
-	template<class T, size_t size>
-	MemoryPool<T, size>::~MemoryPool()
+	template<class T>
+	MemoryPool<T>::~MemoryPool()
 	{
-		delete data_;
-		data_ = nullptr;
+		delete head_;
+		head_ = nullptr;
 	}
 
-	template<class T, size_t size>
-	MemoryPool<T, size>::MemoryPool()
-		:data_(nullptr)
+	template<class T>
+	MemoryPool<T>::MemoryPool()
+		:head_(nullptr)
 	{
-		allocBlock();
-		unuse = 0;
+
 	}
 
-	template<class T, size_t size>
-	void MemoryPool<T, size>::allocBlock()
-	{
-		if (!data_)
-		{
-			data_ = reinterpret_cast<data_pointer_>(operator new(size * sizeof(T)));
-			assert(data_!=nullptr);
-			freeBlock[data_] = size * sizeof(T);
-		}
-			
-	}
 	
-	template<class T, size_t size>
-	typename MemoryPool<T, size>::pointer
-	MemoryPool<T, size>::allocate(size_t n)
+	template<class T>
+	typename MemoryPool<T>::pointer
+	MemoryPool<T>::allocate(size_t n)
 	{
-		std::unique_lock<std::mutex> locker(lock_);
-		size_t expectSize = sizeof(T) * n;
-		data_pointer_ expectPoint = nullptr;
-		std::map<data_pointer_, size_t>::iterator it = freeBlock.begin();
-		for (; it != freeBlock.end(); ++it)
+		size_t bytesize = sizeof(T) * n;
+		if (head_)
 		{
-			if (it->second >= expectSize)
+			block* node = head_;
+			block* last = nullptr;
+			for (; node; node = node->next_)
 			{
-				expectPoint = it->first;
+				last = node;
+				if (node->size_ == bytesize && node->free_)
+				{
+					node->free_ = false;
+					return reinterpret_cast<pointer>(node->data_);
+				}
+				else if (node->size_ > bytesize && node->free_)
+				{
+					size_t diff = node->size_ - bytesize;
+					node->free_ = false;
+					node->size_ = bytesize;
+
+					block* next = new block();
+					next->next_ = node->next_;
+					next->next_->pre_ = next;
+					node->next_ = next;
+					next->pre_ = node;
+					next->size_ = diff;
+					next->data_ = node->data_ + diff;
+					next->free_ = true;
+					return reinterpret_cast<pointer>(node->data_);
+				}
+			}
+			assert(last != nullptr);
+			last->next_ = allocBlock(bytesize);
+			last->next_->free_ = false;
+			return reinterpret_cast<pointer>(last->next_->data_);
+		} 
+		else
+		{
+			head_ = allocBlock(bytesize);
+			head_->free_ = false;
+			return reinterpret_cast<pointer>(head_->data_);
+		}
+	}
+
+	template<class T>
+	void MemoryPool<T>::deallocate(pointer ptr)
+	{
+		block* node = head_;
+		for (; node; node = node->next_)
+		{
+			if (reinterpret_cast<pointer>(node->data_) == ptr)
+			{
+				node->free_ = true;
 				break;
 			}
-		}
-		assert(expectPoint != nullptr);
-		size_t different = it->second - expectSize;
-		freeBlock.erase(it);
-		if (different > 0)
-		{
-			freeBlock[expectPoint + expectSize] = different;
-		}
-		busyBlock[expectPoint] = expectSize;
-		unuse += expectSize;
-		std::cout<<"unuse:"<< unuse <<std::endl;
-		return reinterpret_cast<pointer>(expectPoint);
-	}
-
-	template<class T, size_t size>
-	void MemoryPool<T, size>::deallocate(pointer ptr)
-	{
-		std::unique_lock<std::mutex> locker(lock_);
-		data_pointer_ p = reinterpret_cast<data_pointer_>(ptr);
-		std::map<data_pointer_, size_t>::iterator current = busyBlock.find(p);
-		if (current != busyBlock.end())
-		{
-			if (unuse <= current->second)
-			{
-				int i = 0;
-			}
-			unuse -= current->second;
-			std::cout << "unuse:" << unuse << std::endl;
-			std::cout << "unuse %:" << (double)unuse / size<< std::endl;
-
-			//find pre free block and next free block to merge it
-			std::map<data_pointer_, size_t>::iterator free = freeBlock.begin();
-			std::map<data_pointer_, size_t>::iterator free_next;
-			for (; free != freeBlock.end(); ++free)
-			{
-				free_next  = free;
-				advance(free_next, 1);// move to next
-				if (free->first < current->first && (free_next == freeBlock.end() || free_next->first > current->first))
-				{
-					break;
-				}
-			}
-
-			if (free != freeBlock.end())
-			{
-				//current point + current size equ  next,merge that
-				if (free_next != freeBlock.end() && current->first + current->second == free_next->first)
-				{
-					current->second += free_next->second;
-					freeBlock.erase(free_next);
-				}
-
-				//pre point + pre size equ current ,merge that
-				if (free->first + free->second == current->first)
-				{
-					free->second += current->second;
-				}
-				else
-				{
-					freeBlock[current->first] = current->second;
-				}
-			}
-			else//is first block
-			{
-				free_next = freeBlock.begin();
-				if (free_next != freeBlock.end() && current->first + current->second == free_next->first)
-				{
-					current->second += free_next->second;
-					freeBlock.erase(free_next);
-				}
-				freeBlock[current->first] = current->second;
-			}
-			
-			busyBlock.erase(current);
 		}
 	}
 

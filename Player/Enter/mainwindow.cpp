@@ -32,7 +32,8 @@ namespace balsampear
 		connect(&timer, SIGNAL(timeout()), this, SLOT(updateVideo()));
 		
 
-		player_.load("E:\\Project\\TestFile\\video.mp4");
+		player_.load("E:\\Ubuntu\\server_upload\\media\\110.mp4");
+		//player_.load("rtmp://127.0.0.1/video/video.mp4");
 		player_.setSourceEndCallBack(std::bind(&MainWindow::sourceEndCallBack, this));
 		player_.setProgressChangeCallBack(std::bind(&ControlWidget::setPlayProgress, control_, _1));
 		player_.setVideoRefreshCallback(std::bind(&OpenGLPlayWidget::refresh, p, _1));
@@ -54,12 +55,13 @@ namespace balsampear
 
 	void MainWindow::closeEvent(QCloseEvent* event)
 	{
-		
+		player_.stop();
 	}
 
 	void MainWindow::updateVideo()
 	{
 		playArea_->update();
+		control_->update();
 	}
 
 	void MainWindow::changePlayStatus()
@@ -101,13 +103,12 @@ namespace balsampear
 	{
 		control_->setPlayingStatus(false);
 		playArea_->update();
-		timer.stop();
 	}
 
 	void MainWindow::startPlay()
 	{
 		player_.start();
-		timer.start(20);//开启定时器刷新视频显示区
+		timer.start(20);//开启定时器刷新视频显示区与进度条
 	}
 
 	void MainWindow::dragEnterEvent(QDragEnterEvent* event)

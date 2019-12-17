@@ -2,9 +2,11 @@
 #include "AL/al.h"
 #include "AL/alc.h"
 #include "AL/alext.h"
+#include <corecrt_memory.h>
+#include <assert.h>
 namespace balsampear
 {
-
+	ALCcontext* m_Context = nullptr;
 	AudioRenderer::AudioRenderer()
 	{
 
@@ -12,7 +14,10 @@ namespace balsampear
 
 	AudioRenderer::~AudioRenderer()
 	{
-
+		ALCdevice * device = alcGetContextsDevice(m_Context);
+		alcMakeContextCurrent(NULL);
+		alcDestroyContext(m_Context);
+		alcCloseDevice(device);
 	}
 
 
@@ -44,7 +49,7 @@ namespace balsampear
 		if (m_Devicde)
 		{
 			//建立声音文本描述
-			ALCcontext *m_Context = alcCreateContext(m_Devicde, nullptr);
+			m_Context = alcCreateContext(m_Devicde, nullptr);
 
 			//设置行为文本描述
 			alcMakeContextCurrent(m_Context);
@@ -84,36 +89,70 @@ namespace balsampear
 		}
 	}
 
-	void AudioRenderer::update(void* data)
+	void AudioRenderer::pause()
+	{
+		alSourcePause(Source);
+	}
+
+
+	using Byte = unsigned char;
+	void AudioRenderer::queue(void* data, uint64 timestamp_msec)
 	{
 		
 		alGenBuffers(1, &Buffer);
 		if (alGetError() != AL_NO_ERROR)
-			return;
-		alBufferData(Buffer, AL_FORMAT_STEREO8, data, 2048, 44100);
+			return ;
+
+		alBufferData(Buffer, AL_FORMAT_STEREO8, data, 1024, 44100);
 		ALenum e = alGetError();
-		if (e != AL_NO_ERROR)
-			return;
+		assert(e == AL_NO_ERROR);
 		alSourceQueueBuffers(Source, 1, &Buffer);
+		buffermap_.insert(std::make_pair(Buffer, timestamp_msec));
+		return ;
 	}
 
-	size_t AudioRenderer::queuedFrameNum()
+	bool AudioRenderer::playing()
 	{
-		ALint processed = 0;
-		alGetSourcei(Source, AL_BUFFERS_QUEUED, &processed);
-		return processed;
+		int state;
+		alGetSourcei(Source, AL_SOURCE_STATE, &state);
+		if (state != AL_PLAYING)
+		{
+			int i = 0;
+		}
+		if (state == AL_PLAYING)
+		{
+			int i = 0;
+		}
+		return state == AL_PLAYING;
 	}
 
-	void AudioRenderer::unqueue()
+
+	int AudioRenderer::QueueSize()
 	{
+		int size = 0;
+		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &size);
+		return size;
+	}
+
+	uint64 AudioRenderer::unqueue()
+	{
+		uint64 timestamp = -1;
+		ALuint bufferID = 0;
 		ALint processed = 0;
 		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
 		while (processed > 0)
 		{
-			ALuint bufferID = 0;
 			alSourceUnqueueBuffers(Source, 1, &bufferID);
+			alDeleteBuffers(1, &bufferID);
+			std::map<int, uint64>::iterator it = buffermap_.find(bufferID);
+			if (it != buffermap_.end())
+			{
+				timestamp = it->second + 23;
+				buffermap_.erase(it);
+			}
 			processed--;
 		}
+		return timestamp;
 	}
 
 }

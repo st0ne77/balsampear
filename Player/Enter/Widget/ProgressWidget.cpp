@@ -17,7 +17,6 @@ namespace balsampear
 	void ProgressWidget::setPlayProgress(double progress)
 	{
 		progress_ = progress;
-		update();
 	}
 
 	void ProgressWidget::paintEvent(QPaintEvent* event)

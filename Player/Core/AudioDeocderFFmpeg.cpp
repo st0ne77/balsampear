@@ -73,10 +73,13 @@ namespace balsampear
 		AudioFrame f(fmt);
 		f.allocMemory(bufferSize);
 		Byte* ptr = (Byte*)f.data();
+		memset(ptr, 0, bufferSize);
 		swr_init(mpSwrCtx);
 		int convertSize = swr_convert(mpSwrCtx, &ptr,
 			avframe_->nb_samples,
 			(const uint8_t**)avframe_->extended_data, avframe_->nb_samples);
+
+		f.setTimeStampMsec(avframe_->pts * 1000 / avframe_->sample_rate);
 		return f;
 	}
 
