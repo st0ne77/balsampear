@@ -3,7 +3,6 @@
 #include <map>
 #include <iostream>
 
-#define print(log)  std::cout<<log<<std::endl;
 
 namespace balsampear
 {
@@ -89,10 +88,9 @@ namespace balsampear
 			for (; node; node = node->next_)
 			{
 				last = node;
-				if (node->size_ >= bytesize && node->free_)
+				if (node->size_ >= bytesize && node->free_)//防止内存碎片化，禁止走下面的分支
 				{
 					node->free_ = false;
-					print(0);
 					return reinterpret_cast<pointer>(node->data_);
 				}
 				else if (node->size_ > bytesize && node->free_)
@@ -109,21 +107,18 @@ namespace balsampear
 					next->size_ = diff;
 					next->data_ = node->data_ + diff;
 					next->free_ = true;
-					print(1);
 					return reinterpret_cast<pointer>(node->data_);
 				}
 			}
 			assert(last != nullptr);
 			last->next_ = allocBlock(bytesize);
 			last->next_->free_ = false;
-			print(2);
 			return reinterpret_cast<pointer>(last->next_->data_);
 		} 
 		else
 		{
 			head_ = allocBlock(bytesize);
 			head_->free_ = false;
-			print(3);
 			return reinterpret_cast<pointer>(head_->data_);
 		}
 	}

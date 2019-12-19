@@ -5,7 +5,6 @@ extern "C"
 #include "libavutil/imgutils.h"
 #include "libswscale/swscale.h"
 #include "libswresample/swresample.h"
-#include "libavutil/time.h"
 }
 #include "Packet.h"
 #include "MemoryManager.h"
@@ -53,7 +52,7 @@ namespace balsampear
 
 		//content->data_.resize(8192);
 		//memcpy(&content->data_[0], avframe_->data[0], 8192);
-		//if (!mpSwrCtx)
+		if (!mpSwrCtx)
 		{
 			mpSwrCtx = swr_alloc();
 			mpSwrCtx = swr_alloc_set_opts(mpSwrCtx,
@@ -84,7 +83,7 @@ namespace balsampear
 		uint64 duration = avframe_->nb_samples * 1000 / avframe_->sample_rate;
 		f.setTimeStampMsec(timestamp_msec);
 		f.setDuration(duration);
-		swr_free(&mpSwrCtx);
+		//swr_free(&mpSwrCtx);
 		return f;
 	}
 

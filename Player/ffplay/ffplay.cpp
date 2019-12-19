@@ -22,9 +22,9 @@
  * @file
  * simple media player based on the FFmpeg libraries
  */
-
-#include "include/SDL.h"
-#include "include/SDL_thread.h"
+#if defined (_WIN32) && (!_WIN64)//缺少sdl2的64位库文件，有空补一下
+#include "SDL.h"
+#include "SDL_thread.h"
 extern "C"
 {
 
@@ -3700,3 +3700,4 @@ int main(int argc, char **argv)
     return 0;
 }
 }
+#endif
