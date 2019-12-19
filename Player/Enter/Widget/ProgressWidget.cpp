@@ -1,12 +1,14 @@
 #include "ProgressWidget.h"
 #include "QPainter"
+#include "qevent.h"
+#include "ControlWidget.h"
 namespace balsampear
 {
 	ProgressWidget::ProgressWidget(QWidget* parent)
 		:QWidget(parent),
 		progress_(0.0)
 	{
-
+		controlWidget_ = dynamic_cast<ControlWidget*>(parent);
 	}
 
 	ProgressWidget::~ProgressWidget()
@@ -35,7 +37,14 @@ namespace balsampear
 
 	void ProgressWidget::mousePressEvent(QMouseEvent* event)
 	{
+		int width = this->width();
+		int height = this->height();
+		int x = event->x();
 
+		if (controlWidget_)
+		{
+			emit controlWidget_->seekProgress((double)x / width);
+		}
 	}
 
 }

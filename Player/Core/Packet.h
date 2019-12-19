@@ -16,9 +16,14 @@ namespace balsampear
 		~Packet();
 		static Packet createFromAVPacket(const AVPacket* avpkt);
 		const AVPacket* asAVPacket() const;
+		static Packet pktEof;
+		static Packet createEofPacket();
 
+		void setEof(bool _val);
+		bool eof();
 	private:
 		AVPacket avpkt;
+		bool eof_;
 	};
 }
 

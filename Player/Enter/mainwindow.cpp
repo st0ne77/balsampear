@@ -24,19 +24,21 @@ namespace balsampear
 		control_ = new ControlWidget(&fullWidget_);
 		balsampear::OpenGLPlayWidget* p = new balsampear::OpenGLPlayWidget(&fullWidget_);
 		playArea_ = p;
-		layout_.addWidget(playArea_, 9);
-		layout_.addWidget(control_, 1);
+		layout_.addWidget(playArea_, 91);
+		layout_.addWidget(control_, 9);
 
 		connect(control_, SIGNAL(checkChangePlayStatus()), this, SLOT(changePlayStatus()));
 		connect(control_, SIGNAL(stopPlay()), this, SLOT(stopPlay()));
 		connect(&timer, SIGNAL(timeout()), this, SLOT(updateVideo()));
+		connect(control_, SIGNAL(seekProgress(double)), this, SLOT(seekProgress(double)));
 		
 
-		player_.load("E:\\Ubuntu\\server_upload\\media\\110.mp4");
+		player_.load("E:\\Ubuntu\\server_upload\\media\\video.mp4");
 		//player_.load("rtmp://127.0.0.1/video/video.mp4");
 		player_.setSourceEndCallBack(std::bind(&MainWindow::sourceEndCallBack, this));
 		player_.setProgressChangeCallBack(std::bind(&ControlWidget::setPlayProgress, control_, _1));
 		player_.setVideoRefreshCallback(std::bind(&OpenGLPlayWidget::refresh, p, _1));
+		//player_.seek(0.9);
 		setAcceptDrops(true);//drop file int this window
 	}
 
@@ -97,6 +99,11 @@ namespace balsampear
 		playArea_->update();
 		control_->setPlayingStatus(false);
 		timer.stop();
+	}
+
+	void MainWindow::seekProgress(double pos)
+	{
+		player_.seek(pos);
 	}
 
 	void MainWindow::sourceEndCallBack()

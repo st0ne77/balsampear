@@ -5,6 +5,7 @@ extern "C"
 #include "libavutil/imgutils.h"
 #include "libswscale/swscale.h"
 #include "libswresample/swresample.h"
+#include "libavutil/time.h"
 }
 #include "Packet.h"
 #include "MemoryManager.h"
@@ -52,7 +53,7 @@ namespace balsampear
 
 		//content->data_.resize(8192);
 		//memcpy(&content->data_[0], avframe_->data[0], 8192);
-		if (!mpSwrCtx)
+		//if (!mpSwrCtx)
 		{
 			mpSwrCtx = swr_alloc();
 			mpSwrCtx = swr_alloc_set_opts(mpSwrCtx,
@@ -66,7 +67,7 @@ namespace balsampear
 				NULL
 			);
 		}
-
+		
 		AudioFormat fmt = AudioFormat::create(codecCtx_->sample_fmt, (int)codecCtx_->channel_layout, codecCtx_->sample_rate);
 		
 		int bufferSize = av_samples_get_buffer_size(NULL, 2, avframe_->nb_samples, AV_SAMPLE_FMT_U8, 1);
@@ -78,8 +79,12 @@ namespace balsampear
 		int convertSize = swr_convert(mpSwrCtx, &ptr,
 			avframe_->nb_samples,
 			(const uint8_t**)avframe_->extended_data, avframe_->nb_samples);
-
-		f.setTimeStampMsec(avframe_->pts * 1000 / avframe_->sample_rate);
+		sample_count_ += avframe_->nb_samples;
+		uint64 timestamp_msec = sample_count_ * 1000 / avframe_->sample_rate;
+		uint64 duration = avframe_->nb_samples * 1000 / avframe_->sample_rate;
+		f.setTimeStampMsec(timestamp_msec);
+		f.setDuration(duration);
+		swr_free(&mpSwrCtx);
 		return f;
 	}
 

@@ -9,7 +9,7 @@ namespace balsampear
 	AVPlayer::AVPlayer()
 		:loaded(false),
 		demuxerThread_("demux thread"),
-		aDeocderThread_("audio decode thread"),
+		aDecoderThread_("audio decode thread"),
 		vDecoderThread_("video decode thread"),
 		videoRenderThread_("video render thread"),
 		audioRenderThread_("audio render thread"),
@@ -88,6 +88,19 @@ namespace balsampear
 		}
 	}
 
+	void AVPlayer::seek(double pos)
+	{
+		state_ = PlayStatus::Status_end;
+		arender.stop();
+		stopAllTask();
+		clearAll();
+		double timestamp = parser_->duration() * pos;
+		demuxer_->seek(timestamp);
+		adecoder_->setSampleCount(timestamp * parser_->getAudioFormat().sampleRate());
+		startAllTask();
+		state_ = PlayStatus::Status_playing;
+	}
+
 	void AVPlayer::pause()
 	{
 		if (state_ == PlayStatus::Status_playing)
@@ -100,6 +113,7 @@ namespace balsampear
 
 	void AVPlayer::stop()
 	{
+		arender.stop();
 		stopAllTask();
 		state_ = PlayStatus::Status_end;
 		clearAll();
@@ -113,6 +127,11 @@ namespace balsampear
 		return state_;
 	}
 
+
+	bool AVPlayer::ended()
+	{
+		return state_ == PlayStatus::Status_end;
+	}
 
 	void AVPlayer::setVideoRefreshCallback(std::function<void(std::weak_ptr<VideoFrame>)> f)
 	{
@@ -146,6 +165,14 @@ namespace balsampear
 			
 		Packet pkt = demuxer_->packet();
 		const AVPacket* avpkt = pkt.asAVPacket(); 
+
+		if (pkt.eof())
+		{
+			audioPackets.put(pkt, std::bind(&AVPlayer::ended, this));
+			videoPackets.put(pkt, std::bind(&AVPlayer::ended, this));
+			return;
+		}
+
 		if (avpkt->stream_index == parser_->audioStream())
 		{
 			audioPackets.put(pkt, std::bind(&AVPlayer::ended, this));
@@ -164,6 +191,14 @@ namespace balsampear
 		Packet pkt;
 		if (!audioPackets.tack(pkt, std::bind(&AVPlayer::ended, this)))
 		{
+			return;
+		}
+		if (pkt.eof())
+		{
+			AudioFrame frame;
+			frame.setEof(true);
+			audioFrames.put(frame, std::bind(&AVPlayer::ended, this));
+			aDecoderThread_.stopTask();
 			return;
 		}
 
@@ -185,6 +220,15 @@ namespace balsampear
 			return;
 		}
 
+		if (pkt.eof())
+		{
+			VideoFrame frame;
+			frame.setEof(true);
+			videoFrames.put(frame, std::bind(&AVPlayer::ended, this));
+			vDecoderThread_.stopTask();
+			return;
+		}
+
 		if (vdecoder_->decode(pkt))
 		{
 			VideoFrame frame = vdecoder_->frame();
@@ -198,11 +242,17 @@ namespace balsampear
 		if (!videoFrames.tack(*cache, std::bind(&AVPlayer::ended, this)))
 		{
 			return;
-		} 
+		}
+		
+		if (cache->eof())
+		{
+			videoRenderThread_.stopTask();
+			return;
+		}
 		if (videoRefreshCallback_)
 			videoRefreshCallback_(cache);
 
-		uint64 curTimeStampMSec = (uint64)parser_->timebase() * cache->getTimeStampMsec() * 1000;
+		uint64 curTimeStampMSec = (uint64)(parser_->timebase() * cache->getTimeStampMsec() * 1000);
 		uint64 stdtimestampMSec = clockmaster_msec_;
 
 		int rate = parser_->framerate();
@@ -234,7 +284,11 @@ namespace balsampear
 		{
 			return;
 		}
-		
+		if (cache->eof())
+		{
+			audioRenderThread_.stopTask();
+			return;
+		}
 		for (; arender.QueueSize() >= 8;)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(23));
@@ -246,7 +300,7 @@ namespace balsampear
 	void AVPlayer::startAllTask()
 	{
 		demuxerThread_.startTask(std::bind(&AVPlayer::demux, this));
-		aDeocderThread_.startTask(std::bind(&AVPlayer::decodeAudio, this));
+		aDecoderThread_.startTask(std::bind(&AVPlayer::decodeAudio, this));
 		vDecoderThread_.startTask(std::bind(&AVPlayer::decodeVideo, this));
 		videoRenderThread_.startTask(std::bind(&AVPlayer::renderVideo, this));
 		audioRenderThread_.startTask(std::bind(&AVPlayer::renderAudio, this));
@@ -255,10 +309,11 @@ namespace balsampear
 	void AVPlayer::stopAllTask()
 	{
 		demuxerThread_.stopTask();
-		aDeocderThread_.stopTask();
+		aDecoderThread_.stopTask();
 		vDecoderThread_.stopTask();
 		videoRenderThread_.stopTask();
 		audioRenderThread_.stopTask();
+		wakeAllThread();
 		
 	}
 
@@ -287,8 +342,9 @@ namespace balsampear
 
 		//清除播放完的音频段，并根据音频段计算当前时间戳
 		uint64 timestamp = arender.unqueue();
-		if (-1 != timestamp && clockmastertype_ == ClockMasterType::AudioMaster)
+		if (0 != timestamp && clockmastertype_ == ClockMasterType::AudioMaster)
 		{
+			//double d = timestamp * parser_->timebase();
 			clockmaster_msec_ = timestamp;
 		}
 
@@ -297,25 +353,16 @@ namespace balsampear
 			progressChangeCallBack_((double)clockmaster_msec_ / 1000 / duration);
 		double a = fabs(duration - (double)clockmaster_msec_ / 1000);
 		double b = ((double)1.0 / parser_->framerate() * 3);
-		if (a <= b)//如在时间差三帧以内，则认为是结束了
+		
+		if (!videoRenderThread_.taskRunning())
 		{
-			state_ = PlayStatus::Status_end;
-			clockmaster_msec_ = 0;
 			if (progressChangeCallBack_)
-			{
 				progressChangeCallBack_(1.0);
-			}
 			if (sourceEndCallBack_)
-			{
 				sourceEndCallBack_();
-			}
+			state_ = PlayStatus::Status_end;
 		}
-
-	}
-
-	bool AVPlayer::ended()
-	{
-		return state_ == PlayStatus::Status_end;
+		
 	}
 
 }

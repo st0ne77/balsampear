@@ -6,7 +6,7 @@ namespace balsampear
 {
 
 	OpenGLYUV420PRender::OpenGLYUV420PRender()
-		:OpenGLRenderer("..\\shader\\yuv420p.vert", "..\\shader\\yuv420p.frag"),
+		:OpenGLRenderer("shader\\yuv420p.vert", "shader\\yuv420p.frag"),
 		textureYUV {0,0,0}
 	{
 

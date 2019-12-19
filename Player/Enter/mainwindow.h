@@ -21,6 +21,7 @@ namespace balsampear
 		void updateVideo();
 		void changePlayStatus();
 		void stopPlay();
+		void seekProgress(double);
 
 	private:
 		void sourceEndCallBack();

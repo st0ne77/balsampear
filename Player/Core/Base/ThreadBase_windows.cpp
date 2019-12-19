@@ -2,7 +2,7 @@
 
 namespace balsampear
 {
-#ifdef WIN32
+#ifdef _WIN32
 #include "windows.h"
 
 	const DWORD MS_VC_EXCEPTION = 0x406D1388;

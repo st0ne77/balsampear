@@ -29,7 +29,7 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 }
 
-int main_0(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

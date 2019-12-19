@@ -14,6 +14,7 @@ namespace balsampear
 
 		void play();
 		void pause();
+		void stop();
 
 		void queue(void* data, uint64 timestamp_msec);
 		uint64 unqueue();

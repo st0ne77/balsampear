@@ -3,6 +3,7 @@
 
 namespace balsampear
 {
+	class ControlWidget;
 	class ProgressWidget : public QWidget
 	{
 		Q_OBJECT
@@ -17,6 +18,7 @@ namespace balsampear
 		virtual void mousePressEvent(QMouseEvent* event);
 
 	protected:
+		ControlWidget* controlWidget_;
 		double progress_;
 	};
 }

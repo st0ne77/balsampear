@@ -16,6 +16,7 @@ namespace balsampear
 	signals:
 		void checkChangePlayStatus();
 		void stopPlay();
+		void seekProgress(double);
 	protected:
 		virtual void paintEvent(QPaintEvent* event);
 

@@ -19,7 +19,7 @@ namespace balsampear
 	class AVPlayer
 	{
 	public:
-		enum class PlayStatus {Status_end, Status_playing, Status_pause, Status_wait};
+		enum class PlayStatus {Status_end, Status_playing, Status_pause, Status_prepare};
 		enum class ClockMasterType {AudioMaster, VideoMaster, EXTERNAL_CLOCK};
 
 		AVPlayer();
@@ -30,9 +30,11 @@ namespace balsampear
 		void setFile(const StringPiece& file);
 		inline bool isLoaded() { return loaded; }
 		void start();
+		void seek(double pos);
 		void pause();
 		void stop();
 		PlayStatus status();
+		bool ended();
 
 
 		//callback只负责将数据传回界面，不允许在callback中刷新UI
@@ -52,12 +54,11 @@ namespace balsampear
 		void wakeAllThread();//唤醒所有操作队列的线程
 
 		void calcTime();
-		bool ended();
 
 	private:
 		StringPiece file_;
 		AVThread demuxerThread_;
-		AVThread aDeocderThread_;
+		AVThread aDecoderThread_;
 		AVThread vDecoderThread_;
 		AVThread audioRenderThread_;
 		AVThread videoRenderThread_;

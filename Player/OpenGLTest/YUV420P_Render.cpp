@@ -7,7 +7,7 @@
 
 
 using namespace balsampear;
-int main()
+int main_1()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -92,22 +92,17 @@ int main()
 	glBindVertexArray(0);
 
 	AVPlayer player;
-	if (!player.load("E:\\Project\\TestFile\\110.mp4"))
+	if (!player.load("E:\\Ubuntu\\server_upload\\media\\video.mp4"))
 	{
 		return 0;
 	}
 	player.start();
-	player.setProgressChangeCallBack([](double d) {
-		//std::cout <<"timestamp:"<< d<<std::endl;
-		if (0.68 - d<= 0.01)
-		{
-			int i = 0;
-		}
-		});
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	player.seek(0.4);
 
 
-
-	Shader shader("..\\shader\\yuv420p.vert", "..\\shader\\yuv420p.frag");
+	Shader shader("shader\\yuv420p.vert", "shader\\yuv420p.frag");
 	while (!glfwWindowShouldClose(window))
 	{
 		// render

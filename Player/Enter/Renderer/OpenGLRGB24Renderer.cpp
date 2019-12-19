@@ -3,7 +3,7 @@
 namespace balsampear 
 {
 	OpenGLRGB24Renderer::OpenGLRGB24Renderer()
-		:OpenGLRenderer("..\\shader\\rgb24.vert", "..\\shader\\rgb24.frag"),
+		:OpenGLRenderer("shader\\rgb24.vert", "shader\\rgb24.frag"),
 		textureRGB(0)
 	{
 

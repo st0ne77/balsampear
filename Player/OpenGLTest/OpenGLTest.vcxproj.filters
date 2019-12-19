@@ -15,19 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="YUV420P_Render.cpp">
+    <ClCompile Include="glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="ffplay.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

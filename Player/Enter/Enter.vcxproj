@@ -173,7 +173,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../FFmpeg/lib_x86/avcodec.lib;../FFmpeg/lib_x86/avdevice.lib;../FFmpeg/lib_x86/avfilter.lib;../FFmpeg/lib_x86/avformat.lib;../FFmpeg/lib_x86/avutil.lib;../FFmpeg/lib_x86/postproc.lib;../FFmpeg/lib_x86/swresample.lib;../FFmpeg/lib_x86/swscale.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../lib_x86/FFmpeg/avcodec.lib;../lib_x86/FFmpeg/avdevice.lib;../lib_x86/FFmpeg/avfilter.lib;../lib_x86/FFmpeg/avformat.lib;../lib_x86/FFmpeg/avutil.lib;../lib_x86/FFmpeg/postproc.lib;../lib_x86/FFmpeg/swresample.lib;../lib_x86/FFmpeg/swscale.lib;../lib_x86/AL/OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -183,11 +183,13 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>.;../Core;../include/FFmpeg;../include;../include/GLEW;Renderer;Widget;$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>../lib_x64/FFmpeg/avcodec.lib;../lib_x64/FFmpeg/avdevice.lib;../lib_x64/FFmpeg/avfilter.lib;../lib_x64/FFmpeg/avformat.lib;../lib_x64/FFmpeg/avutil.lib;../lib_x64/FFmpeg/postproc.lib;../lib_x64/FFmpeg/swresample.lib;../lib_x64/FFmpeg/swscale.lib;../lib_x64/GLEW/glew32.lib;opengl32.lib;../lib_x64/AL/OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

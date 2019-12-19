@@ -19,7 +19,11 @@ namespace balsampear
 		const Byte* data() const;
 		void setTimeStampMsec(uint64 t);
 		uint64 getTimeStampMsec()const;
+		void setDuration(uint64 t);
+		uint64 getDuration();
 		void allocMemory(size_t size);
+		void setEof(bool _val);
+		bool eof();
 	protected:
 		class DataManager
 		{
@@ -33,6 +37,8 @@ namespace balsampear
 		};
 		shared_ptr<DataManager> data_;
 		uint64 timestamp_msec_;
+		uint64 duration_;
+		bool eof_;
 	};
 }
 

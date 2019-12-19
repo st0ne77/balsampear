@@ -13,6 +13,7 @@ namespace balsampear
 		virtual AudioFrame frame();
 	protected:
 		AVFrame* avframe_;
+		
 	};
 }
 

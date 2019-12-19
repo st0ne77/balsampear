@@ -6,18 +6,21 @@ namespace balsampear
 	Packet::Packet()
 	{
 		av_init_packet(&avpkt);
+		eof_ = false;
 	}
 
 	Packet::Packet(const Packet& other)
 	{
 		av_init_packet(&avpkt);
 		av_packet_ref(&avpkt, &other.avpkt);
+		eof_ = other.eof_;
 	}
 
 	Packet& Packet::operator=(const Packet& other)
 	{
 		av_init_packet(&avpkt);
 		av_packet_ref(&avpkt, &other.avpkt);
+		eof_ = other.eof_;
 		return *this;
 	}
 
@@ -37,4 +40,24 @@ namespace balsampear
 	{
 		return (const AVPacket*)&avpkt;
 	}
+
+	Packet Packet::pktEof = createEofPacket();
+
+	Packet Packet::createEofPacket()
+	{
+		Packet pkt;
+		pkt.setEof(true);
+		return pkt;
+	}
+
+	void Packet::setEof(bool _val)
+	{
+		eof_ = _val;
+	}
+
+	bool Packet::eof()
+	{
+		return eof_;
+	}
+
 }

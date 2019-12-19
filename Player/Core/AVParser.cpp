@@ -83,7 +83,7 @@ namespace balsampear
 
 		if (aCodecCtx_)
 		{
-			//aformat_ = AudioFormat(aCodecCtx_->pix_fmt);
+			aformat_.setSampleRate(aCodecCtx_->sample_rate);
 			type_ |= static_cast<int>(MediaType::Type_Audio);
 		}
 		if (vCodecCtx_)

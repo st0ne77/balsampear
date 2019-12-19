@@ -5,7 +5,8 @@ namespace balsampear
 {
 
 	Frame::Frame()
-		:timestamp_msec_(0)
+		:timestamp_msec_(0),
+		eof_(false)
 	{
 
 	}
@@ -31,11 +32,31 @@ namespace balsampear
 		return timestamp_msec_;
 	}
 
+	void Frame::setDuration(uint64 t)
+	{
+		duration_ = t;
+	}
+
+	uint64 Frame::getDuration()
+	{
+		return duration_;
+	}
+
 	void Frame::allocMemory(size_t size)
 	{
 		if (!data_)
 			data_ = std::make_shared<DataManager>();
 		data_->allocMemory(size);
+	}
+
+	void Frame::setEof(bool _val)
+	{
+		eof_ = _val;
+	}
+
+	bool Frame::eof()
+	{
+		return eof_;
 	}
 
 	Frame::DataManager::DataManager()

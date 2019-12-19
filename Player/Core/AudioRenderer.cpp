@@ -92,8 +92,25 @@ namespace balsampear
 	void AudioRenderer::pause()
 	{
 		alSourcePause(Source);
+		ALint processed = 0;
+		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
+		if (processed > 0)
+		{
+			ALuint* bufferID = new ALuint[processed];
+			alSourceUnqueueBuffers(Source, processed, bufferID);
+			alDeleteBuffers(processed, bufferID);
+			delete[] bufferID;
+		}
+		
 	}
 
+
+	void AudioRenderer::stop()
+	{
+		alSourceStop(Source);
+		int size = 0;
+		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &size);
+	}
 
 	using Byte = unsigned char;
 	void AudioRenderer::queue(void* data, uint64 timestamp_msec)
@@ -103,7 +120,7 @@ namespace balsampear
 		if (alGetError() != AL_NO_ERROR)
 			return ;
 
-		alBufferData(Buffer, AL_FORMAT_STEREO8, data, 1024, 44100);
+		alBufferData(Buffer, AL_FORMAT_STEREO8, data, 2048, 44100);
 		ALenum e = alGetError();
 		assert(e == AL_NO_ERROR);
 		alSourceQueueBuffers(Source, 1, &Buffer);
@@ -136,21 +153,21 @@ namespace balsampear
 
 	uint64 AudioRenderer::unqueue()
 	{
-		uint64 timestamp = -1;
-		ALuint bufferID = 0;
+		uint64 timestamp = 0;
 		ALint processed = 0;
 		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
-		while (processed > 0)
+		if (processed > 0)
 		{
-			alSourceUnqueueBuffers(Source, 1, &bufferID);
-			alDeleteBuffers(1, &bufferID);
-			std::map<int, uint64>::iterator it = buffermap_.find(bufferID);
+			ALuint *bufferID = new ALuint[processed];
+			alSourceUnqueueBuffers(Source, processed, bufferID);
+			alDeleteBuffers(processed, bufferID);
+			std::map<int, uint64>::iterator it = buffermap_.find(bufferID[processed - 1]);
 			if (it != buffermap_.end())
 			{
-				timestamp = it->second + 23;
+				timestamp = it->second;
 				buffermap_.erase(it);
 			}
-			processed--;
+			delete[] bufferID;
 		}
 		return timestamp;
 	}
