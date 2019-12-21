@@ -43,13 +43,21 @@ namespace balsampear
 		{
 			adecoder_ = AudioDecoder::create();
 			if (adecoder_)
+			{
 				adecoder_->setCodecContext(parser_->getAudioCodecCtx());
+				adecoder_->setTimeBase(parser_->audeiotimebase());
+			}
+				
 		}
 		if (mediaType & 0x2)
 		{
 			vdecoder_ = VideoDecoder::create();
 			if (vdecoder_)
+			{
 				vdecoder_->setCodecContext(parser_->getVideoCodexCtx());
+				vdecoder_->setTimeBase(parser_->videotimebase());
+			}
+				
 		}
 		loaded = true;
 		return loaded;
@@ -96,7 +104,6 @@ namespace balsampear
 		clearAll();
 		double timestamp = parser_->duration() * pos;
 		demuxer_->seek(timestamp);
-		adecoder_->setSampleCount(timestamp * parser_->getAudioFormat().sampleRate());
 		startAllTask();
 		state_ = PlayStatus::Status_playing;
 	}
@@ -253,7 +260,7 @@ namespace balsampear
 		if (videoRefreshCallback_)
 			videoRefreshCallback_(cache);
 
-		uint64 curTimeStampMSec = (uint64)(parser_->timebase() * cache->getTimeStampMsec() * 1000);
+		uint64 curTimeStampMSec = cache->getTimeStampMsec();
 		uint64 stdtimestampMSec = clockmaster_msec_;
 
 		int rate = parser_->framerate();

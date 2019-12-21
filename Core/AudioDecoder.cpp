@@ -4,7 +4,6 @@
 namespace balsampear
 {
 	AudioDecoder::AudioDecoder()
-		:sample_count_(0)
 	{
 
 	}
@@ -24,10 +23,6 @@ namespace balsampear
 		return decoder;
 	}
 
-	void AudioDecoder::setSampleCount(uint64 v)
-	{
-		sample_count_ = v;
-	}
 
 }
 

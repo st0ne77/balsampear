@@ -19,7 +19,7 @@ namespace balsampear
 		aIndexOfStream_(-1),
 		vCodecCtx_(nullptr),
 		vIndexOfStream_(-1),
-		time_base_(0),
+		videoTimeBase_(0),
 		framerate_(0)
 	{
 		avformat_network_init();
@@ -92,7 +92,10 @@ namespace balsampear
 			type_ |= static_cast<int>(MediaType::Type_Video);
 		}
 		duration_ = (double)formatCtx_->duration/ 1000000;
-		time_base_ = av_q2d(formatCtx_->streams[vIndexOfStream_]->time_base);
+		videoTimeBase_ = av_q2d(formatCtx_->streams[vIndexOfStream_]->time_base);
+		audioTimeBase_ = av_q2d(formatCtx_->streams[aIndexOfStream_]->time_base);
+
+
 		framerate_ = (int)av_q2d(formatCtx_->streams[vIndexOfStream_]->avg_frame_rate);
 		return true;
 	}
@@ -132,9 +135,14 @@ namespace balsampear
 		return type_;
 	}
 
-	double AVParser::timebase()
+	double AVParser::videotimebase()
 	{
-		return time_base_;
+		return videoTimeBase_;
+	}
+
+	double AVParser::audeiotimebase()
+	{
+		return audioTimeBase_;
 	}
 
 	int AVParser::framerate()

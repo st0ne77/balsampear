@@ -1,4 +1,4 @@
-#include <GLEW/GL/glew.h>
+#include <GL/glew.h>
 #include "OpenGLPlayWidget.h"
 #include <iostream>
 #include <fstream>

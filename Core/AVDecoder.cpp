@@ -34,4 +34,10 @@ namespace balsampear
 		}
 
 	}
+
+	void AVDecoder::setTimeBase(double tb)
+	{
+		timebase_ = tb;
+	}
+
 }

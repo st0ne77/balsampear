@@ -38,7 +38,8 @@ namespace balsampear
 		AudioFormat getAudioFormat();
 		VideoFormat getVideoFormat();
 		int getMediaType();
-		double timebase();
+		double videotimebase();
+		double audeiotimebase();
 		int framerate();
 
 		int audioStream();
@@ -50,7 +51,8 @@ namespace balsampear
 		AVFormatContext *formatCtx_; 
 		int type_;
 		double duration_;
-		double time_base_;
+		double videoTimeBase_;
+		double audioTimeBase_;
 		int framerate_;
 		AVCodecContext *aCodecCtx_;
 		int aIndexOfStream_;

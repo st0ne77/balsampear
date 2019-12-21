@@ -12,11 +12,11 @@ namespace balsampear
 		virtual ~AVDecoder();
 		virtual bool decode(const Packet& pkt) = 0;
 		void setCodecContext(AVCodecContext* codecCtx);
-		
+		void setTimeBase(double tb);
 	protected:
 		AVCodecContext* codecCtx_;
 		AVCodec *codec_;
-		
+		double timebase_;
 	};
 }
 

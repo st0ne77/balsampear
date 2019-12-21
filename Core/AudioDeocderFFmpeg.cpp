@@ -78,10 +78,9 @@ namespace balsampear
 		int convertSize = swr_convert(mpSwrCtx, &ptr,
 			avframe_->nb_samples,
 			(const uint8_t**)avframe_->extended_data, avframe_->nb_samples);
-		sample_count_ += avframe_->nb_samples;
-		uint64 timestamp_msec = sample_count_ * 1000 / avframe_->sample_rate;
+
 		uint64 duration = avframe_->nb_samples * 1000 / avframe_->sample_rate;
-		f.setTimeStampMsec(timestamp_msec);
+		f.setTimeStampMsec((uint64)avframe_->pkt_dts * timebase_ * 1000);
 		f.setDuration(duration);
 		//swr_free(&mpSwrCtx);
 		return f;

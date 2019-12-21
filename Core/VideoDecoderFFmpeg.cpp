@@ -61,7 +61,7 @@ namespace balsampear
 			(uint8_t const* const*)avframe_->data,
 			avframe_->linesize, 0, avframe_->height, &p,
 			array);*/
-		f.setTimeStampMsec(avframe_->pts);
+		f.setTimeStampMsec((uint64)avframe_->pts * timebase_ * 1000);
 		return f;
 	}
 
