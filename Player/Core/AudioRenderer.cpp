@@ -83,7 +83,7 @@ namespace balsampear
 	{
 		int state;
 		alGetSourcei(Source, AL_SOURCE_STATE, &state);
-		if (state == AL_STOPPED || state == AL_INITIAL)
+		if (state == AL_STOPPED || state == AL_INITIAL || state == AL_PAUSED)
 		{
 			alSourcePlay(Source);
 		}
@@ -92,16 +92,7 @@ namespace balsampear
 	void AudioRenderer::pause()
 	{
 		alSourcePause(Source);
-		ALint processed = 0;
-		alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
-		if (processed > 0)
-		{
-			ALuint* bufferID = new ALuint[processed];
-			alSourceUnqueueBuffers(Source, processed, bufferID);
-			alDeleteBuffers(processed, bufferID);
-			delete[] bufferID;
-		}
-		
+		ALint processed = 0;		
 	}
 
 

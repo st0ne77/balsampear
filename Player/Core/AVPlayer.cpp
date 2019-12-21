@@ -107,6 +107,7 @@ namespace balsampear
 		{
 			stopAllTask();
 			state_ = PlayStatus::Status_pause;
+			arender.pause();
 		}
 	}
 

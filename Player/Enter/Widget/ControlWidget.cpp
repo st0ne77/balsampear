@@ -32,9 +32,9 @@ namespace balsampear
 		painter.drawRect(0, 0, width, height); //ÏÈ»­³ÉºÚÉ«
 
 		playButton_.move(width * 0.5 - height * 0.5, height * 0.3);
-		playButton_.resize(height * 0.7, height * 0.7);
+		playButton_.resize(height * 0.6, height * 0.6);
 
-		stopButton_.resize(height * 0.7, height * 0.7);
+		stopButton_.resize(height * 0.6, height * 0.6);
 		stopButton_.move(width - height, height * 0.3);
 
 		progress_.resize(width, 4);
