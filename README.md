@@ -1,14 +1,10 @@
-# Surveillance
+# balsampear  
 
-## 基于Qt的视频监控
+苦瓜播放器
 
-###	[Player](https://github.com/st0ne77/Surveillance/tree/master/Player)
-	VS2019+QT5.12.4  
-	已实现64位播放
-	
-![screenshot](https://github.com/st0ne77/Surveillance/tree/master/Player/screenshot.png)
-### Collector
-	采集器
-	
-###	Server
-	服务器
+## 环境
+UI:Qt5.12.4  
+IDE:VS2019  
+解码:FFmpeg  
+视频渲染:OpenGL(glew2.1.0),基于core3.3版本函数实现  
+音频渲染:OpenAL(1.20)  
