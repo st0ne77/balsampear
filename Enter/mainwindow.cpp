@@ -31,10 +31,11 @@ namespace balsampear
 		connect(control_, SIGNAL(stopPlay()), this, SLOT(stopPlay()));
 		connect(&timer, SIGNAL(timeout()), this, SLOT(updateVideo()));
 		connect(control_, SIGNAL(seekProgress(double)), this, SLOT(seekProgress(double)));
-		
+		strtof;
+		atof;
 
-		//player_.load("E:\\Ubuntu\\server_upload\\media\\video.mp4");
-		player_.load("rtmp://127.0.0.1/video/video.mp4");
+		player_.load("E:\\Ubuntu\\server_upload\\media\\video.mp4");
+		//player_.load("rtmp://127.0.0.1/video/video.mp4");
 		player_.setSourceEndCallBack(std::bind(&MainWindow::sourceEndCallBack, this));
 		player_.setProgressChangeCallBack(std::bind(&ControlWidget::setPlayProgress, control_, _1));
 		player_.setVideoRefreshCallback(std::bind(&OpenGLPlayWidget::refresh, p, _1));
